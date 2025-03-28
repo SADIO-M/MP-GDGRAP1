@@ -1,10 +1,10 @@
 /*
-    ////////// PROGRAMMING CHALLENGE 2 : GDGRAP1 - S22 //////////
+    ////////// MACHINE PROJECT : GDGRAP1 - S22 //////////
 
     Submitted by:
         SADIO, Megan Florence Sophia C.
         MONTUERTO, Yzabelle Anne A.
-    Submitted on: March 24, 2025
+    Submitted on: April 2, 2025
 
     ////////// MODEL CREDITS //////////
         F1 2026 Car:
@@ -14,6 +14,9 @@
         Light Ball:
         xuzi. (2022). ball1 sphere Free low-poly 3D model. [3D digital model].
             https://www.cgtrader.com/free-3d-models/industrial/other/ball1
+
+    ////////// SKYBOX CREDITS //////////
+        TBD.
 
     ////////// NOTES //////////
         Cursor is disabled, press [Esc] to exit
@@ -47,7 +50,9 @@
 ////////// CLASSES //////////
 #include "Classes/Game.h"
 #include "Classes/CShaders/Shader.h"
-#include "Classes/TextureLoader/TextureLoader.h"
+#include "Classes/TextureMaker/TextureMaker.h"
+
+#include "Classes/Skybox/Skybox.h"
 
 #include "Classes/Models/Model3D.h"
 #include "Classes/Models/LightBall.h"

@@ -56,10 +56,6 @@ void Point::rotateLight(char keyPressed) {
 			break;
 		case 'd': theta.y += rotateSpeed;
 			break;
-		case 'q': theta.z -= rotateSpeed;
-			break;
-		case 'e': theta.z += rotateSpeed;
-			break;
 	}
 
 	// After it rotates the light, it updates its position

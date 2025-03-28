@@ -28,12 +28,44 @@ void Game::start() {
 	glfwMakeContextCurrent(window);
 	gladLoadGL();
 	glViewport(0, 0, windowWidth, windowHeight);
-
-	initialize(); // creates all game objects
+	initializeSkybox();
+	initializeModels(); // creates all game objects
 	glEnable(GL_DEPTH_TEST);
 	runLoop(); // the actual game loop
 
 	glfwTerminate();
+}
+
+void Game::initializeSkybox() {
+	//NIGHT SKYBOX
+	string skyboxNight[] = {
+		"Textures/skybox/night/night_rt.png",
+		"Textures/skybox/night/night_lf.png",
+		"Textures/skybox/night/night_up.png",
+		"Textures/skybox/night/night_dn.png",
+		"Textures/skybox/night/night_ft.png",
+		"Textures/skybox/night/night_bk.png"
+	};
+
+	//MORNING SKYBOX
+	string skyboxMorning[] = {
+		"Textures/skybox/morning/morning_rt.png",
+		"Textures/skybox/morning/morning_lf.png",
+		"Textures/skybox/morning/morning_up.png",
+		"Textures/skybox/morning/morning_dn.png",
+		"Textures/skybox/morning/morning_ft.png",
+		"Textures/skybox/morning/morning_bk.png"
+	};
+
+	setVAO(&skyboxVAO, GENERATE);
+	setVAO(&skyboxVAO, BIND);
+	skybox = new Skybox(
+		skyboxNight,
+		skyboxMorning,
+		"Shaders/SkyboxShader.vert",
+		"Shaders/SkyboxShader.frag"
+	);
+	setVAO(&skyboxVAO, UNBIND);
 }
 
 /*
@@ -44,7 +76,7 @@ void Game::start() {
 		- Calls each class's constructor and pushes the object into the allModels vector
 		- When calling the class's constructor, it also generates and binds the corresponding VAO, and when it is finished it unbinds for clean up
 */
-void Game::initialize() {
+void Game::initializeModels() {
 
 	///////////////////////////////// PLAYER KART /////////////////////////////////
 	//KART LIVERY (Main body)
@@ -263,28 +295,10 @@ void Game::checkInput() {
 			pointLight.rotateLight('d');
 		}
 	}
-	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-		if (controlKart) {
-			allModels[PLYR_IDX_KL]->updateRotation('q');
-			allModels[PLYR_IDX_WL]->updateRotation('q');
-			allModels[PLYR_IDX_WC]->updateRotation('q');
-		}								  
-		else {							  
-			allModels[0]->updateRotation('q');
-			pointLight.rotateLight('q');
-		}
-	}
-	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
-		if (controlKart) {
-			allModels[PLYR_IDX_KL]->updateRotation('e');
-			allModels[PLYR_IDX_WL]->updateRotation('e');
-			allModels[PLYR_IDX_WC]->updateRotation('e');
-		}								  
-		else {							  
-			allModels[0]->updateRotation('e');
-			pointLight.rotateLight('e');
-		}
-	}
+
+	//Morning and Night
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) skyboxTex = MORNING;
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) skyboxTex = NIGHT;
 
 	// Keyboard rotation for the perspective camera, will only accept inputs when its being controlled
 	if(controlPersCam){
@@ -329,13 +343,19 @@ void Game::runLoop() {
 			 - If the controlPersCam is true, it will use the perspective camera
 			 - Else, it uses the orthographic camera
 		*/
+		setVAO(&skyboxVAO, BIND);
+
 		if (controlPersCam) {
+			skybox->draw(persCam.getView(), persCam.getProjection(), skyboxTex);
 			glfwGetCursorPos(window, &currMousePos.x, &currMousePos.y);
 			persCam.update();
 			mouseInput();
 			persCam.checkCameraRotation();
 		} 
-		else orthoCam.update();
+		else {
+			skybox->draw(orthoCam.getView(), orthoCam.getProjection(), skyboxTex);
+			orthoCam.update();
+		}
 
 		// Draws each model with their appropriate shaders and textures
 		for (Model3D* model : allModels) {

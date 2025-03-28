@@ -51,4 +51,7 @@ public:
 	//FUNCTIONS
 	virtual void update();
 	virtual void draw(GLuint shaderProg) = 0;
+
+	virtual mat4 getView();
+	virtual mat4 getProjection();
 };

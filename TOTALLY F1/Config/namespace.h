@@ -62,7 +62,7 @@ enum VAO_BINDING {
 //To know what texture needs to be loaded
 enum SELECT_TEXTURE {
     NIGHT = 0,
-    DAY,
+    MORNING,
     LIVERY,
     WHEEL,
     COVER,

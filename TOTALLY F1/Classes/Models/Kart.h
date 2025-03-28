@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Model3D.h"
-#include "../TextureLoader/TextureLoader.h"
+#include "../TextureMaker/TextureMaker.h"
 #include "../../Config/namespace.h"
 
 /*
@@ -15,7 +15,7 @@
 class Kart : public Model3D {
 private:
 	GLuint texture;
-	TextureLoader textureMaker;
+	TextureMaker textureMaker;
 
 public:
 	//CONSTRUCTOR

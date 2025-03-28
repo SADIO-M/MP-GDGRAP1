@@ -4,6 +4,8 @@
 
 #include "CShaders/Shader.h"
 
+#include "Skybox/Skybox.h"
+
 #include "Models/Model3D.h"
 #include "Models/LightBall.h"
 #include "Models/Kart.h"
@@ -30,11 +32,13 @@ private:
 
     // Vector containing all models (The kart and its shapes, and the light ball)
     vector<Model3D*> allModels;
+    Skybox* skybox;
 
     // Model VAOs
     // The kart object has three shapes, so to load all of it it needs three VAOs
     GLuint kartVAOs[3];
     GLuint light_ballVAO;
+    GLuint skyboxVAO;
 
     // Variable for cooldown on control object toggle
     int internalTime = 0;
@@ -42,6 +46,8 @@ private:
     // bools referring to which object the player is controlling and which camera view is being used
     bool controlKart;
     bool controlPersCam;
+    //Controls the skybox texture
+    SELECT_TEXTURE skyboxTex = MORNING;
 
     // Mouse position information
     dvec2 currMousePos;
@@ -109,7 +115,8 @@ public:
 
     //FUNCTIONS
     void start();
-    void initialize();
+    void initializeSkybox();
+    void initializeModels();
     void runLoop();
 
     void setVAO(GLuint* VAO, int type);

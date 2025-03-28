@@ -143,7 +143,8 @@
     <ClCompile Include="Classes\Cameras\Orthographic.cpp" />
     <ClCompile Include="Classes\Cameras\Perspective.cpp" />
     <ClCompile Include="Classes\CShaders\Shader.cpp" />
-    <ClCompile Include="Classes\TextureLoader\TextureLoader.cpp" />
+    <ClCompile Include="Classes\Skybox\Skybox.cpp" />
+    <ClCompile Include="Classes\TextureMaker\TextureMaker.cpp" />
     <ClCompile Include="Classes\Game.cpp" />
     <ClCompile Include="Classes\Lights\Direction.cpp" />
     <ClCompile Include="Classes\Lights\Light.cpp" />
@@ -159,7 +160,8 @@
     <ClInclude Include="Classes\Cameras\Orthographic.h" />
     <ClInclude Include="Classes\Cameras\Perspective.h" />
     <ClInclude Include="Classes\CShaders\Shader.h" />
-    <ClInclude Include="Classes\TextureLoader\TextureLoader.h" />
+    <ClInclude Include="Classes\Skybox\Skybox.h" />
+    <ClInclude Include="Classes\TextureMaker\TextureMaker.h" />
     <ClInclude Include="Classes\Game.h" />
     <ClInclude Include="Classes\Lights\Direction.h" />
     <ClInclude Include="Classes\Lights\Light.h" />
@@ -177,6 +179,8 @@
     <None Include="Shaders\KartShader.vert" />
     <None Include="Shaders\LightShader.frag" />
     <None Include="Shaders\LightShader.vert" />
+    <None Include="Shaders\SkyboxShader.frag" />
+    <None Include="Shaders\SkyboxShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

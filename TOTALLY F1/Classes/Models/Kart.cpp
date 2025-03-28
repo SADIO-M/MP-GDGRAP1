@@ -13,7 +13,7 @@ Kart::Kart(string name, string pathName,
     if      (modelName == "KART1") texIndex = LIVERY;
     else if (modelName == "KART2") texIndex = WHEEL;
     else if (modelName == "KART3") texIndex = COVER;
-	textureMaker.createTexture(&texture, texPath, texIndex);
+	textureMaker.makeTex2D(&texture, texPath, texIndex);
 
     loadKart();
 }

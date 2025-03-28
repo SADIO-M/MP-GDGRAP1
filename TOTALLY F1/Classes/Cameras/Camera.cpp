@@ -42,3 +42,8 @@ void Camera::update() {
 	//		- The perspective camera also needs its initial position for it to rotate properly
 	camPosition = vec3(vec4(camRotationMatrix * vec4(initialPosition, 1.0f)));
 }
+
+//GETTERS
+mat4 Camera::getView() { return viewMatrix; }
+
+mat4 Camera::getProjection() { return projectionMatrix; }

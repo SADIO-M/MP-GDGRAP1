@@ -96,10 +96,6 @@ void Model3D::updateRotation(char keyPressed) {
             break;
         case 'd': theta.y += rotateSpeed;
             break;
-        case 'q': theta.z -= rotateSpeed;
-            break;
-        case 'e': theta.z += rotateSpeed;
-            break;
     }
 }
 
