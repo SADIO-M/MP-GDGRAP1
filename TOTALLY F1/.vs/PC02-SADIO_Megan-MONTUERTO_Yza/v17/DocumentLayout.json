@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Megan\\Documents\\GitHub\\GDGRAP-PCOs\\GRAP1\\PC02-SADIO_Megan-MONTUERTO_Yza\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{55FFAFC6-E37E-4F9A-9625-5704E078A0C4}|PC02-SADIO_Megan-MONTUERTO_Yza.vcxproj|C:\\Users\\Megan\\Documents\\GitHub\\GDGRAP-PCOs\\GRAP1\\PC02-SADIO_Megan-MONTUERTO_Yza\\Classes\\Lights\\Light.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{55FFAFC6-E37E-4F9A-9625-5704E078A0C4}|PC02-SADIO_Megan-MONTUERTO_Yza.vcxproj|solutionrelative:Classes\\Lights\\Light.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 100,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Light.cpp",
+              "DocumentMoniker": "C:\\Users\\Megan\\Documents\\GitHub\\GDGRAP-PCOs\\GRAP1\\PC02-SADIO_Megan-MONTUERTO_Yza\\Classes\\Lights\\Light.cpp",
+              "RelativeDocumentMoniker": "Classes\\Lights\\Light.cpp",
+              "ToolTip": "C:\\Users\\Megan\\Documents\\GitHub\\GDGRAP-PCOs\\GRAP1\\PC02-SADIO_Megan-MONTUERTO_Yza\\Classes\\Lights\\Light.cpp",
+              "RelativeToolTip": "Classes\\Lights\\Light.cpp",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAAADkAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-03-24T02:21:03.945Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

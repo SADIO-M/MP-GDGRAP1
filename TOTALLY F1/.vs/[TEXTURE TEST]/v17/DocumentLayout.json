@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Megan\\Desktop\\[TEX-CAM TEST]\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{55FFAFC6-E37E-4F9A-9625-5704E078A0C4}|[TEXTURE TEST].vcxproj|C:\\Users\\Megan\\Desktop\\[TEX-CAM TEST]\\Classes\\CTextures\\Texture.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{55FFAFC6-E37E-4F9A-9625-5704E078A0C4}|[TEXTURE TEST].vcxproj|solutionrelative:Classes\\CTextures\\Texture.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{55FFAFC6-E37E-4F9A-9625-5704E078A0C4}|[TEXTURE TEST].vcxproj|C:\\Users\\Megan\\Desktop\\[TEX-CAM TEST]\\Classes\\CShaders\\Shader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{55FFAFC6-E37E-4F9A-9625-5704E078A0C4}|[TEXTURE TEST].vcxproj|solutionrelative:Classes\\CShaders\\Shader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 100,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Shader.cpp",
+              "DocumentMoniker": "C:\\Users\\Megan\\Desktop\\[TEX-CAM TEST]\\Classes\\CShaders\\Shader.cpp",
+              "RelativeDocumentMoniker": "Classes\\CShaders\\Shader.cpp",
+              "ToolTip": "C:\\Users\\Megan\\Desktop\\[TEX-CAM TEST]\\Classes\\CShaders\\Shader.cpp",
+              "RelativeToolTip": "Classes\\CShaders\\Shader.cpp",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAA4AAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-03-23T03:29:52.74Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Texture.cpp",
+              "DocumentMoniker": "C:\\Users\\Megan\\Desktop\\[TEX-CAM TEST]\\Classes\\CTextures\\Texture.cpp",
+              "RelativeDocumentMoniker": "Classes\\CTextures\\Texture.cpp",
+              "ToolTip": "C:\\Users\\Megan\\Desktop\\[TEX-CAM TEST]\\Classes\\CTextures\\Texture.cpp",
+              "RelativeToolTip": "Classes\\CTextures\\Texture.cpp",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAACwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-03-23T03:29:01.644Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
