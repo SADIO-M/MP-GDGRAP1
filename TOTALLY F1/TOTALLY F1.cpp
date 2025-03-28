@@ -47,7 +47,7 @@
 ////////// CLASSES //////////
 #include "Classes/Game.h"
 #include "Classes/CShaders/Shader.h"
-#include "Classes/CTextures/Texture.h"
+#include "Classes/TextureLoader/TextureLoader.h"
 
 #include "Classes/Models/Model3D.h"
 #include "Classes/Models/LightBall.h"

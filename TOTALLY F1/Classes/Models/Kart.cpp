@@ -9,7 +9,11 @@ Kart::Kart(string name, string pathName,
         // calls Model3D's constructor
 	Model3D(name, pathName, pos, scale, rotate, vertPath, fragPath){
 
-	textureMaker.createTexture(texPath); // Creates the appropriate texture for the Kart part
+    SELECT_TEXTURE texIndex;
+    if      (modelName == "KART1") texIndex = LIVERY;
+    else if (modelName == "KART2") texIndex = WHEEL;
+    else if (modelName == "KART3") texIndex = COVER;
+	textureMaker.createTexture(&texture, texPath, texIndex);
 
     loadKart();
 }
@@ -60,19 +64,24 @@ void Kart::assignTexture() {
 
     if (modelName == "KART1") {
         GLuint texAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texLivery");
+        textureMaker.setActiveTex(LIVERY);
         glUniform1i(texAddress, LIVERY);
         glUniform1i(chooseTexAddress, LIVERY);
     }
     else if (modelName == "KART2") {
         GLuint texAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texWheel");
+        textureMaker.setActiveTex(WHEEL);
         glUniform1i(texAddress, WHEEL);
         glUniform1i(chooseTexAddress, WHEEL);
     }
     else if (modelName == "KART3") {
         GLuint texAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texCover");
+        textureMaker.setActiveTex(COVER);
         glUniform1i(texAddress, COVER);
         glUniform1i(chooseTexAddress, COVER);
     }
+
+    glBindTexture(GL_TEXTURE_2D, texture);
 }
 
 // Handles model transformations 
@@ -97,4 +106,4 @@ void Kart::draw() {
 }
 
 //GETTER
-Texture Kart::getTexture() { return textureMaker; }
+GLuint Kart::getTexture() { return texture; }

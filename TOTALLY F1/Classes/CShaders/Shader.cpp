@@ -10,6 +10,9 @@ Shader::Shader(){}
        - Attaches the shaders to the shaderProg and links shaderProg
 */
 void Shader::createShader(string vertPath, string fragPath) {
+    GLuint vertexShader;
+    GLuint fragmentShader;
+
     shaderProg = glCreateProgram();
 
     // Setting up the vertex shader

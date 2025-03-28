@@ -45,22 +45,8 @@ void Game::start() {
 		- When calling the class's constructor, it also generates and binds the corresponding VAO, and when it is finished it unbinds for clean up
 */
 void Game::initialize() {
-	//LIGHT BALL
-	setVAO(&light_ballVAO, GENERATE);	// Generates the light ball VAO
-	setVAO(&light_ballVAO, BIND);		// Binds the corresponding VAO so the object's information is saved there
-	allModels.push_back(new LightBall(
-		"LIGHT_BALL",				// Name of the object
-		"3D/light_ball.obj",		// File location of the 3D Object
-		vec3(-5, 0.5, 0.0),			// Object position
-		vec3(0.004, 0.004, 0.004),	// Object scale
-		vec3(0.0),					// Object rotation
-		"Shaders/LightShader.vert", // File path of the vertex shader
-		"Shaders/LightShader.frag", // File path of the fragment shader
-		vec3(1.0),					// Color of the light ball
-		vec3(0.0)					// Pivot point
-	));
-	setVAO(&light_ballVAO, UNBIND);		// Unbinds VAO for clean up
 
+	///////////////////////////////// PLAYER KART /////////////////////////////////
 	//KART LIVERY (Main body)
 	setVAO(&kartVAOs[0], GENERATE);
 	setVAO(&kartVAOs[0], BIND);
@@ -105,6 +91,102 @@ void Game::initialize() {
 		"Textures/f1_2026/WheelCovers.png"
 	));
 	setVAO(&kartVAOs[2], UNBIND);
+	///
+	///
+	///
+	/// 
+	///////////////////////////////// GHOST KART 1 /////////////////////////////////
+		//KART LIVERY (Main body)
+	allModels.push_back(new Kart(
+		"KART1",					
+		"3D/f1_2026.obj",			
+		vec3(5.0, 0.0, 0.0),					
+		vec3(0.6, 0.6, 0.6),		
+		vec3(0.0, -90.0, 0.0),		
+		"Shaders/KartShader.vert",	
+		"Shaders/KartShader.frag",	
+		"Textures/f1_2026/Livery.png" 
+	));
+
+	//KART WHEELS
+	allModels.push_back(new Kart(	//The variables are the exact same as the kart livery, except for the texture
+		"KART2",
+		"3D/f1_2026.obj",
+		vec3(5.0, 0.0, 0.0),
+		vec3(0.6, 0.6, 0.6),
+		vec3(0.0, -90.0, 0.0),
+		"Shaders/KartShader.vert",
+		"Shaders/KartShader.frag",
+		"Textures/f1_2026/TyreSoft.png"
+	));
+
+	//KART WHEEL COVERS
+	allModels.push_back(new Kart(
+		"KART3",
+		"3D/f1_2026.obj",
+		vec3(5.0, 0.0, 0.0),
+		vec3(0.6, 0.6, 0.6),
+		vec3(0.0, -90.0, 0.0),
+		"Shaders/KartShader.vert",
+		"Shaders/KartShader.frag",
+		"Textures/f1_2026/WheelCovers.png"
+	));
+	///
+	///
+	///
+	/// 
+	///////////////////////////////// GHOST KART 2 /////////////////////////////////
+	//KART LIVERY (Main body)
+	allModels.push_back(new Kart(
+		"KART1",
+		"3D/f1_2026.obj",
+		vec3(-5.0, 0.0, 0.0),
+		vec3(0.6, 0.6, 0.6),
+		vec3(0.0, -90.0, 0.0),
+		"Shaders/KartShader.vert",
+		"Shaders/KartShader.frag",
+		"Textures/f1_2026/Livery.png"
+	));
+
+	//KART WHEELS
+	allModels.push_back(new Kart(	//The variables are the exact same as the kart livery, except for the texture
+		"KART2",
+		"3D/f1_2026.obj",
+		vec3(-5.0, 0.0, 0.0),
+		vec3(0.6, 0.6, 0.6),
+		vec3(0.0, -90.0, 0.0),
+		"Shaders/KartShader.vert",
+		"Shaders/KartShader.frag",
+		"Textures/f1_2026/TyreSoft.png"
+	));
+
+	//KART WHEEL COVERS
+	allModels.push_back(new Kart(
+		"KART3",
+		"3D/f1_2026.obj",
+		vec3(-5.0, 0.0, 0.0),
+		vec3(0.6, 0.6, 0.6),
+		vec3(0.0, -90.0, 0.0),
+		"Shaders/KartShader.vert",
+		"Shaders/KartShader.frag",
+		"Textures/f1_2026/WheelCovers.png"
+	));
+
+	////LIGHT BALL
+	//setVAO(&light_ballVAO, GENERATE);	// Generates the light ball VAO
+	//setVAO(&light_ballVAO, BIND);		// Binds the corresponding VAO so the object's information is saved there
+	//allModels.push_back(new LightBall(
+	//	"LIGHT_BALL",				// Name of the object
+	//	"3D/light_ball.obj",		// File location of the 3D Object
+	//	vec3(-5, 0.5, 0.0),			// Object position
+	//	vec3(0.004, 0.004, 0.004),	// Object scale
+	//	vec3(0.0),					// Object rotation
+	//	"Shaders/LightShader.vert", // File path of the vertex shader
+	//	"Shaders/LightShader.frag", // File path of the fragment shader
+	//	vec3(1.0),					// Color of the light ball
+	//	vec3(0.0)					// Pivot point
+	//));
+	//setVAO(&light_ballVAO, UNBIND);		// Unbinds VAO for clean up
 }
 
 /*
@@ -115,18 +197,20 @@ void Game::checkInput() {
 		Change control to and from light ball
 			- internalTime is a variable to enforce a cooldown on switching controls so that one input is not registered multiple times
 	*/
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && internalTime >= 300) {
-		if (controlKart) { // If the player is currently controlling the cart and toggles control, will change the light's color to indicate the change
-			dynamic_cast<LightBall*>(allModels[0])->setColor(vec3(0.5f, 1.0f, 0.3f));
-			pointLight.updateColor(vec3(0.5f, 1.0f, 0.3f));
-		}
-		else { // The light ball's color will return to white when not being controlled
-			dynamic_cast<LightBall*>(allModels[0])->setColor(vec3(1.0f));
-			pointLight.updateColor(vec3(1.0f));
-		}
-		controlKart = !controlKart; //toggles controlKart variable
-		internalTime = 0; // resets internalTime once space is pressed
-	}
+	/*
+			if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && internalTime >= 300) {
+				if (controlKart) { // If the player is currently controlling the cart and toggles control, will change the light's color to indicate the change
+					dynamic_cast<LightBall*>(allModels[0])->setColor(vec3(0.5f, 1.0f, 0.3f));
+					pointLight.updateColor(vec3(0.5f, 1.0f, 0.3f));
+				}
+				else { // The light ball's color will return to white when not being controlled
+					dynamic_cast<LightBall*>(allModels[0])->setColor(vec3(1.0f));
+					pointLight.updateColor(vec3(1.0f));
+				}
+				controlKart = !controlKart; //toggles controlKart variable
+				internalTime = 0; // resets internalTime once space is pressed
+			}
+	*/
 
 	// Gets movement inputs
 	/* allModels[0]-> Light Ball | allModels[1 - 3]-> Kart parts
@@ -136,9 +220,9 @@ void Game::checkInput() {
 	*/
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 		if (controlKart) {
-			allModels[1]->updateRotation('w');
-			allModels[2]->updateRotation('w');
-			allModels[3]->updateRotation('w');
+			allModels[PLYR_IDX_KL]->updateRotation('w');
+			allModels[PLYR_IDX_WL]->updateRotation('w');
+			allModels[PLYR_IDX_WC]->updateRotation('w');
 		}
 		else {
 			allModels[0]->updateRotation('w');
@@ -148,9 +232,9 @@ void Game::checkInput() {
 
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
 		if (controlKart) {
-			allModels[1]->updateRotation('s');
-			allModels[2]->updateRotation('s');
-			allModels[3]->updateRotation('s');
+			allModels[PLYR_IDX_KL]->updateRotation('s');
+			allModels[PLYR_IDX_WL]->updateRotation('s');
+			allModels[PLYR_IDX_WC]->updateRotation('s');
 		}								  
 		else {							  
 			allModels[0]->updateRotation('s');
@@ -159,9 +243,9 @@ void Game::checkInput() {
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
 		if (controlKart) {
-			allModels[1]->updateRotation('a');
-			allModels[2]->updateRotation('a');
-			allModels[3]->updateRotation('a');
+			allModels[PLYR_IDX_KL]->updateRotation('a');
+			allModels[PLYR_IDX_WL]->updateRotation('a');
+			allModels[PLYR_IDX_WC]->updateRotation('a');
 		}								  
 		else {							  
 			allModels[0]->updateRotation('a');
@@ -170,9 +254,9 @@ void Game::checkInput() {
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
 		if (controlKart) {
-			allModels[1]->updateRotation('d');
-			allModels[2]->updateRotation('d');
-			allModels[3]->updateRotation('d');
+			allModels[PLYR_IDX_KL]->updateRotation('d');
+			allModels[PLYR_IDX_WL]->updateRotation('d');
+			allModels[PLYR_IDX_WC]->updateRotation('d');
 		}								  
 		else {							  
 			allModels[0]->updateRotation('d');
@@ -181,9 +265,9 @@ void Game::checkInput() {
 	}
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
 		if (controlKart) {
-			allModels[1]->updateRotation('q');
-			allModels[2]->updateRotation('q');
-			allModels[3]->updateRotation('q');
+			allModels[PLYR_IDX_KL]->updateRotation('q');
+			allModels[PLYR_IDX_WL]->updateRotation('q');
+			allModels[PLYR_IDX_WC]->updateRotation('q');
 		}								  
 		else {							  
 			allModels[0]->updateRotation('q');
@@ -192,9 +276,9 @@ void Game::checkInput() {
 	}
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
 		if (controlKart) {
-			allModels[1]->updateRotation('e');
-			allModels[2]->updateRotation('e');
-			allModels[3]->updateRotation('e');
+			allModels[PLYR_IDX_KL]->updateRotation('e');
+			allModels[PLYR_IDX_WL]->updateRotation('e');
+			allModels[PLYR_IDX_WC]->updateRotation('e');
 		}								  
 		else {							  
 			allModels[0]->updateRotation('e');
@@ -211,9 +295,9 @@ void Game::checkInput() {
 	}
 
 	// Controls for the light brightness for both the point and direction light
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) pointLight.adjustBrightness(UP);
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) pointLight.adjustBrightness(DOWN);
-	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) dirLight.adjustBrightness(LEFT);
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)	  pointLight.adjustBrightness(UP);
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)  pointLight.adjustBrightness(DOWN);
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)  dirLight.adjustBrightness(LEFT);
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) dirLight.adjustBrightness(RIGHT);
 
 	// Switch camera view: true (key 1) for perspective camera, false (key 2) for orthographic camera
@@ -268,24 +352,16 @@ void Game::runLoop() {
 				dirLight.loadDir(model->getShader().getShaderProg(), "dir");
 				pointLight.loadPoint(model->getShader().getShaderProg(), "point");
 
-				// Sets the VAO to the corresponding kart 1 and activates the texture at index 0
+				// Sets the VAO to the corresponding kart
 				if (model->getName() == "KART1") {
-					glActiveTexture(GL_TEXTURE0);
-					setVAO(&kartVAOs[0], BIND);
+					setVAO(&kartVAOs[PLYR_IDX_KL], BIND);
 				}
-				// Sets VAO to kart wheels and activates texture
 				else if (model->getName() == "KART2") {
-					glActiveTexture(GL_TEXTURE1);
-					setVAO(&kartVAOs[1], BIND);
+					setVAO(&kartVAOs[PLYR_IDX_WL], BIND);
 				}
-				// Same thing as the previous two
 				else if (model->getName() == "KART3") {
-					glActiveTexture(GL_TEXTURE2);
-					setVAO(&kartVAOs[2], BIND);
+					setVAO(&kartVAOs[PLYR_IDX_WC], BIND);
 				}
-
-				// Binds the active texture of the model
-				glBindTexture(GL_TEXTURE_2D, dynamic_cast<Kart*>(model)->getTexture().getTexture());
 			}
 			// If the model is the light ball, set active VAO to the light ball VAO
 			else if (model->getName() == "LIGHT_BALL"){

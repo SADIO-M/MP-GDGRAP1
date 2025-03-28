@@ -13,11 +13,8 @@
 */
 class Shader {
 private:
-	//Holds the vertex, fragment, and shader program
-	GLuint vertexShader;
-	GLuint fragmentShader;
+	//Holds the shader program
 	GLuint shaderProg;
-
 public:
 	//CONSTRUCTOR
 	Shader();

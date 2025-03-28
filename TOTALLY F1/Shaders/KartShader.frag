@@ -96,12 +96,12 @@ void main(){
 	vec4 directionLight = createDirectionLight();
 	vec4 allLights = pointLight + directionLight;
 
-	if (selectTex == 0) 
+	if (selectTex == 2) 
 		FragColor = allLights * texture(texLivery, texCoord); 
 	
-	else if (selectTex == 1) 
+	else if (selectTex == 3) 
 		FragColor = allLights * texture(texWheel, texCoord); 
 	
-	else if (selectTex == 2) 
+	else if (selectTex == 4) 
 		FragColor = allLights * texture(texCover, texCoord); 
 }

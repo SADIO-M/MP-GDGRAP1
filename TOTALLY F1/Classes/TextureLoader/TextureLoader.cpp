@@ -1,16 +1,38 @@
-#include "Texture.h"
+#include "TextureLoader.h"
 
 //CONSTRUCTOR
-Texture::Texture() {} 
+TextureLoader::TextureLoader() {}
 
 //FUNCTION
+void TextureLoader::setActiveTex(SELECT_TEXTURE texIndex) {
+	switch (texIndex) {
+		case NIGHT:
+			glActiveTexture(GL_TEXTURE0);
+			break;
+		case DAY:
+			glActiveTexture(GL_TEXTURE1);
+			break;
+		case LIVERY:
+			glActiveTexture(GL_TEXTURE2);
+			break;
+		case WHEEL:
+			glActiveTexture(GL_TEXTURE3);
+			break;
+		case COVER:
+			glActiveTexture(GL_TEXTURE4);
+			break;
+	}
+}
+
 /*
-	This function is to create the texture
+	This function is to load the texture and place it in the passed GLuint* texture
 		- It loads the texture from the given texture path
 		- Flips the image so the texture doesn't get messed up
 		- Generates and binds the texture, and also sets the appropriate color channels
 */
-void Texture::createTexture(string texPath) {
+void TextureLoader::createTexture(GLuint* texture, string texPath, SELECT_TEXTURE texIndex) {
+	int imageWidth, imageHeight, colorChannels;
+	unsigned char* textureBytes;
 	// Flips on load
 	stbi_set_flip_vertically_on_load(true);
 
@@ -24,8 +46,9 @@ void Texture::createTexture(string texPath) {
 	);
 
 	// Generate and bind the texture
-	glGenTextures(1, &objTexture);
-	glBindTexture(GL_TEXTURE_2D, objTexture);
+	glGenTextures(1, texture);
+	setActiveTex(texIndex);
+	glBindTexture(GL_TEXTURE_2D, *texture);
 
 	// If the color channels = 3 (RGB), then load with only RGB
 	if (colorChannels == 3) {
@@ -63,6 +86,3 @@ void Texture::createTexture(string texPath) {
 	// Clean up
 	stbi_image_free(textureBytes);
 }
-
-//GETTER
-GLuint Texture::getTexture() { return objTexture; }

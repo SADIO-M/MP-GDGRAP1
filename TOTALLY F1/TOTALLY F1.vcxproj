@@ -143,7 +143,7 @@
     <ClCompile Include="Classes\Cameras\Orthographic.cpp" />
     <ClCompile Include="Classes\Cameras\Perspective.cpp" />
     <ClCompile Include="Classes\CShaders\Shader.cpp" />
-    <ClCompile Include="Classes\CTextures\Texture.cpp" />
+    <ClCompile Include="Classes\TextureLoader\TextureLoader.cpp" />
     <ClCompile Include="Classes\Game.cpp" />
     <ClCompile Include="Classes\Lights\Direction.cpp" />
     <ClCompile Include="Classes\Lights\Light.cpp" />
@@ -159,7 +159,7 @@
     <ClInclude Include="Classes\Cameras\Orthographic.h" />
     <ClInclude Include="Classes\Cameras\Perspective.h" />
     <ClInclude Include="Classes\CShaders\Shader.h" />
-    <ClInclude Include="Classes\CTextures\Texture.h" />
+    <ClInclude Include="Classes\TextureLoader\TextureLoader.h" />
     <ClInclude Include="Classes\Game.h" />
     <ClInclude Include="Classes\Lights\Direction.h" />
     <ClInclude Include="Classes\Lights\Light.h" />

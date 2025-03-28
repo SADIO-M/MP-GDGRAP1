@@ -30,6 +30,28 @@ using namespace std;
 using namespace glm;
 using namespace tinyobj;
 
+/* LEGEND:
+    - PLYR : Player
+    - GST# : Ghost, then number at the end
+    - IDX : Index
+    - KL : Kart Livery
+    - WL : Wheel
+    - WC : Wheel Cover
+*/
+enum ALL_OBJ_IDX {
+    PLYR_IDX_KL = 0,
+    PLYR_IDX_WL,
+    PLYR_IDX_WC,
+
+    GST1_IDX_KL,
+    GST1_IDX_WL,
+    GST1_IDX_WC,
+
+    GST2_IDX_KL,
+    GST2_IDX_WL,
+    GST2_IDX_WC,
+};
+
 //To know if it should unbind, bind, or generate a VAO
 enum VAO_BINDING {
     UNBIND = 0,
@@ -39,7 +61,9 @@ enum VAO_BINDING {
 
 //To know what texture needs to be loaded
 enum SELECT_TEXTURE {
-    LIVERY = 0,
+    NIGHT = 0,
+    DAY,
+    LIVERY,
     WHEEL,
     COVER,
 };
