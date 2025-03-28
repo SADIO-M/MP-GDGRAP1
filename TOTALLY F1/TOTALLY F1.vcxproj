@@ -152,7 +152,7 @@
     <ClCompile Include="Classes\Models\LightBall.cpp" />
     <ClCompile Include="Classes\Models\Model3D.cpp" />
     <ClCompile Include="glad.c" />
-    <ClCompile Include="PC02-SADIO_Megan-MONTUERTO_Yza.cpp" />
+    <ClCompile Include="TOTALLY F1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Cameras\Camera.h" />
