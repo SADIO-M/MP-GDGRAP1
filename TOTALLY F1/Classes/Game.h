@@ -32,6 +32,8 @@ private:
     float windowWidth;
     float windowHeight;
 
+    //Player player;
+
     // Vector containing all models (The kart and its shapes, and the light ball)
     vector<Model3D*> allModels;
     Skybox* skybox;
@@ -42,8 +44,11 @@ private:
     GLuint light_ballVAO;
     GLuint skyboxVAO;
 
+    //bools
+    bool switchCam;
+
     // Variable for cooldown on control object toggle
-    int internalTime = 0;
+    int switchCamTimer = 0;
        
     //Controls the skybox texture
     SELECT_TEXTURE skyboxTex = MORNING;
@@ -55,7 +60,7 @@ private:
     ///////////////// LIGHTING /////////////////
         //Point Light
     Point pointLight = Point(
-        vec3(0.5, 0.5, -2),       // Light Position
+        vec3(0.35f, 0.55f, -2.5f),       // Light Position
         vec3(1.0f),             // Light Color
         0.5f,                   // Ambient Strength
         0.5f,                   // Specular Strength
@@ -80,17 +85,29 @@ private:
     );
 
     ///////////////// CAMERAS /////////////////
-        //Perspective Camera
+        //Third Person Camera
     Perspective thirdPersCam = Perspective(
         800.0f,                 // Window width
         800.0f,                 // Window height
         0.1f,                   // zNear
         100.0f,                 // zFar
-        vec3(0.0f, 3.0f, 6.0f),// Camera Position
+        vec3(0.0f, 3.0f, 6.0f), // Camera Position
         vec3(0.0f),             // Camera Center
         vec3(0.0f),
-        vec3(10.0f, 0.0f, 0.0f),             // Camera Rotation Modifier
+        vec3(10.0f, 0.0f, 0.0f),// Camera Rotation Modifier
         70.0f                   // Field of view (FOV)
+    );
+        //First Person Camera
+    Perspective firstPersCam = Perspective(
+        800.0f,                 
+        800.0f,                 
+        0.1f,                   
+        100.0f,                 
+        vec3(0.0f, 1.5f, -0.6f),
+        vec3(0.0f),             
+        vec3(0.0f),
+        vec3(-50.0, 180.0f, 0.0f),             
+        80.0f                   
     );
 
 public:

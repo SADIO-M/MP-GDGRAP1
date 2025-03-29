@@ -10,6 +10,8 @@ private:
 	vector<Kart*> playerKart;
 
 	Perspective activeCamera;
+
+	bool lightsOn;
 public:
 	//CONSTRUCTORS
 	Player();

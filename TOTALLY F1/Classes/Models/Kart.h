@@ -16,6 +16,9 @@
 */
 class Kart : public Model3D {
 private:
+	vec3 kartPosMod;
+	vec3 kartRotateMod;
+
 	GLuint texture;
 	TextureMaker textureMaker;
 

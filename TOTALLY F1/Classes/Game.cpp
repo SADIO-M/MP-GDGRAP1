@@ -11,6 +11,8 @@ Game::Game(GLFWwindow* window, float windowWidth, float windowHeight) {
 	this->window = window;
 	this->windowWidth = windowWidth;
 	this->windowHeight = windowHeight;
+	
+	switchCam = true;
 }
 
 //FUNCTIONS
@@ -244,16 +246,23 @@ void Game::checkInput() {
 		allModels[PLYR_IDX_WC]->updateRotation('d');
 	}
 
+	//Switch to third or first person perspective view
+	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS && switchCamTimer >= 220) {
+		switchCam = !switchCam;
+		switchCamTimer = 0;
+	}
+
 	//Morning and Night
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) skyboxTex = MORNING;
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) skyboxTex = NIGHT;
 
 	// Keyboard rotation for the perspective camera, will only accept inputs when its being controlled
-	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) thirdPersCam.rotateWithKeys('i');
-	if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) thirdPersCam.rotateWithKeys('k');
-	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) thirdPersCam.rotateWithKeys('j');
-	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) thirdPersCam.rotateWithKeys('l');
-
+	if(switchCam){
+		if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) thirdPersCam.rotateWithKeys('i');
+		if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) thirdPersCam.rotateWithKeys('k');
+		if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) thirdPersCam.rotateWithKeys('j');
+		if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) thirdPersCam.rotateWithKeys('l');
+	}
 
 	// Controls for the light brightness for both the point and direction light
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)	  pointLight.adjustBrightness(UP);
@@ -278,7 +287,7 @@ void Game::runLoop() {
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		internalTime++; // variable for cooldown on toggling
+		switchCamTimer++; // variable for cooldown on toggling
 
 		checkInput(); // input handling
 
@@ -288,11 +297,18 @@ void Game::runLoop() {
 		*/
 		setVAO(&skyboxVAO, BIND);
 
-		skybox->draw(thirdPersCam.getView(), thirdPersCam.getProjection(), skyboxTex);
-		glfwGetCursorPos(window, &currMousePos.x, &currMousePos.y);
-		mouseInput();
-		thirdPersCam.update();
-		thirdPersCam.checkCameraRotation();
+		if(switchCam){
+			skybox->draw(thirdPersCam.getView(), thirdPersCam.getProjection(), skyboxTex);
+			glfwGetCursorPos(window, &currMousePos.x, &currMousePos.y);
+			mouseInput();
+			thirdPersCam.update();
+			thirdPersCam.checkCameraRotation();
+		}
+		else {
+			skybox->draw(firstPersCam.getView(), firstPersCam.getProjection(), skyboxTex);
+			firstPersCam.update();
+			firstPersCam.checkCameraRotation();
+		}
 	
 
 		// Draws each model with their appropriate shaders and textures
@@ -300,7 +316,10 @@ void Game::runLoop() {
 			// Gets the shader program of the model and uses it
 			glUseProgram(model->getShader().getShaderProg());
 
-			thirdPersCam.draw(model->getShader().getShaderProg());
+			if(switchCam)
+				thirdPersCam.draw(model->getShader().getShaderProg());
+			else 
+				firstPersCam.draw(model->getShader().getShaderProg());
 			
 			// If the model is the kart, load the corresponding information
 		    if (model->getName() != "LIGHT_BALL") {
