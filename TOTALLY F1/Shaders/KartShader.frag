@@ -92,16 +92,16 @@ vec4 createDirectionLight(){
 //In the main function, the lights are added together
 //Then, depending on selectTex, it assigns the corresponding texture
 void main(){
-	vec4 pointLight = createPointLight();
+	//vec4 pointLight = createPointLight();
 	vec4 directionLight = createDirectionLight();
-	vec4 allLights = pointLight + directionLight;
+	//vec4 allLights = pointLight + directionLight;
 
 	if (selectTex == 2) 
-		FragColor = allLights * texture(texLivery, texCoord); 
+		FragColor = directionLight * texture(texLivery, texCoord); 
 	
 	else if (selectTex == 3) 
-		FragColor = allLights * texture(texWheel, texCoord); 
+		FragColor = directionLight * texture(texWheel, texCoord); 
 	
 	else if (selectTex == 4) 
-		FragColor = allLights * texture(texCover, texCoord); 
+		FragColor = directionLight * texture(texCover, texCoord); 
 }

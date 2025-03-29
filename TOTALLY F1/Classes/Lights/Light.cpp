@@ -5,7 +5,7 @@ Light::Light(){}
 
 Light::Light(vec3 position, vec3 color,
 			 float ambStr, float specStr, float specPhong,
-		     float brightness, float brightMod) {
+		     float brightness) {
 	lightPosition = position;
 	lightColor = color;
 
@@ -16,7 +16,6 @@ Light::Light(vec3 position, vec3 color,
 	specularPhong = specPhong;
 
 	this->brightness = brightness;
-    this->brightMod = brightMod;
 }
 
 //FUNCTIONS
@@ -48,25 +47,18 @@ void Light::loadLight(GLuint shaderProg, string lightType) {
     glUniform1f(brightAddress, brightness);
 }
 
-/*
-    This function adjusts the light's brightness based on the arrow key pressed
-        - Adjusts the brightness for the point and direction light
-*/
-void Light::adjustBrightness(ARROW_KEYS arrowPressed) {
-    switch (arrowPressed) {
-    //POINT LIGHT CONTROL
-    case UP:
-        brightness += brightMod;
-        break;
-    case DOWN:
-        brightness -= brightMod;
-        break;
-    //DIRECTION LIGHT CONTROL
-    case LEFT:
-        brightness -= brightMod;
-        break;
-    case RIGHT:
-        brightness += brightMod;
-        break;
-    }
+void Light::updateLight(vec3 newPos, vec3 newColor, 
+                        float newAmbStr, 
+                        float newSpecStr, float newSpecPhong, 
+                        float newBrightness) {
+
+    lightPosition = newPos;
+    lightColor = newColor;
+    ambientColor = lightColor;
+    ambientStrength = newAmbStr;
+    specularStrength = newSpecStr;
+    specularPhong = newSpecPhong;
+    brightness = newBrightness;
+
 }
+

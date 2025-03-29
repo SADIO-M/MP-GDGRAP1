@@ -59,29 +59,28 @@ private:
 
     ///////////////// LIGHTING /////////////////
         //Point Light
-    Point pointLight = Point(
-        vec3(0.35f, 0.55f, -2.5f),       // Light Position
-        vec3(1.0f),             // Light Color
-        0.5f,                   // Ambient Strength
-        0.5f,                   // Specular Strength
-        10.0f,                  // Specular Phong
-        75.0f,                  // Brightness
-        0.05f,                  // Brightness modifier (how much the brightness adjusts)
-        2.0f,                   // Quadratic term
-        2.0f,                   // Linear term
-        2.0f                    // Constant term
-    );                          // The quadratic, linear, and constant term affect the distance at which the light starts to fall off
+    //Point pointLight = Point(
+    //    vec3(0.35f, 0.55f, -2.5f),       // Light Position
+    //    vec3(1.0f),             // Light Color
+    //    0.5f,                   // Ambient Strength
+    //    0.5f,                   // Specular Strength
+    //    10.0f,                  // Specular Phong
+    //    75.0f,                  // Brightness
+    //    0.05f,                  // Brightness modifier (how much the brightness adjusts)
+    //    2.0f,                   // Quadratic term
+    //    2.0f,                   // Linear term
+    //    2.0f                    // Constant term
+    //);                          // The quadratic, linear, and constant term affect the distance at which the light starts to fall off
 
         //Direction Light
     Direction dirLight = Direction(
-        vec3(4.0f, -5.0f, 0.0f),// Light Position
-        vec3(1.0f, 1.0f, 1.0f), // Light Color
+        vec3(5.0f, 15.0f, 20.0f),// Light Position
+        vec3(0.9f, 1.0f, 0.9f), // Light Color
         1.0f,                   // Ambient Strength
-        1.0f,                   // Specular Strength
+        5.0f,                   // Specular Strength
         15.0f,                  // Specular Phong
-        0.5f,                   // Brightness
-        0.001f,                 // Brightness modifier 
-        vec3(4.0f, -5.0f, 0.0f) // Direction of the light
+        1.0f,                   // Brightness
+        vec3(5.0f, 15.0f, 20.0f) // Direction of the light
     );
 
     ///////////////// CAMERAS /////////////////

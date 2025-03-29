@@ -23,15 +23,18 @@ protected:
 	float specularPhong;
 
 	float brightness;
-	float brightMod; // Brightness modifier (value by which how much the brightness is modified)
 public:
 	//CONSTRUCTORS
 	Light();
 	Light(vec3 position, vec3 color,
 		  float ambStr, float specStr, float specPhong,
-		  float brightness, float brightMod);
+		  float brightness);
 	
 	//FUNCTIONS
 	virtual void loadLight(GLuint shaderProg, string lightType);
-	virtual void adjustBrightness(ARROW_KEYS arrowPressed);
+	virtual void updateLight(vec3 newPos, vec3 newColor,
+							float newAmbStr,
+							float newSpecStr, float newSpecPhong,
+							float newBrightness);
+
 };

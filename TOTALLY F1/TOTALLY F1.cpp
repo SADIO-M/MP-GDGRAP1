@@ -16,7 +16,9 @@
             https://www.cgtrader.com/free-3d-models/industrial/other/ball1
 
     ////////// SKYBOX CREDITS //////////
-        TBD.
+        Morning Skybox:
+
+        Night Skybox:
 
     ////////// NOTES //////////
         Cursor is disabled, press [Esc] to exit

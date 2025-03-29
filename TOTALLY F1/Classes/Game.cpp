@@ -253,8 +253,28 @@ void Game::checkInput() {
 	}
 
 	//Morning and Night
-	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) skyboxTex = MORNING;
-	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) skyboxTex = NIGHT;
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
+		skyboxTex = MORNING;
+		dirLight.updateDirLight(
+			vec3(5.0f, 15.0f, 20.0f),
+			vec3(0.9f, 1.0f, 0.9f), 
+			1.0f,                   
+			5.0f,                   
+			15.0f,                  
+			1.0f,                   
+			vec3(5.0f, 15.0f, 20.0f));
+	}
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) { 
+		skyboxTex = NIGHT; 
+		dirLight.updateDirLight(
+			vec3(-6.0f, 12.0f, 25.0f),
+			vec3(1.0f, 1.0f, 1.0f),
+			0.5f,
+			2.0f,
+			10.0f,
+			0.4f,
+			vec3(-6.0f, 12.0f, 25.0f));
+	}
 
 	// Keyboard rotation for the perspective camera, will only accept inputs when its being controlled
 	if(switchCam){
@@ -265,10 +285,10 @@ void Game::checkInput() {
 	}
 
 	// Controls for the light brightness for both the point and direction light
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)	  pointLight.adjustBrightness(UP);
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)  pointLight.adjustBrightness(DOWN);
-	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)  dirLight.adjustBrightness(LEFT);
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) dirLight.adjustBrightness(RIGHT);
+	//if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)	  pointLight.adjustBrightness(UP);
+	//if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)  pointLight.adjustBrightness(DOWN);
+	//if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)  dirLight.adjustBrightness(LEFT);
+	//if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) dirLight.adjustBrightness(RIGHT);
 
 	// Press escape to end the program (since cursor is disabled)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, 1);
@@ -325,7 +345,7 @@ void Game::runLoop() {
 		    if (model->getName() != "LIGHT_BALL") {
 				// Loads the lights
 				dirLight.loadDir(model->getShader().getShaderProg(), "dir");
-				pointLight.loadPoint(model->getShader().getShaderProg(), "point");
+				//pointLight.loadPoint(model->getShader().getShaderProg(), "point");
 
 				// Sets the VAO to the corresponding kart
 				if (model->getName() == "KART1") {

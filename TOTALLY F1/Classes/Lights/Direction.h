@@ -20,8 +20,12 @@ public:
 	Direction();
 	Direction(vec3 position, vec3 color,
 		float ambStr, float specStr, float specPhong,
-		float brightness, float brightMod, vec3 newDir);
+		float brightness, vec3 newDir);
 
 	//FUNCTIONS
 	void loadDir(GLuint shaderProg, string lightType);
+	void updateDirLight(vec3 newPos, vec3 newColor,
+						float newAmbStr,
+						float newSpecStr, float newSpecPhong,
+						float newBrightness, vec3 newDir);
 };

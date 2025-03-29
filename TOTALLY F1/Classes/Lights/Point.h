@@ -35,7 +35,7 @@ public:
 	Point();
 	Point(vec3 position, vec3 color,
 		float ambStr, float specStr, float specPhong,
-		float brightness, float brightMod,
+		float brightness,
 		float quadratic, float linear, float constant);
 
 	//FUNCTIONS
