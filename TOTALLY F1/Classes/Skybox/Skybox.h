@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../../Config/namespace.h"
+#include "../../Config/enumerations.h"
+
 #include "../CShaders/Shader.h"
 #include "../TextureMaker/TextureMaker.h"
 

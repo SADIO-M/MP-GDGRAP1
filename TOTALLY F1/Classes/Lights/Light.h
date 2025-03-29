@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../Config/namespace.h"
+#include "../../Config/enumerations.h"
 
 /*
 	This is the Light class, the parent class of Point and Direction

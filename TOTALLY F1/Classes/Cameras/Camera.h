@@ -29,16 +29,13 @@ protected:
 	float zNear;
 	float zFar;
 
-	vec3 initialPosition; // Initial position of the camera, important for the transformation
+	vec3 initialPosition;
 	vec3 camPosition;
 	vec3 camCenter;
 
-	vec3 camRotationMod; // Determines how much the camera has moved in its corresponding axis. 
-						 //		- This is fixed for the Orthographic camera since it doesnt move
+	vec3 camPositionMod;
+	vec3 camRotationMod; // Determines how much the camera has moved in its corresponding axis.
 	mat4 camRotationMatrix = mat4(1.0f);
-
-	// Since both cameras lookAt the kart object (which is at 0, 0, 0), save the pivotPoint here since both of them use it
-	vec3 pivotPoint = vec3(0.0f);
 
 public:
 	//CONSTRUCTORS
@@ -46,10 +43,14 @@ public:
 	Camera(float width, float height,
 		   float near,  float far,
 		   vec3 position, vec3 center,
-		   vec3 rotationMod);
+		   vec3 positionMod, vec3 rotationMod);
 
 	//FUNCTIONS
 	virtual void update();
+	virtual void updatePosition();
+	virtual void updateRotation();
+	virtual void updateCenter();
+
 	virtual void draw(GLuint shaderProg) = 0;
 
 	virtual mat4 getView();

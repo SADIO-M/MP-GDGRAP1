@@ -59,7 +59,6 @@
 #include "Classes/Models/Kart.h"
 
 #include "Classes/Cameras/Camera.h"
-#include "Classes/Cameras/Orthographic.h"
 #include "Classes/Cameras/Perspective.h"
 
 #include "Classes/Lights/Light.h"
@@ -68,6 +67,7 @@
 
 ////////// CONFIGURATIONS //////////
 #include "Config/namespace.h"
+#include "Config/enumerations.h"
 
 
 

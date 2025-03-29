@@ -11,9 +11,6 @@ Game::Game(GLFWwindow* window, float windowWidth, float windowHeight) {
 	this->window = window;
 	this->windowWidth = windowWidth;
 	this->windowHeight = windowHeight;
-	
-	controlKart = true;
-	controlPersCam = true;
 }
 
 //FUNCTIONS
@@ -225,75 +222,26 @@ void Game::initializeModels() {
 	Listens for player input and carries out the appropriate response
 */
 void Game::checkInput() {
-	/*
-		Change control to and from light ball
-			- internalTime is a variable to enforce a cooldown on switching controls so that one input is not registered multiple times
-	*/
-	/*
-			if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && internalTime >= 300) {
-				if (controlKart) { // If the player is currently controlling the cart and toggles control, will change the light's color to indicate the change
-					dynamic_cast<LightBall*>(allModels[0])->setColor(vec3(0.5f, 1.0f, 0.3f));
-					pointLight.updateColor(vec3(0.5f, 1.0f, 0.3f));
-				}
-				else { // The light ball's color will return to white when not being controlled
-					dynamic_cast<LightBall*>(allModels[0])->setColor(vec3(1.0f));
-					pointLight.updateColor(vec3(1.0f));
-				}
-				controlKart = !controlKart; //toggles controlKart variable
-				internalTime = 0; // resets internalTime once space is pressed
-			}
-	*/
-
-	// Gets movement inputs
-	/* allModels[0]-> Light Ball | allModels[1 - 3]-> Kart parts
-									- allModels[1] : Kart Livery (main body)
-									- allModels[2] : Kart Wheels
-									- allModels[3] : Kart Wheel Covers
-	*/
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		if (controlKart) {
-			allModels[PLYR_IDX_KL]->updateRotation('w');
-			allModels[PLYR_IDX_WL]->updateRotation('w');
-			allModels[PLYR_IDX_WC]->updateRotation('w');
-		}
-		else {
-			allModels[0]->updateRotation('w');
-			pointLight.rotateLight('w');
-		}
+		allModels[PLYR_IDX_KL]->updateRotation('w');
+		allModels[PLYR_IDX_WL]->updateRotation('w');
+		allModels[PLYR_IDX_WC]->updateRotation('w');
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		if (controlKart) {
-			allModels[PLYR_IDX_KL]->updateRotation('s');
-			allModels[PLYR_IDX_WL]->updateRotation('s');
-			allModels[PLYR_IDX_WC]->updateRotation('s');
-		}								  
-		else {							  
-			allModels[0]->updateRotation('s');
-			pointLight.rotateLight('s');
-		}
+		allModels[PLYR_IDX_KL]->updateRotation('s');
+		allModels[PLYR_IDX_WL]->updateRotation('s');
+		allModels[PLYR_IDX_WC]->updateRotation('s');
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		if (controlKart) {
-			allModels[PLYR_IDX_KL]->updateRotation('a');
-			allModels[PLYR_IDX_WL]->updateRotation('a');
-			allModels[PLYR_IDX_WC]->updateRotation('a');
-		}								  
-		else {							  
-			allModels[0]->updateRotation('a');
-			pointLight.rotateLight('a');
-		}
+		allModels[PLYR_IDX_KL]->updateRotation('a');
+		allModels[PLYR_IDX_WL]->updateRotation('a');
+		allModels[PLYR_IDX_WC]->updateRotation('a');
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		if (controlKart) {
-			allModels[PLYR_IDX_KL]->updateRotation('d');
-			allModels[PLYR_IDX_WL]->updateRotation('d');
-			allModels[PLYR_IDX_WC]->updateRotation('d');
-		}								  
-		else {							  
-			allModels[0]->updateRotation('d');
-			pointLight.rotateLight('d');
-		}
+		allModels[PLYR_IDX_KL]->updateRotation('d');
+		allModels[PLYR_IDX_WL]->updateRotation('d');
+		allModels[PLYR_IDX_WC]->updateRotation('d');
 	}
 
 	//Morning and Night
@@ -301,12 +249,11 @@ void Game::checkInput() {
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) skyboxTex = NIGHT;
 
 	// Keyboard rotation for the perspective camera, will only accept inputs when its being controlled
-	if(controlPersCam){
-		if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) persCam.rotateWithKeys('i');
-		if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) persCam.rotateWithKeys('k');
-		if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) persCam.rotateWithKeys('j');
-		if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) persCam.rotateWithKeys('l');
-	}
+	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) thirdPersCam.rotateWithKeys('i');
+	if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) thirdPersCam.rotateWithKeys('k');
+	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) thirdPersCam.rotateWithKeys('j');
+	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) thirdPersCam.rotateWithKeys('l');
+
 
 	// Controls for the light brightness for both the point and direction light
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)	  pointLight.adjustBrightness(UP);
@@ -314,17 +261,13 @@ void Game::checkInput() {
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)  dirLight.adjustBrightness(LEFT);
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) dirLight.adjustBrightness(RIGHT);
 
-	// Switch camera view: true (key 1) for perspective camera, false (key 2) for orthographic camera
-	if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) controlPersCam = true;
-	if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) controlPersCam = false;
-
 	// Press escape to end the program (since cursor is disabled)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, 1);
 }
 
 // Handles mouse rotation
 void Game::mouseInput() {
-	persCam.rotateWithMouse(&prevMousePos, &currMousePos);
+	thirdPersCam.rotateWithMouse(&prevMousePos, &currMousePos);
 }
 
 /*
@@ -345,26 +288,19 @@ void Game::runLoop() {
 		*/
 		setVAO(&skyboxVAO, BIND);
 
-		if (controlPersCam) {
-			skybox->draw(persCam.getView(), persCam.getProjection(), skyboxTex);
-			glfwGetCursorPos(window, &currMousePos.x, &currMousePos.y);
-			persCam.update();
-			mouseInput();
-			persCam.checkCameraRotation();
-		} 
-		else {
-			skybox->draw(orthoCam.getView(), orthoCam.getProjection(), skyboxTex);
-			orthoCam.update();
-		}
+		skybox->draw(thirdPersCam.getView(), thirdPersCam.getProjection(), skyboxTex);
+		glfwGetCursorPos(window, &currMousePos.x, &currMousePos.y);
+		mouseInput();
+		thirdPersCam.update();
+		thirdPersCam.checkCameraRotation();
+	
 
 		// Draws each model with their appropriate shaders and textures
 		for (Model3D* model : allModels) {
 			// Gets the shader program of the model and uses it
 			glUseProgram(model->getShader().getShaderProg());
 
-			// Changes camera depending on which one is selected
-			if(controlPersCam) persCam.draw(model->getShader().getShaderProg());
-			else orthoCam.draw(model->getShader().getShaderProg());
+			thirdPersCam.draw(model->getShader().getShaderProg());
 			
 			// If the model is the kart, load the corresponding information
 		    if (model->getName() != "LIGHT_BALL") {

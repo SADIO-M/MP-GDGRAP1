@@ -6,10 +6,10 @@ Perspective::Perspective(){}
 Perspective::Perspective(float width, float height,
 						float near, float far,
 						vec3 position, vec3 center,
-						vec3 rotationMod,
+						vec3 positionMod, vec3 rotationMod,
 						float fov) :
 
-	Camera(width, height, near, far, position, center, rotationMod) {
+	Camera(width, height, near, far, position, center, positionMod, rotationMod) {
 
 	initialPosition = camPosition;
 	fieldOfView = fov;
@@ -24,7 +24,7 @@ Perspective::Perspective(float width, float height,
 */
 void Perspective::rotateWithMouse(dvec2* prevMousePos, dvec2* currMousePos) {
 	camRotationMod.x -= (currMousePos->y - prevMousePos->y) * rotateSpeed;
-	camRotationMod.y -= (prevMousePos->x - currMousePos->x) * rotateSpeed;
+	camRotationMod.y += (prevMousePos->x - currMousePos->x) * rotateSpeed;
 
 	prevMousePos->x = currMousePos->x;
 	prevMousePos->y = currMousePos->y;
@@ -35,13 +35,13 @@ void Perspective::rotateWithMouse(dvec2* prevMousePos, dvec2* currMousePos) {
 */
 void Perspective::rotateWithKeys(char keyPressed) {
 	switch (keyPressed) {
-		case 'i': camRotationMod.x += rotateSpeed;
-			break;
-		case 'k': camRotationMod.x -= rotateSpeed;
-			break;
-		case 'j': camRotationMod.y -= rotateSpeed;
-			break;
-		case 'l': camRotationMod.y += rotateSpeed;
+		case 'i': camRotationMod.x += rotateSpeed * 5;
+			break;									
+		case 'k': camRotationMod.x -= rotateSpeed * 5;
+			break;									
+		case 'j': camRotationMod.y += rotateSpeed * 5;
+			break;									
+		case 'l': camRotationMod.y -= rotateSpeed * 5;
 			break;
 	}
 }
@@ -52,7 +52,7 @@ void Perspective::rotateWithKeys(char keyPressed) {
 		- This is to avoid that camera flipping for a cleaner experience
 */
 void Perspective::checkCameraRotation() {
-	if (camRotationMod.x > 81.0f) camRotationMod.x = 81.0f;
+	if (camRotationMod.x > 89.0f) camRotationMod.x = 89.0f;
 	if (camRotationMod.x < -89.0f) camRotationMod.x = -89.0f;
 }
 
@@ -62,7 +62,7 @@ void Perspective::checkCameraRotation() {
 */
 void Perspective::draw(GLuint shaderProg) {
 	// View matrix to always look at the center
-	viewMatrix = lookAt(camPosition, pivotPoint, worldUp);
+	viewMatrix = lookAt(camPosition, camCenter, worldUp);
 
 	// Projection matrix is perspective
 	projectionMatrix = perspective(

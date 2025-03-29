@@ -1,8 +1,10 @@
 #pragma once
 
+#include "../../Config/namespace.h"
+#include "../../Config/enumerations.h"
+
 #include "Model3D.h"
 #include "../TextureMaker/TextureMaker.h"
-#include "../../Config/namespace.h"
 
 /*
 	Class for the kart (car) object.

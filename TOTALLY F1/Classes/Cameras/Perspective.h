@@ -17,7 +17,7 @@
 class Perspective : public Camera {
 private:
 	float fieldOfView;
-	float rotateSpeed = 0.02f;
+	float rotateSpeed = 0.008f;
 
 public:
 	//CONSTRUCTORS
@@ -25,7 +25,7 @@ public:
 	Perspective(float width, float height,
 		float near, float far,
 		vec3 position, vec3 center,
-		vec3 rotationMod,
+		vec3 positionMod, vec3 rotationMod,
 		float fov);
 
 	//FUNCTIONS

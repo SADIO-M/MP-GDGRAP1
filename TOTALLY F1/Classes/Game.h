@@ -1,6 +1,9 @@
 #pragma once
 
 #include "../Config/namespace.h"
+#include "../Config/enumerations.h"
+
+#include "Player/Player.h"
 
 #include "CShaders/Shader.h"
 
@@ -13,7 +16,6 @@
 #include "Lights/Direction.h"
 #include "Lights/Point.h"
 
-#include "Cameras/Orthographic.h"
 #include "Cameras/Perspective.h"
 
 /* This is the Game class
@@ -43,9 +45,6 @@ private:
     // Variable for cooldown on control object toggle
     int internalTime = 0;
        
-    // bools referring to which object the player is controlling and which camera view is being used
-    bool controlKart;
-    bool controlPersCam;
     //Controls the skybox texture
     SELECT_TEXTURE skyboxTex = MORNING;
 
@@ -56,7 +55,7 @@ private:
     ///////////////// LIGHTING /////////////////
         //Point Light
     Point pointLight = Point(
-        vec3(-5, 0.5, 0),       // Light Position
+        vec3(0.5, 0.5, -2),       // Light Position
         vec3(1.0f),             // Light Color
         0.5f,                   // Ambient Strength
         0.5f,                   // Specular Strength
@@ -81,31 +80,17 @@ private:
     );
 
     ///////////////// CAMERAS /////////////////
-        //Orthographic Camera
-    Orthographic orthoCam = Orthographic(
-        800.0f,                 // Window width
-        800.0f,                 // Window height
-        -30.0f,                 // zNear
-        30.0f,                  // zFar
-        vec3(0.0, 10.0, 0.0),   // Camera Position
-        vec3(0.0),              // Camera Center
-        vec3(-0.5f, 0.0f, 0.0f),// Camera Rotation Modifier (how much the camera gets rotated)
-        -10.0f,                 // Left most point
-        10.0f,                  // Right most point
-        -10.0f,                 // Top most point
-        10.0f                   // Bottom most point
-    );
-
         //Perspective Camera
-    Perspective persCam = Perspective(
+    Perspective thirdPersCam = Perspective(
         800.0f,                 // Window width
         800.0f,                 // Window height
         0.1f,                   // zNear
         100.0f,                 // zFar
-        vec3(0.0f, 1.0f, -8.0f),// Camera Position
+        vec3(0.0f, 3.0f, 6.0f),// Camera Position
         vec3(0.0f),             // Camera Center
-        vec3(0.0f),             // Camera Rotation Modifier
-        60.0f                   // Field of view (FOV)
+        vec3(0.0f),
+        vec3(10.0f, 0.0f, 0.0f),             // Camera Rotation Modifier
+        70.0f                   // Field of view (FOV)
     );
 
 public:

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../Config/namespace.h"
+#include "../../Config/enumerations.h"
 
 /* This is the TextureMaker class
 		- It is similar to the implementation in PC02, but now it just LOADS textures
