@@ -95,6 +95,7 @@ int main(void)
         return -1;
     }
 
+    glfwSetWindowPos(window, 960 - (windowWidth/2), 540 - (windowHeight / 2));
     //Create a game variable
     Game game(window, windowWidth, windowHeight);
     //Start of the game loop
