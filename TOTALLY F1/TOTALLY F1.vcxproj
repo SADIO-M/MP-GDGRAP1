@@ -176,6 +176,8 @@
     <ClInclude Include="tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\GhostShader.frag" />
+    <None Include="Shaders\GhostShader.vert" />
     <None Include="Shaders\KartShader.frag" />
     <None Include="Shaders\KartShader.vert" />
     <None Include="Shaders\LightShader.frag" />

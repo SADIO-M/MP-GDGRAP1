@@ -17,8 +17,14 @@
 
     ////////// SKYBOX CREDITS //////////
         Morning Skybox:
+        JasperCarmack. (2021, September 6). 
+            Winters mourn 03 skybox textures - a mod for Source Engine [Digital Art]. 
+            Gamebanana. https://gamebanana.com/mods/320017
 
         Night Skybox:
+        JasperCarmack. (2021, August 28). 
+            Night sky 02 skybox textures - a mod for Source Engine [Digital Art]. 
+            Gamebanana. https://gamebanana.com/mods/317757
 
     ////////// NOTES //////////
         Cursor is disabled, press [Esc] to exit

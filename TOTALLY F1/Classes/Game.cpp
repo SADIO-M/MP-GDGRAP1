@@ -30,6 +30,7 @@ void Game::start() {
 	initializeSkybox();
 	initializeModels(); // creates all game objects
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND); //Source Factor
 	runLoop(); // the actual game loop
 
 	glfwTerminate();
@@ -134,9 +135,9 @@ void Game::initializeModels() {
 		vec3(5.0, 0.0, 0.0),					
 		vec3(0.6, 0.6, 0.6),		
 		vec3(0.0, -90.0, 0.0),		
-		"Shaders/KartShader.vert",	
-		"Shaders/KartShader.frag",	
-		"Textures/f1_2026/Livery.png" 
+		"Shaders/GhostShader.vert",
+		"Shaders/GhostShader.frag",
+		"Textures/f1_2026/Livery.png"
 	));
 
 	//KART WHEELS
@@ -146,8 +147,8 @@ void Game::initializeModels() {
 		vec3(5.0, 0.0, 0.0),
 		vec3(0.6, 0.6, 0.6),
 		vec3(0.0, -90.0, 0.0),
-		"Shaders/KartShader.vert",
-		"Shaders/KartShader.frag",
+		"Shaders/GhostShader.vert",
+		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/TyreSoft.png"
 	));
 
@@ -158,8 +159,8 @@ void Game::initializeModels() {
 		vec3(5.0, 0.0, 0.0),
 		vec3(0.6, 0.6, 0.6),
 		vec3(0.0, -90.0, 0.0),
-		"Shaders/KartShader.vert",
-		"Shaders/KartShader.frag",
+		"Shaders/GhostShader.vert",
+		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/WheelCovers.png"
 	));
 	///
@@ -174,8 +175,8 @@ void Game::initializeModels() {
 		vec3(-5.0, 0.0, 0.0),
 		vec3(0.6, 0.6, 0.6),
 		vec3(0.0, -90.0, 0.0),
-		"Shaders/KartShader.vert",
-		"Shaders/KartShader.frag",
+		"Shaders/GhostShader.vert",
+		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/Livery.png"
 	));
 
@@ -186,8 +187,8 @@ void Game::initializeModels() {
 		vec3(-5.0, 0.0, 0.0),
 		vec3(0.6, 0.6, 0.6),
 		vec3(0.0, -90.0, 0.0),
-		"Shaders/KartShader.vert",
-		"Shaders/KartShader.frag",
+		"Shaders/GhostShader.vert",
+		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/TyreSoft.png"
 	));
 
@@ -198,8 +199,8 @@ void Game::initializeModels() {
 		vec3(-5.0, 0.0, 0.0),
 		vec3(0.6, 0.6, 0.6),
 		vec3(0.0, -90.0, 0.0),
-		"Shaders/KartShader.vert",
-		"Shaders/KartShader.frag",
+		"Shaders/GhostShader.vert",
+		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/WheelCovers.png"
 	));
 
@@ -272,7 +273,7 @@ void Game::checkInput() {
 			0.5f,
 			2.0f,
 			10.0f,
-			0.4f,
+			0.6f,
 			vec3(-6.0f, 12.0f, 25.0f));
 	}
 
@@ -330,40 +331,34 @@ void Game::runLoop() {
 			firstPersCam.checkCameraRotation();
 		}
 	
-
-		// Draws each model with their appropriate shaders and textures
-		for (Model3D* model : allModels) {
-			// Gets the shader program of the model and uses it
+		for (int i = 0; i < allModels.size(); i++) {
+			Model3D* model = allModels[i];
 			glUseProgram(model->getShader().getShaderProg());
 
-			if(switchCam)
+			if (switchCam)
 				thirdPersCam.draw(model->getShader().getShaderProg());
-			else 
+			else
 				firstPersCam.draw(model->getShader().getShaderProg());
-			
-			// If the model is the kart, load the corresponding information
-		    if (model->getName() != "LIGHT_BALL") {
-				// Loads the lights
-				dirLight.loadDir(model->getShader().getShaderProg(), "dir");
-				//pointLight.loadPoint(model->getShader().getShaderProg(), "point");
 
-				// Sets the VAO to the corresponding kart
-				if (model->getName() == "KART1") {
-					setVAO(&kartVAOs[PLYR_IDX_KL], BIND);
-				}
-				else if (model->getName() == "KART2") {
-					setVAO(&kartVAOs[PLYR_IDX_WL], BIND);
-				}
-				else if (model->getName() == "KART3") {
-					setVAO(&kartVAOs[PLYR_IDX_WC], BIND);
-				}
+			dirLight.loadDir(model->getShader().getShaderProg(), "dir");
+
+			// Sets the VAO to the corresponding kart
+			if (model->getName() == "KART1") {
+				setVAO(&kartVAOs[PLYR_IDX_KL], BIND);
 			}
-			// If the model is the light ball, set active VAO to the light ball VAO
-			else if (model->getName() == "LIGHT_BALL"){
-				setVAO(&light_ballVAO, BIND);
+			else if (model->getName() == "KART2") {
+				setVAO(&kartVAOs[PLYR_IDX_WL], BIND);
+			}
+			else if (model->getName() == "KART3") {
+				setVAO(&kartVAOs[PLYR_IDX_WC], BIND);
 			}
 
-			// Draw the model
+			if (i >= GST1_IDX_KL && i <= GST2_IDX_WC)
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			else
+				glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
+
+			glBlendEquation(GL_FUNC_ADD);
 			model->draw();
 		}
 
