@@ -24,8 +24,5 @@ public:
 
 	//FUNCTIONS
 	void loadDir(GLuint shaderProg, string lightType);
-	void updateDirLight(vec3 newPos, vec3 newColor,
-						float newAmbStr,
-						float newSpecStr, float newSpecPhong,
-						float newBrightness, vec3 newDir);
+	void updateDirLight(SELECT_TEXTURE time);
 };

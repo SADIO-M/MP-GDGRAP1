@@ -2,6 +2,7 @@
 
 #include "Camera.h"
 #include "../../Config/namespace.h"
+#include "../../Config/enumerations.h"
 
 /*
 	This is the Perspective class for the perspective camera
@@ -32,7 +33,7 @@ public:
 
 	//FUNCTIONS
 	void rotateWithMouse(dvec2* prevMousePos, dvec2* currMousePos);
-	void rotateWithKeys(char keyPressed);
+	void rotateWithKeys(MOVE move);
 	void checkCameraRotation();
 
 	void draw(GLuint shaderProg);

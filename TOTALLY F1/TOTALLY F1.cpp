@@ -62,6 +62,8 @@
 
 #include "Classes/Skybox/Skybox.h"
 
+#include "Classes/Player/PlayerKart.h"
+
 #include "Classes/Models/Model3D.h"
 #include "Classes/Models/LightBall.h"
 #include "Classes/Models/Kart.h"

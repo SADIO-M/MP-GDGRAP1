@@ -33,15 +33,15 @@ void Perspective::rotateWithMouse(dvec2* prevMousePos, dvec2* currMousePos) {
 /*
 	This function allows camera rotation with the keys (I, J, K, L)
 */
-void Perspective::rotateWithKeys(char keyPressed) {
-	switch (keyPressed) {
-		case 'i': camRotationMod.x += rotateSpeed * 5;
+void Perspective::rotateWithKeys(MOVE move) {
+	switch (move) {
+		case UP: camRotationMod.x += rotateSpeed * 5;
 			break;									
-		case 'k': camRotationMod.x -= rotateSpeed * 5;
+		case DOWN: camRotationMod.x -= rotateSpeed * 5;
 			break;									
-		case 'j': camRotationMod.y += rotateSpeed * 5;
+		case LEFT: camRotationMod.y += rotateSpeed * 5;
 			break;									
-		case 'l': camRotationMod.y -= rotateSpeed * 5;
+		case RIGHT: camRotationMod.y -= rotateSpeed * 5;
 			break;
 	}
 }
@@ -52,8 +52,11 @@ void Perspective::rotateWithKeys(char keyPressed) {
 		- This is to avoid that camera flipping for a cleaner experience
 */
 void Perspective::checkCameraRotation() {
-	if (camRotationMod.x > 89.0f) camRotationMod.x = 89.0f;
-	if (camRotationMod.x < -89.0f) camRotationMod.x = -89.0f;
+	//Limits the rotation of the mouse, can be edited to allow more range of mouse movement
+	if (camRotationMod.x > 45.0f) camRotationMod.x = 45.0f;
+	if (camRotationMod.x < -45.0f) camRotationMod.x = -45.0f;
+	if (camRotationMod.y > 45.0f) camRotationMod.y = 45.0f;
+	if (camRotationMod.y < -45.0f) camRotationMod.y = -45.0f;
 }
 
 /*

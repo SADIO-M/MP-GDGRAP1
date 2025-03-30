@@ -104,6 +104,8 @@ string Model3D::getName() { return modelName; }
 
 Shader Model3D::getShader() { return shaderMaker; }
 
+vec3 Model3D::getPosition() { return position; }
+
 //DECONSTRUCTOR
 Model3D::~Model3D() {
     glDeleteBuffers(1, &VBO);

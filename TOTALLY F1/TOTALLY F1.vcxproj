@@ -143,6 +143,7 @@
     <ClCompile Include="Classes\Cameras\Perspective.cpp" />
     <ClCompile Include="Classes\CShaders\Shader.cpp" />
     <ClCompile Include="Classes\Player\Player.cpp" />
+    <ClCompile Include="Classes\Player\PlayerKart.cpp" />
     <ClCompile Include="Classes\Skybox\Skybox.cpp" />
     <ClCompile Include="Classes\TextureMaker\TextureMaker.cpp" />
     <ClCompile Include="Classes\Game.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Classes\Cameras\Perspective.h" />
     <ClInclude Include="Classes\CShaders\Shader.h" />
     <ClInclude Include="Classes\Player\Player.h" />
+    <ClInclude Include="Classes\Player\PlayerKart.h" />
     <ClInclude Include="Classes\Skybox\Skybox.h" />
     <ClInclude Include="Classes\TextureMaker\TextureMaker.h" />
     <ClInclude Include="Classes\Game.h" />

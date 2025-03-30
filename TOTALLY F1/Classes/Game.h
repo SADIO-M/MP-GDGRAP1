@@ -4,6 +4,7 @@
 #include "../Config/enumerations.h"
 
 #include "Player/Player.h"
+#include "Player/PlayerKart.h"
 
 #include "CShaders/Shader.h"
 
@@ -32,10 +33,10 @@ private:
     float windowWidth;
     float windowHeight;
 
-    //Player player;
+    Player player;
 
-    // Vector containing all models (The kart and its shapes, and the light ball)
-    vector<Model3D*> allModels;
+    // NP stands for non-player
+    vector<Model3D*> allNPModels;
     Skybox* skybox;
 
     // Model VAOs
@@ -45,7 +46,7 @@ private:
     GLuint skyboxVAO;
 
     //bools
-    bool switchCam;
+    bool isThirdPerson;
     bool stopCars;
 
     // Variable for cooldown on control object toggle
@@ -85,32 +86,6 @@ private:
         vec3(5.0f, 15.0f, 20.0f) // Direction of the light
     );
 
-    ///////////////// CAMERAS /////////////////
-        //Third Person Camera
-    Perspective thirdPersCam = Perspective(
-        800.0f,                 // Window width
-        800.0f,                 // Window height
-        0.1f,                   // zNear
-        100.0f,                 // zFar
-        vec3(0.0f, 3.0f, -6.0f), // Camera Position
-        vec3(0.0f),             // Camera Center
-        vec3(0.0f),
-        vec3(-10.0f, 0.0f, 0.0f),// Camera Rotation Modifier
-        70.0f                   // Field of view (FOV)
-    );
-        //First Person Camera
-    Perspective firstPersCam = Perspective(
-        800.0f,                 
-        800.0f,                 
-        0.1f,                   
-        100.0f,                 
-        vec3(0.0f, 1.5f, 1.0f),
-        vec3(0.0f),
-        vec3(0.0f),
-        vec3(40.0f, 180.0f, 0.0f),             
-        80.0f                   
-    );
-
 public:
     //CONSTRUCTORS
     Game();
@@ -118,6 +93,7 @@ public:
 
     //FUNCTIONS
     void start();
+    void initializePlayer();
     void initializeSkybox();
     void initializeModels();
     void runLoop();
@@ -127,7 +103,7 @@ public:
     void checkInput();
     void mouseInput();
 
-    void addToTimers();
+    void updateInputTimer();
 
     //DECONSTRUCTOR
     ~Game();

@@ -2,47 +2,43 @@
 
 Player::Player(){}
 
-Player::Player(string name, string pathName,
-    vec3 pos, vec3 scale, vec3 rotate,
-    string vertPath, string fragPath,
-    string texPath, float maxSPD, float accelMod,
-    Perspective* newCam) :
-    Kart(name, pathName,
-         pos, scale, rotate,
-         vertPath, fragPath,
-         texPath, maxSPD, accelMod) {
-
-    playerCamera = newCam;
+void Player::moveInput(DRIVING move) {
+	for (PlayerKart* kartPart : playerKart)
+		kartPart->move(move);
 }
 
-void Player::moveInput(char keyPressed) {
-    switch (keyPressed) {
-    case 'w': acceleration = accelMod;
-        break;
-    case 's': acceleration = -accelMod * 0.5f;
-        break;
-    case 'a': thetaTurn += thetaMod;
-        break;
-    case 'd': thetaTurn -= thetaMod;
-        break;
-    }
+void Player::switchCam(ACTIVE_CAM camIndex) {
+	activeCamera = playerCameras[camIndex];
 }
 
-void Player::updatePlayer() {
-    direction = vec3(
-        1.0 * sin(radians(thetaTurn)),
-        0,
-        1.0 * cos(radians(thetaTurn))
-    );
-
-    Kart::update();
-    playerCamera->setPosMod(position);
-
-    //DEBBUGGING
-    cout << "Speed: " << speed;
-    cout << "        AccelMod: " << accelMod << endl;
+void Player::updateCameras() {
+	for (Perspective* camera : playerCameras){
+		camera->setPosMod(playerKart[PLYR_IDX_KL]->getPosition());
+		camera->update();
+	}
 }
 
-void Player::setKartCam(Perspective* camera) {
-    playerCamera = camera;
+void Player::rotateThirdPersKeys(MOVE move) {
+	playerCameras[THIRD_PERSON]->rotateWithKeys(move);
 }
+
+void Player::rotateThirdPersMouse(dvec2* prevMousePos, dvec2* currMousePos) {
+	playerCameras[THIRD_PERSON]->rotateWithMouse(prevMousePos, currMousePos);
+	playerCameras[THIRD_PERSON]->checkCameraRotation();
+}
+
+void Player::addPlayerKart(PlayerKart* kartPart) {
+	playerKart.push_back(kartPart);
+}
+
+void Player::addPlayerCamera(Perspective* camera) {
+	playerCameras.push_back(camera);
+}
+
+PlayerKart* Player::getKartPart(PLYR_KART_PARTS kartIndex) { return playerKart[kartIndex]; }
+
+vector<PlayerKart*> Player::getWholeKart() { return playerKart; }
+
+Perspective* Player::getActiveCam() { return activeCamera; }
+
+vector<Perspective*> Player::getAllCameras() { return playerCameras; }

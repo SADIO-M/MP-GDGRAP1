@@ -1,31 +1,36 @@
 #pragma once
 
 #include "../../Config/namespace.h"
+#include "../../Config/enumerations.h"
 
-#include "../../Classes/Models/Kart.h"
-#include "../../Classes/Cameras/Perspective.h"
+#include "PlayerKart.h"
+#include "../Cameras/Perspective.h"
 
-class Player : public Kart{
+
+class Player {
 private:
-	Perspective* playerCamera;
-	
-	float thetaTurn = 0.0f;
-	float thetaMod = 0.01f;
+	vector<PlayerKart*> playerKart;
+	vector<Perspective*> playerCameras;
 
-	float deceleration = -acceleration * 0.85f;
+	Perspective* activeCamera;
 public:
-	//CONSTRUCTORS
+	//CONSTRUCTOR
 	Player();
-	Player(string name, string pathName,
-		vec3 pos, vec3 scale, vec3 rotate,
-		string vertPath, string fragPath,
-		string texPath, float maxSPD, float accelMod,
-		Perspective* newCam);
-
+	
 	//FUNCTIONS
-	void moveInput(char keyPressed);
-	void updatePlayer();
+	void moveInput(DRIVING move);
+	void switchCam(ACTIVE_CAM camIndex);
+	void updateCameras();
+	void rotateThirdPersKeys(MOVE move);
+	void rotateThirdPersMouse(dvec2* prevMousePos, dvec2* currMousePos);
 
 	//GETTERS
-	void setKartCam(Perspective* camera);
+	void addPlayerKart(PlayerKart* kartPart);
+	void addPlayerCamera(Perspective* camera);
+
+	PlayerKart* getKartPart(PLYR_KART_PARTS kartIndex);
+	vector<PlayerKart*> getWholeKart();
+
+	Perspective* getActiveCam();
+	vector<Perspective*> getAllCameras();
 };

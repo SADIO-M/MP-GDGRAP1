@@ -23,14 +23,34 @@ void Direction::loadDir(GLuint shaderProg, string lightType){
 	glUniform3fv(lightDirAddress, 1, value_ptr(lightDirection));
 }
 
-void Direction::updateDirLight(vec3 newPos, vec3 newColor,
-	float newAmbStr,
-	float newSpecStr, float newSpecPhong,
-	float newBrightness, vec3 newDir) {
+void Direction::updateDirLight(SELECT_TEXTURE time){
+	vec3 newPos, newColor, newDir;
+	float newAmbStr, newSpecStr, newSpecPhong, newBrightness;
+	
+	switch (time) {
+	case NIGHT:
+			newPos = vec3(-4.0f, 12.0f, 25.0f);
+			newColor = vec3(1.0f, 1.0f, 1.0f);
+			newAmbStr = 0.5f;
+			newSpecStr = 2.0f;
+			newSpecPhong = 10.0f;
+			newBrightness = 0.6f;
+			newDir = vec3(-4.0f, 12.0f, 25.0f);
+		break;
+
+	case MORNING:
+			newPos = vec3(5.0f, 15.0f, 20.0f);
+			newColor = vec3(0.9f, 1.0f, 0.9f);
+			newAmbStr = 1.0f;
+			newSpecStr = 5.0f;
+			newSpecPhong = 15.0f;
+			newBrightness = 1.0f;
+			newDir = vec3(5.0f, 15.0f, 20.0f);
+		break;
+	}
 
 	Light::updateLight(newPos, newColor, newAmbStr, newSpecStr, newSpecPhong, newBrightness);
 
 	lightDirection = newDir;
-
 }
 	

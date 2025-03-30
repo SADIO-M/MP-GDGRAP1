@@ -61,6 +61,7 @@ public:
     //GETTERS
     virtual string getName();
     virtual Shader getShader();
+    virtual vec3 getPosition();
     
     //DECONSTRUCTOR
     ~Model3D();
