@@ -1,5 +1,7 @@
 #pragma once
 
+#define FINISH_LINE 10000
+
 /* LEGEND:
     - PLYR : Player
     - GST# : Ghost, then number at the end
