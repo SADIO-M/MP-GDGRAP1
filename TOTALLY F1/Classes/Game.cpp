@@ -13,6 +13,7 @@ Game::Game(GLFWwindow* window, float windowWidth, float windowHeight) {
 	this->windowHeight = windowHeight;
 	
 	switchCam = true;
+	stopCars = false;
 }
 
 //FUNCTIONS
@@ -82,62 +83,73 @@ void Game::initializeModels() {
 	//KART LIVERY (Main body)
 	setVAO(&kartVAOs[0], GENERATE);
 	setVAO(&kartVAOs[0], BIND);
-	allModels.push_back(new Kart(
+	allModels.push_back(new Player(
 		"KART1",					// Name of the object
 		"3D/f1_2026.obj",			// File location of the 3D Object
 		vec3(0.0),					// Object position
 		vec3(0.6, 0.6, 0.6),		// Object scale
-		vec3(0.0, -90.0, 0.0),		// Object rotation
+		vec3(0.0, 90.0, 0.0),		// Object rotation
 		"Shaders/KartShader.vert",	// File path of the vertex shader
 		"Shaders/KartShader.frag",	// File path of the fragment shader
-		"Textures/f1_2026/Livery.png" // File path of the corresponding texture
+		"Textures/f1_2026/Livery.png", // File path of the corresponding texture
+		1.0f,						// Max Speed
+		0.0002f,					// Acceleration Modifier
+		&thirdPersCam
 	));
 	setVAO(&kartVAOs[0], UNBIND);
 	
 	//KART WHEELS
 	setVAO(&kartVAOs[1], GENERATE);
 	setVAO(&kartVAOs[1], BIND);
-	allModels.push_back(new Kart(	//The variables are the exact same as the kart livery, except for the texture
+	allModels.push_back(new Player(	//The variables are the exact same as the kart livery, except for the texture
 		"KART2",
 		"3D/f1_2026.obj",
 		vec3(0.0),
 		vec3(0.6, 0.6, 0.6),
-		vec3(0.0, -90.0, 0.0), 
+		vec3(0.0, 90.0, 0.0),
 		"Shaders/KartShader.vert", 
 		"Shaders/KartShader.frag",
-		"Textures/f1_2026/TyreSoft.png"
+		"Textures/f1_2026/TyreSoft.png",
+		1.0f,
+		0.0002f,
+		&thirdPersCam
 	));
 	setVAO(&kartVAOs[1], UNBIND);
 
 	//KART WHEEL COVERS
 	setVAO(&kartVAOs[2], GENERATE);
 	setVAO(&kartVAOs[2], BIND);
-	allModels.push_back(new Kart(
+	allModels.push_back(new Player(
 		"KART3",
 		"3D/f1_2026.obj",
 		vec3(0.0),
 		vec3(0.6, 0.6, 0.6),
-		vec3(0.0, -90.0, 0.0),
+		vec3(0.0, 90.0, 0.0),
 		"Shaders/KartShader.vert", 
 		"Shaders/KartShader.frag", 
-		"Textures/f1_2026/WheelCovers.png"
+		"Textures/f1_2026/WheelCovers.png",
+		1.0f,
+		0.0002f,
+		&thirdPersCam
 	));
 	setVAO(&kartVAOs[2], UNBIND);
 	///
 	///
 	///
 	/// 
-	///////////////////////////////// GHOST KART 1 /////////////////////////////////
+	///////////////////////////////// GHOST KART 1 - FAST /////////////////////////////////
 		//KART LIVERY (Main body)
 	allModels.push_back(new Kart(
 		"KART1",					
 		"3D/f1_2026.obj",			
 		vec3(5.0, 0.0, 0.0),					
 		vec3(0.6, 0.6, 0.6),		
-		vec3(0.0, -90.0, 0.0),		
+		vec3(0.0, 90.0, 0.0),		
 		"Shaders/GhostShader.vert",
 		"Shaders/GhostShader.frag",
-		"Textures/f1_2026/Livery.png"
+		"Textures/f1_2026/Livery.png",
+		3.0f,
+		0.0006f
 	));
 
 	//KART WHEELS
@@ -146,10 +158,12 @@ void Game::initializeModels() {
 		"3D/f1_2026.obj",
 		vec3(5.0, 0.0, 0.0),
 		vec3(0.6, 0.6, 0.6),
-		vec3(0.0, -90.0, 0.0),
+		vec3(0.0, 90.0, 0.0),
 		"Shaders/GhostShader.vert",
 		"Shaders/GhostShader.frag",
-		"Textures/f1_2026/TyreSoft.png"
+		"Textures/f1_2026/TyreSoft.png",
+		3.0f,
+		0.0006f
 	));
 
 	//KART WHEEL COVERS
@@ -158,26 +172,30 @@ void Game::initializeModels() {
 		"3D/f1_2026.obj",
 		vec3(5.0, 0.0, 0.0),
 		vec3(0.6, 0.6, 0.6),
-		vec3(0.0, -90.0, 0.0),
+		vec3(0.0, 90.0, 0.0),
 		"Shaders/GhostShader.vert",
 		"Shaders/GhostShader.frag",
-		"Textures/f1_2026/WheelCovers.png"
+		"Textures/f1_2026/WheelCovers.png",
+		3.0f,
+		0.0006f
 	));
 	///
 	///
 	///
 	/// 
-	///////////////////////////////// GHOST KART 2 /////////////////////////////////
+	///////////////////////////////// GHOST KART 2 - SLOW /////////////////////////////////
 	//KART LIVERY (Main body)
 	allModels.push_back(new Kart(
 		"KART1",
 		"3D/f1_2026.obj",
 		vec3(-5.0, 0.0, 0.0),
 		vec3(0.6, 0.6, 0.6),
-		vec3(0.0, -90.0, 0.0),
+		vec3(0.0, 90.0, 0.0),
 		"Shaders/GhostShader.vert",
 		"Shaders/GhostShader.frag",
-		"Textures/f1_2026/Livery.png"
+		"Textures/f1_2026/Livery.png",
+		0.5f,
+		0.0002f
 	));
 
 	//KART WHEELS
@@ -186,10 +204,12 @@ void Game::initializeModels() {
 		"3D/f1_2026.obj",
 		vec3(-5.0, 0.0, 0.0),
 		vec3(0.6, 0.6, 0.6),
-		vec3(0.0, -90.0, 0.0),
+		vec3(0.0, 90.0, 0.0),
 		"Shaders/GhostShader.vert",
 		"Shaders/GhostShader.frag",
-		"Textures/f1_2026/TyreSoft.png"
+		"Textures/f1_2026/TyreSoft.png",
+		0.5f,
+		0.0002f
 	));
 
 	//KART WHEEL COVERS
@@ -198,10 +218,12 @@ void Game::initializeModels() {
 		"3D/f1_2026.obj",
 		vec3(-5.0, 0.0, 0.0),
 		vec3(0.6, 0.6, 0.6),
-		vec3(0.0, -90.0, 0.0),
+		vec3(0.0, 90.0, 0.0),
 		"Shaders/GhostShader.vert",
 		"Shaders/GhostShader.frag",
-		"Textures/f1_2026/WheelCovers.png"
+		"Textures/f1_2026/WheelCovers.png",
+		0.5f,
+		0.0002f
 	));
 
 	////LIGHT BALL
@@ -226,29 +248,39 @@ void Game::initializeModels() {
 */
 void Game::checkInput() {
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		allModels[PLYR_IDX_KL]->updateRotation('w');
-		allModels[PLYR_IDX_WL]->updateRotation('w');
-		allModels[PLYR_IDX_WC]->updateRotation('w');
+		dynamic_cast<Player*>(allModels[PLYR_IDX_KL])->moveInput('w');
+		dynamic_cast<Player*>(allModels[PLYR_IDX_WL])->moveInput('w');
+		dynamic_cast<Player*>(allModels[PLYR_IDX_WC])->moveInput('w');
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		allModels[PLYR_IDX_KL]->updateRotation('s');
-		allModels[PLYR_IDX_WL]->updateRotation('s');
-		allModels[PLYR_IDX_WC]->updateRotation('s');
+		dynamic_cast<Player*>(allModels[PLYR_IDX_KL])->moveInput('s');
+		dynamic_cast<Player*>(allModels[PLYR_IDX_WL])->moveInput('s');
+		dynamic_cast<Player*>(allModels[PLYR_IDX_WC])->moveInput('s');
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		allModels[PLYR_IDX_KL]->updateRotation('a');
-		allModels[PLYR_IDX_WL]->updateRotation('a');
-		allModels[PLYR_IDX_WC]->updateRotation('a');
+		dynamic_cast<Player*>(allModels[PLYR_IDX_KL])->moveInput('a');
+		dynamic_cast<Player*>(allModels[PLYR_IDX_WL])->moveInput('a');
+		dynamic_cast<Player*>(allModels[PLYR_IDX_WC])->moveInput('a');
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		allModels[PLYR_IDX_KL]->updateRotation('d');
-		allModels[PLYR_IDX_WL]->updateRotation('d');
-		allModels[PLYR_IDX_WC]->updateRotation('d');
+		dynamic_cast<Player*>(allModels[PLYR_IDX_KL])->moveInput('d');
+		dynamic_cast<Player*>(allModels[PLYR_IDX_WL])->moveInput('d');
+		dynamic_cast<Player*>(allModels[PLYR_IDX_WC])->moveInput('d');
 	}
 
 	//Switch to third or first person perspective view
 	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS && switchCamTimer >= 220) {
+		if(switchCam){
+			dynamic_cast<Player*>(allModels[PLYR_IDX_KL])->setKartCam(&thirdPersCam);
+			dynamic_cast<Player*>(allModels[PLYR_IDX_WL])->setKartCam(&thirdPersCam);	
+			dynamic_cast<Player*>(allModels[PLYR_IDX_WC])->setKartCam(&thirdPersCam);
+		}
+		else {
+			dynamic_cast<Player*>(allModels[PLYR_IDX_KL])->setKartCam(&firstPersCam);
+			dynamic_cast<Player*>(allModels[PLYR_IDX_WL])->setKartCam(&firstPersCam);
+			dynamic_cast<Player*>(allModels[PLYR_IDX_WC])->setKartCam(&firstPersCam);
+		}
 		switchCam = !switchCam;
 		switchCamTimer = 0;
 	}
@@ -285,11 +317,10 @@ void Game::checkInput() {
 		if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) thirdPersCam.rotateWithKeys('l');
 	}
 
-	// Controls for the light brightness for both the point and direction light
-	//if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)	  pointLight.adjustBrightness(UP);
-	//if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)  pointLight.adjustBrightness(DOWN);
-	//if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)  dirLight.adjustBrightness(LEFT);
-	//if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) dirLight.adjustBrightness(RIGHT);
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && stopCarsTimer >= 300) {
+		stopCars = !stopCars;
+		stopCarsTimer = 0;
+	}
 
 	// Press escape to end the program (since cursor is disabled)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, 1);
@@ -300,6 +331,11 @@ void Game::mouseInput() {
 	thirdPersCam.rotateWithMouse(&prevMousePos, &currMousePos);
 }
 
+void Game::addToTimers() {
+	switchCamTimer++;
+	stopCarsTimer++;
+}
+
 /*
 	The main game loop.
 */
@@ -308,8 +344,7 @@ void Game::runLoop() {
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		switchCamTimer++; // variable for cooldown on toggling
-
+		addToTimers();
 		checkInput(); // input handling
 
 		/* Camera updating
@@ -358,6 +393,21 @@ void Game::runLoop() {
 			else
 				glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
 
+			if (i >= PLYR_IDX_KL && i <= PLYR_IDX_WC) 
+				dynamic_cast<Player*>(allModels[i])->updatePlayer();
+			//FASTER KART
+			if(!stopCars){
+				if (i >= GST1_IDX_KL && i <= GST1_IDX_WC) {
+					dynamic_cast<Kart*>(allModels[i])->setAcceleration(0.0006f);
+					dynamic_cast<Kart*>(allModels[i])->update();
+				}
+				//SLOWER KART
+				else if (i >= GST2_IDX_KL && i <= GST2_IDX_WC) {
+					dynamic_cast<Kart*>(allModels[i])->setAcceleration(0.0002f);
+					dynamic_cast<Kart*>(allModels[i])->update();
+				}
+			}
+			
 			glBlendEquation(GL_FUNC_ADD);
 			model->draw();
 		}

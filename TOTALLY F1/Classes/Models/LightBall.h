@@ -32,7 +32,7 @@ public:
 	//FUNCTIONS
 	void loadBall();
 
-	void transform();
+	void update();
 	void draw();
 
 	//GETTER & SETTER

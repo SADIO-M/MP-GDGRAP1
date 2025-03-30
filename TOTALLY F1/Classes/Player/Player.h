@@ -5,23 +5,27 @@
 #include "../../Classes/Models/Kart.h"
 #include "../../Classes/Cameras/Perspective.h"
 
-class Player {
+class Player : public Kart{
 private:
-	vector<Kart*> playerKart;
+	Perspective* playerCamera;
+	
+	float thetaTurn = 0.0f;
+	float thetaMod = 0.01f;
 
-	Perspective activeCamera;
-
-	bool lightsOn;
+	float deceleration = -acceleration * 0.85f;
 public:
 	//CONSTRUCTORS
 	Player();
-	Player(Kart kart, Perspective camera);
+	Player(string name, string pathName,
+		vec3 pos, vec3 scale, vec3 rotate,
+		string vertPath, string fragPath,
+		string texPath, float maxSPD, float accelMod,
+		Perspective* newCam);
 
 	//FUNCTIONS
-	void moveCamera();
-	void moveKart();
+	void moveInput(char keyPressed);
+	void updatePlayer();
 
 	//GETTERS
-	void setActiveCamera();
-	Perspective getCamera();
+	void setKartCam(Perspective* camera);
 };

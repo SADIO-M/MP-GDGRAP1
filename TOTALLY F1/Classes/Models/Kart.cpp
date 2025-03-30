@@ -5,9 +5,13 @@ Kart::Kart(){}
 Kart::Kart(string name, string pathName,
 	vec3 pos, vec3 scale, vec3 rotate,
 	string vertPath, string fragPath,
-	string texPath) :
+	string texPath, float maxSPD, 
+    float accelMod) :
         // calls Model3D's constructor
 	Model3D(name, pathName, pos, scale, rotate, vertPath, fragPath){
+
+    maxSpeed = maxSPD;
+    this->accelMod = accelMod;
 
     SELECT_TEXTURE texIndex;
     if      (modelName == "KART1") texIndex = LIVERY;
@@ -85,7 +89,13 @@ void Kart::assignTexture() {
 }
 
 // Handles model transformations 
-void Kart::transform() {
+void Kart::update() {
+    if(speed < maxSpeed)
+        speed += acceleration;
+   
+    position += direction * speed;
+
+    //Transformation
     transformation_matrix = translate(identity_matrix, position);
 
     transformation_matrix = scale(transformation_matrix, scaling);
@@ -96,14 +106,26 @@ void Kart::transform() {
 
     unsigned int transformLocation = glGetUniformLocation(shaderMaker.getShaderProg(), "transform");
     glUniformMatrix4fv(transformLocation, 1, GL_FALSE, value_ptr(transformation_matrix));
+
+    acceleration = 0;
+
+    if(speed > 0)
+        speed -= accelMod * 0.05f;
+
+    if (speed <= 0)
+        speed = 0;
 }
 
 // Handles model drawing
 void Kart::draw() {
-    transform();
+    update();
     assignTexture();
     glDrawArrays(GL_TRIANGLES, 0, fullVertexData.size() / 8);
 }
 
 //GETTER
 GLuint Kart::getTexture() { return texture; }
+
+void Kart::setAcceleration(float newAcceleration) {
+    acceleration = newAcceleration;
+}

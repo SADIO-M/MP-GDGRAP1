@@ -48,7 +48,7 @@ void LightBall::loadBall() {
 /*
     Handles model transformations and color assignment.
 */
-void LightBall::transform(){
+void LightBall::update(){
     // Because the light ball rotates around a pivot point, we have to calculate its rotation based on that pivot
     translateToOrigin = translate(identity_matrix, -pivotPoint);   // Get a mat4 that translates the object to the origin
     resetTranslate = translate(identity_matrix, pivotPoint);       // Get a mat4 that resets that translation
@@ -76,7 +76,7 @@ void LightBall::transform(){
 
 // Draws the object
 void LightBall::draw(){
-    transform();
+    update();
     glDrawArrays(GL_TRIANGLES, 0, fullVertexData.size() / 8);
 }
 

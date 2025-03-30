@@ -55,4 +55,6 @@ public:
 
 	virtual mat4 getView();
 	virtual mat4 getProjection();
+
+	virtual void setPosMod(vec3 newPosMod);
 };

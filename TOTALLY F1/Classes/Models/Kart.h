@@ -4,6 +4,7 @@
 #include "../../Config/enumerations.h"
 
 #include "Model3D.h"
+#include "../Cameras/Perspective.h"
 #include "../TextureMaker/TextureMaker.h"
 
 /*
@@ -15,9 +16,13 @@
 	[Created by: Megan Sadio & Yza Montuerto]
 */
 class Kart : public Model3D {
-private:
-	vec3 kartPosMod;
-	vec3 kartRotateMod;
+protected:
+	float speed = 0.0f;
+	float maxSpeed;
+	float accelMod;
+	float acceleration = 0.0f;
+
+	vec3 direction = vec3(0.0f, 0.0f, 1.0f);
 
 	GLuint texture;
 	TextureMaker textureMaker;
@@ -28,15 +33,17 @@ public:
 	Kart(string name, string pathName,
 		vec3 pos, vec3 scale, vec3 rotate,
 		string vertPath, string fragPath,
-		string texPath);
+		string texPath,
+		float maxSPD, float accelMod);
 
 	//FUNCTIONS
 	void loadKart();
 	void assignTexture();
 
-	void transform();
-	void draw();
+	virtual void update();
+	virtual void draw();
 
 	//GETTER
 	GLuint getTexture();
+	void setAcceleration(float newAcceleration);
 };

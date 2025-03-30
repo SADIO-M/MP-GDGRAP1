@@ -23,7 +23,7 @@ Perspective::Perspective(float width, float height,
 		- Rotate speed is for camera rotation sensitivity
 */
 void Perspective::rotateWithMouse(dvec2* prevMousePos, dvec2* currMousePos) {
-	camRotationMod.x -= (currMousePos->y - prevMousePos->y) * rotateSpeed;
+	camRotationMod.x += (currMousePos->y - prevMousePos->y) * rotateSpeed;
 	camRotationMod.y += (prevMousePos->x - currMousePos->x) * rotateSpeed;
 
 	prevMousePos->x = currMousePos->x;

@@ -17,6 +17,8 @@
 class Perspective : public Camera {
 private:
 	float fieldOfView;
+	float FOVMod = 0.01f;
+
 	float rotateSpeed = 0.008f;
 
 public:

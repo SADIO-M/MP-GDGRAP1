@@ -46,9 +46,11 @@ private:
 
     //bools
     bool switchCam;
+    bool stopCars;
 
     // Variable for cooldown on control object toggle
     int switchCamTimer = 0;
+    int stopCarsTimer = 0;
        
     //Controls the skybox texture
     SELECT_TEXTURE skyboxTex = MORNING;
@@ -90,10 +92,10 @@ private:
         800.0f,                 // Window height
         0.1f,                   // zNear
         100.0f,                 // zFar
-        vec3(0.0f, 3.0f, 6.0f), // Camera Position
+        vec3(0.0f, 3.0f, -6.0f), // Camera Position
         vec3(0.0f),             // Camera Center
         vec3(0.0f),
-        vec3(10.0f, 0.0f, 0.0f),// Camera Rotation Modifier
+        vec3(-10.0f, 0.0f, 0.0f),// Camera Rotation Modifier
         70.0f                   // Field of view (FOV)
     );
         //First Person Camera
@@ -102,10 +104,10 @@ private:
         800.0f,                 
         0.1f,                   
         100.0f,                 
-        vec3(0.0f, 1.5f, -0.6f),
-        vec3(0.0f),             
+        vec3(0.0f, 1.5f, 1.0f),
         vec3(0.0f),
-        vec3(-60.0, 180.0f, 0.0f),             
+        vec3(0.0f),
+        vec3(40.0f, 180.0f, 0.0f),             
         80.0f                   
     );
 
@@ -124,6 +126,8 @@ public:
    
     void checkInput();
     void mouseInput();
+
+    void addToTimers();
 
     //DECONSTRUCTOR
     ~Game();

@@ -55,7 +55,7 @@ public:
     virtual void updateRotation(char keyPressed);
 
         // Requires definition in child classes
-    virtual void transform() = 0;
+    virtual void update() = 0;
     virtual void draw() = 0;
 
     //GETTERS

@@ -54,8 +54,6 @@ void Camera::updateRotation() {
 	up = vec3(camRotationMatrix * vec4(up, 0.0f));
 }
 
-
-
 void Camera::updateCenter() {
 	camCenter = camPosition + forward;
 }
@@ -64,3 +62,7 @@ void Camera::updateCenter() {
 mat4 Camera::getView() { return viewMatrix; }
 
 mat4 Camera::getProjection() { return projectionMatrix; }
+
+void Camera::setPosMod(vec3 newPosMod) {
+	camPositionMod = newPosMod;
+}
