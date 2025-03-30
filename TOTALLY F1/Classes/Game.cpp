@@ -272,21 +272,44 @@ void Game::initializeModels() {
 	));
 	setVAO(&roadVAO, UNBIND);
 
-	////LIGHT BALL
-	//setVAO(&light_ballVAO, GENERATE);	// Generates the light ball VAO
-	//setVAO(&light_ballVAO, BIND);		// Binds the corresponding VAO so the object's information is saved there
-	//allModels.push_back(new LightBall(
-	//	"LIGHT_BALL",				// Name of the object
-	//	"3D/light_ball.obj",		// File location of the 3D Object
-	//	vec3(-5, 0.5, 0.0),			// Object position
-	//	vec3(0.004, 0.004, 0.004),	// Object scale
-	//	vec3(0.0),					// Object rotation
-	//	"Shaders/LightShader.vert", // File path of the vertex shader
-	//	"Shaders/LightShader.frag", // File path of the fragment shader
-	//	vec3(1.0),					// Color of the light ball
-	//	vec3(0.0)					// Pivot point
-	//));
-	//setVAO(&light_ballVAO, UNBIND);		// Unbinds VAO for clean up
+	///////////////////////////////// LIGHT BALL 1 /////////////////////////////////
+	setVAO(&lightBallVAO, GENERATE);
+	setVAO(&lightBallVAO, BIND);
+	allNPModels.push_back(new Object(
+		"LIGHT_BALL",
+		"3D/light_ball.obj",
+		vec3(-1.5f, 4.0f, 0.0f),
+		vec3(0.004f),
+		vec3(0.0),
+		"Shaders/ObjectShader.vert",
+		"Shaders/ObjectShader.frag",
+		vec3(0.5f)
+	));
+	setVAO(&lightBallVAO, UNBIND);
+
+	///////////////////////////////// LIGHT BALL 2 /////////////////////////////////
+	allNPModels.push_back(new Object(
+		"LIGHT_BALL",
+		"3D/light_ball.obj",
+		vec3(0.0f, 4.0f, 0.0f),
+		vec3(0.004f),
+		vec3(0.0),
+		"Shaders/ObjectShader.vert",
+		"Shaders/ObjectShader.frag",
+		vec3(0.5f)
+	));
+
+	///////////////////////////////// LIGHT BALL 3 /////////////////////////////////
+	allNPModels.push_back(new Object(
+		"LIGHT_BALL",
+		"3D/light_ball.obj",
+		vec3(1.5f, 4.0f, 0.0f),
+		vec3(0.004f),
+		vec3(0.0),
+		"Shaders/ObjectShader.vert",
+		"Shaders/ObjectShader.frag",
+		vec3(0.5f)
+	));
 }
 
 /*
@@ -419,6 +442,8 @@ void Game::runLoop() {
 				setVAO(&kartVAOs[GST1_IDX_WC], BIND);
 			else if (i == ROAD_PLANE)
 				setVAO(&roadVAO, BIND);
+			else if (i >= LIGHT_BALL1 && i <= LIGHT_BALL3)
+				setVAO(&lightBallVAO, BIND);
 
 			if(stopCars){
 				//FASTER KART

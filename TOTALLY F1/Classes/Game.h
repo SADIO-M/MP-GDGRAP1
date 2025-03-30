@@ -44,6 +44,7 @@ private:
     GLuint skyboxVAO;
     GLuint kartVAOs[3];
     GLuint roadVAO;
+    GLuint lightBallVAO;
 
     //bools
     bool isThirdPerson;

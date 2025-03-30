@@ -25,7 +25,11 @@ enum ALL_NP_OBJ_IDX {
     GST2_IDX_WL,
     GST2_IDX_WC,
 
-    ROAD_PLANE
+    ROAD_PLANE,
+
+    LIGHT_BALL1,
+    LIGHT_BALL2,
+    LIGHT_BALL3
 };
 
 enum ACTIVE_CAM {
