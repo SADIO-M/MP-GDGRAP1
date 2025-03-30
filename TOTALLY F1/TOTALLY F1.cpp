@@ -89,7 +89,7 @@ int main(void)
           windowHeight = 800.0f;
 
     if (!glfwInit()) return -1;
-        window = glfwCreateWindow(windowWidth, windowHeight, "TOTALLY F1 |  Press [Esc] to Exit", NULL, NULL);
+        window = glfwCreateWindow(windowWidth, windowHeight, "TOTALLY F1! | GDGRAP1 MP - SADIO & MONTUERTO | Press [Esc] to Exit", NULL, NULL);
 
     if (!window)
     {
