@@ -35,9 +35,9 @@ void Perspective::rotateWithMouse(dvec2* prevMousePos, dvec2* currMousePos) {
 */
 void Perspective::rotateWithKeys(MOVE move) {
 	switch (move) {
-		case UP: camRotationMod.x += rotateSpeed * 5;
+		case UP: camRotationMod.x -= rotateSpeed * 5;
 			break;									
-		case DOWN: camRotationMod.x -= rotateSpeed * 5;
+		case DOWN: camRotationMod.x += rotateSpeed * 5;
 			break;									
 		case LEFT: camRotationMod.y += rotateSpeed * 5;
 			break;									

@@ -14,6 +14,7 @@ Game::Game(GLFWwindow* window, float windowWidth, float windowHeight) {
 	
 	isThirdPerson = true;
 	stopCars = false;
+	GO = false;
 }
 
 //FUNCTIONS
@@ -224,8 +225,8 @@ void Game::initializeModels() {
 		"Shaders/GhostShader.vert",
 		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/Livery.png",
-		0.5f,
-		0.0002f
+		0.8f,
+		0.0001f
 	));
 
 	//KART WHEELS
@@ -238,8 +239,8 @@ void Game::initializeModels() {
 		"Shaders/GhostShader.vert",
 		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/TyreSoft.png",
-		0.5f,
-		0.0002f
+		0.8f,
+		0.0001f
 	));
 
 	//KART WHEEL COVERS
@@ -252,8 +253,8 @@ void Game::initializeModels() {
 		"Shaders/GhostShader.vert",
 		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/WheelCovers.png",
-		0.5f,
-		0.0002f
+		0.8f,
+		0.0001f
 	));
 
 	///////////////////////////////// PLANE /////////////////////////////////
@@ -263,7 +264,7 @@ void Game::initializeModels() {
 		"PLANE",
 		"3D/plane.obj",
 		vec3(0.0f, -1.0f, 0.0f),
-		vec3(0.5f, 0.5f, 10000.f),
+		vec3(1000.f, 1000.f, 1000.f),
 		vec3(90.0, 0.0f, 0.0f),
 		"Shaders/ObjectShader.vert",
 		"Shaders/ObjectShader.frag",
@@ -278,7 +279,7 @@ void Game::initializeModels() {
 	allNPModels.push_back(new Object(
 		"LIGHT_BALL",
 		"3D/light_ball.obj",
-		vec3(-1.5f, 4.0f, 0.0f),
+		vec3(1.5f, 4.0f, 0.0f),
 		vec3(0.004f),
 		vec3(0.0),
 		"Shaders/ObjectShader.vert",
@@ -303,7 +304,7 @@ void Game::initializeModels() {
 	allNPModels.push_back(new Object(
 		"LIGHT_BALL",
 		"3D/light_ball.obj",
-		vec3(1.5f, 4.0f, 0.0f),
+		vec3(-1.5f, 4.0f, 0.0f),
 		vec3(0.004f),
 		vec3(0.0),
 		"Shaders/ObjectShader.vert",
@@ -316,17 +317,19 @@ void Game::initializeModels() {
 	Listens for player input and carries out the appropriate response
 */
 void Game::checkInput() {
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) 
-		player.moveInput(ACCELERATE);
+	if(GO){
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) 
+			player.moveInput(ACCELERATE);
 
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) 
-		player.moveInput(REVERSE);
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) 
+			player.moveInput(REVERSE);
 
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
-		player.moveInput(STEER_L);
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
+			player.moveInput(STEER_L);
 
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
-		player.moveInput(STEER_R);
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
+			player.moveInput(STEER_R);
+	}
 	
 	//Switch to third or first person perspective view
 	if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS && switchCamTimer >= 220) {
@@ -347,20 +350,20 @@ void Game::checkInput() {
 		dirLight.updateDirLight(NIGHT);
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 		player.rotateThirdPersKeys(DOWN);
-	if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) 
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 		player.rotateThirdPersKeys(UP);
-	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 		player.rotateThirdPersKeys(LEFT);
-	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 		player.rotateThirdPersKeys(RIGHT);
 
-
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && stopCarsTimer >= 300) {
-		stopCars = !stopCars;
-		stopCarsTimer = 0;
-	}
+		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && stopCarsTimer >= 300) {
+			stopCars = !stopCars;
+			stopCarsTimer = 0;
+		}
+	
 
 	// Press escape to end the program (since cursor is disabled)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, 1);
@@ -374,6 +377,23 @@ void Game::mouseInput() {
 void Game::updateInputTimer() {
 	switchCamTimer++;
 	stopCarsTimer++;
+	if(!GO) signalLights++;
+}
+
+void Game::updateSignalLights() {
+	if(!GO){
+		if (signalLights == 1000)
+			dynamic_cast<Object*>(allNPModels[LIGHT_BALL1])->setColor(vec3(1.0f, 0.0f, 0.0f));
+		if (signalLights == 2250)
+			dynamic_cast<Object*>(allNPModels[LIGHT_BALL2])->setColor(vec3(1.0f, 1.0f, 0.0f));
+		if (signalLights == 3500){
+			dynamic_cast<Object*>(allNPModels[LIGHT_BALL1])->setColor(vec3(0.0f, 1.0f, 0.0f));
+			dynamic_cast<Object*>(allNPModels[LIGHT_BALL2])->setColor(vec3(0.0f, 1.0f, 0.0f));
+			dynamic_cast<Object*>(allNPModels[LIGHT_BALL3])->setColor(vec3(0.0f, 1.0f, 0.0f));
+		}
+		//Just so its like they have a reaction lol
+		if (signalLights == 3750) GO = true;
+	}
 }
 
 /*
@@ -386,6 +406,8 @@ void Game::runLoop() {
 
 		//Updates input timers
 		updateInputTimer();
+		updateSignalLights();
+		cout << signalLights << endl;
 		//Handles input checking
 		checkInput(); 
 
@@ -445,7 +467,7 @@ void Game::runLoop() {
 			else if (i >= LIGHT_BALL1 && i <= LIGHT_BALL3)
 				setVAO(&lightBallVAO, BIND);
 
-			if(stopCars){
+			if(!stopCars && GO){
 				//FASTER KART
 				if (i >= GST1_IDX_KL && i <= GST1_IDX_WC) {
 					dynamic_cast<Kart*>(model)->setAcceleration(0.0006f);
@@ -457,9 +479,13 @@ void Game::runLoop() {
 					dynamic_cast<Kart*>(model)->update();
 				}
 			}
+			else {
+				if (i <= GST2_IDX_WC)
+					dynamic_cast<Kart*>(model)->setAcceleration(0);
+			}
 			
 			if(i <= GST2_IDX_WC)
-				glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			else 
 				glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
 

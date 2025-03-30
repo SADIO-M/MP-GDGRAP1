@@ -49,10 +49,12 @@ private:
     //bools
     bool isThirdPerson;
     bool stopCars;
+    bool GO;
 
     // Variable for cooldown on control object toggle
     int switchCamTimer = 0;
     int stopCarsTimer = 0;
+    int signalLights = 0;
        
     //Controls the skybox texture
     SELECT_TEXTURE skyboxTex = MORNING;
@@ -105,6 +107,7 @@ public:
     void mouseInput();
 
     void updateInputTimer();
+    void updateSignalLights();
 
     //DECONSTRUCTOR
     ~Game();

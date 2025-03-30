@@ -46,7 +46,7 @@ vec4 createDirectionLight(){
 	float dirSpec = pow(max(dot(reflectDir, viewDir), 0.1), dirSpecPhong);
 	vec3 D_Specular = dirSpec * dirSpecStr * dirColor;
 
-	return vec4(D_Diffuse + D_Ambient + D_Specular, 0.25f) * dirBright;
+	return vec4(D_Diffuse + D_Ambient + D_Specular, 0.3f) * dirBright;
 }
 
 void main(){
