@@ -52,7 +52,6 @@ public:
     //FUNCTIONS
     virtual void loadObj();
     virtual void setUpVBO();
-    virtual void updateRotation(char keyPressed);
 
         // Requires definition in child classes
     virtual void update() = 0;

@@ -55,8 +55,8 @@ void Perspective::checkCameraRotation() {
 	//Limits the rotation of the mouse, can be edited to allow more range of mouse movement
 	if (camRotationMod.x > 45.0f) camRotationMod.x = 45.0f;
 	if (camRotationMod.x < -45.0f) camRotationMod.x = -45.0f;
-	if (camRotationMod.y > 45.0f) camRotationMod.y = 45.0f;
-	if (camRotationMod.y < -45.0f) camRotationMod.y = -45.0f;
+	//if (camRotationMod.y > 45.0f) camRotationMod.y = 45.0f;
+	//if (camRotationMod.y < -45.0f) camRotationMod.y = -45.0f;
 }
 
 /*

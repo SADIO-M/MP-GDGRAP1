@@ -24,6 +24,8 @@ enum ALL_NP_OBJ_IDX {
     GST2_IDX_KL,
     GST2_IDX_WL,
     GST2_IDX_WC,
+
+    ROAD_PLANE
 };
 
 enum ACTIVE_CAM {
@@ -51,7 +53,7 @@ enum SELECT_TEXTURE {
     MORNING,
     LIVERY,
     WHEEL,
-    COVER,
+    COVER
 };
 
 enum MOVE {

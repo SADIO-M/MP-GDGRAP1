@@ -40,10 +40,8 @@ void PlayerKart::updatePlayer() {
     Kart::update();
 
     //DEBBUGGING
-    
-
-    if (position.z >= 10000) cout << "WIN!!" << endl;
-    else cout << "POS Z: " << position.z << endl;
+    //if (position.z >= 10000) cout << "WIN!!" << endl;
+    //else cout << "POS Z: " << position.z << endl;
 
     //cout << "Speed: " << speed;
     //cout << "        Accel: " << acceleration << endl;

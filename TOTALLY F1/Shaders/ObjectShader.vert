@@ -1,8 +1,5 @@
 #version 330 core
 
-//This is the vertex shader for the Light Ball Object, it is similarly built to the Kart Object's vertex shader
-//Except this one does not have textures
-
 layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec3 vertexNormal;
 

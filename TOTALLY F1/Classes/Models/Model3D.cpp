@@ -85,20 +85,6 @@ void Model3D::setUpVBO() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-// Handles object rotation. Called in Game
-void Model3D::updateRotation(char keyPressed) {
-    switch (keyPressed) {
-        case 'w': theta.x += rotateSpeed;
-            break;
-        case 's': theta.x -= rotateSpeed;
-            break;
-        case 'a': theta.y -= rotateSpeed;
-            break;
-        case 'd': theta.y += rotateSpeed;
-            break;
-    }
-}
-
 //GETTERS
 string Model3D::getName() { return modelName; }
 

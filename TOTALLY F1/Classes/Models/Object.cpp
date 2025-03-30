@@ -1,25 +1,22 @@
-#include "LightBall.h"
-
-// Functions all similar to those in Kart.cpp
+#include "Object.h"
 
 //CONSTRUCTORS
-LightBall::LightBall(){}
-LightBall::LightBall(string name, string pathName,
+Object::Object(){}
+Object::Object(string name, string pathName,
 	vec3 pos, vec3 scale, vec3 rotate,
 	string vertPath, string fragPath,
-	vec3 color, vec3 pivot) :
+	vec3 color) :
 
 	Model3D(name, pathName, pos, scale, rotate, vertPath, fragPath) {
 
-	ballColor = color;  // Sets the color of the ball
-    pivotPoint = pivot; // Sets the pivot point (where it rotates around)
-
-    loadBall();         // Loads the ball
+	this->color = color;  
+  
+    loadObject();
 }
 
 //FUNCTIONS
 //This loadBall is similar to loadKart, except it only loads one shape since the light ball only has one shape
-void LightBall::loadBall() {
+void Object::loadObject() {
 	Model3D::loadObj();
 
     for (int i = 0; i < shapes[0].mesh.indices.size(); i++) {
@@ -48,42 +45,32 @@ void LightBall::loadBall() {
 /*
     Handles model transformations and color assignment.
 */
-void LightBall::update(){
-    // Because the light ball rotates around a pivot point, we have to calculate its rotation based on that pivot
-    translateToOrigin = translate(identity_matrix, -pivotPoint);   // Get a mat4 that translates the object to the origin
-    resetTranslate = translate(identity_matrix, pivotPoint);       // Get a mat4 that resets that translation
-
-    // Rotate the object 
-    newRotation = rotate(identity_matrix, radians(theta.x), normalize(vec3(1, 0, 0)));
-    newRotation = rotate(newRotation, radians(theta.y), normalize(vec3(0, 1, 0)));
-    newRotation = rotate(newRotation, radians(theta.z), normalize(vec3(0, 0, 1)));
-
-    // The new transformation matrix is based on the reset translate, new rotation, then translation to origin
-    // Applies the rotation to its position as if it were on the origin, then it resets the translation to move it back to its proper place
-    transformation_matrix = resetTranslate * newRotation * translateToOrigin;
-
-    // Translate then scale
-    transformation_matrix = translate(transformation_matrix, position);
+void Object::update(){
+   
+    transformation_matrix = translate(identity_matrix, position);
     transformation_matrix = scale(transformation_matrix, scaling);
+    transformation_matrix = rotate(transformation_matrix, radians(rotation.x), vec3(1, 0, 0));
+    transformation_matrix = rotate(transformation_matrix, radians(rotation.y), vec3(0, 1, 0));
+    transformation_matrix = rotate(transformation_matrix, radians(rotation.z), vec3(0, 0, 1));
 
     unsigned int transformLocation = glGetUniformLocation(shaderMaker.getShaderProg(), "transform");
     glUniformMatrix4fv(transformLocation, 1, GL_FALSE, value_ptr(transformation_matrix));
 
     // Passes the color of the ball to shader program
     GLuint colorAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "color");
-    glUniform3fv(colorAddress, 1, value_ptr(ballColor));
+    glUniform3fv(colorAddress, 1, value_ptr(color));
 }
 
 // Draws the object
-void LightBall::draw(){
+void Object::draw(){
     update();
     glDrawArrays(GL_TRIANGLES, 0, fullVertexData.size() / 8);
 }
 
 //GETTER & SETTER
-vec3 LightBall::getColor() { return ballColor; }
+vec3 Object::getColor() { return color; }
 
 // Allows the model's color to be altered from Game
-void LightBall::setColor(vec3 newColor){
-    ballColor = newColor;
+void Object::setColor(vec3 newColor){
+    color = newColor;
 }

@@ -11,7 +11,7 @@
 #include "Skybox/Skybox.h"
 
 #include "Models/Model3D.h"
-#include "Models/LightBall.h"
+#include "Models/Object.h"
 #include "Models/Kart.h"
 
 #include "Lights/Direction.h"
@@ -41,9 +41,9 @@ private:
 
     // Model VAOs
     // The kart object has three shapes, so to load all of it it needs three VAOs
-    GLuint kartVAOs[3];
-    GLuint light_ballVAO;
     GLuint skyboxVAO;
+    GLuint kartVAOs[3];
+    GLuint roadVAO;
 
     //bools
     bool isThirdPerson;

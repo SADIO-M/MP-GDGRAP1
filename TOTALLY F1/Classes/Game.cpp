@@ -105,7 +105,7 @@ void Game::initializePlayer() {
 		800.0f,                  // Window width
 		800.0f,                  // Window height
 		0.1f,                    // zNear
-		100.0f,                  // zFar
+		500.0f,                  // zFar
 		vec3(0.0f, 3.0f, -6.0f), // Camera Position
 		vec3(0.0f),              // Camera Center
 		vec3(0.0f),				 // Camera Position Modifier
@@ -118,7 +118,7 @@ void Game::initializePlayer() {
 		800.0f,
 		800.0f,
 		0.1f,
-		100.0f,
+		500.0f,
 		vec3(0.0f, 1.5f, 1.0f),
 		vec3(0.0f),
 		vec3(0.0f),
@@ -181,8 +181,8 @@ void Game::initializeModels() {
 		"Shaders/GhostShader.vert",
 		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/Livery.png",
-		3.0f,
-		0.0006f
+		2.0f,
+		0.0005f
 	));
 
 	//KART WHEELS
@@ -195,8 +195,8 @@ void Game::initializeModels() {
 		"Shaders/GhostShader.vert",
 		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/TyreSoft.png",
-		3.0f,
-		0.0006f
+		2.0f,
+		0.0005f
 	));
 
 	//KART WHEEL COVERS
@@ -209,8 +209,8 @@ void Game::initializeModels() {
 		"Shaders/GhostShader.vert",
 		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/WheelCovers.png",
-		3.0f,
-		0.0006f
+		2.0f,
+		0.0005f
 	));
 
 	///////////////////////////////// GHOST KART 2 - SLOW /////////////////////////////////
@@ -255,6 +255,22 @@ void Game::initializeModels() {
 		0.5f,
 		0.0002f
 	));
+
+	///////////////////////////////// PLANE /////////////////////////////////
+	setVAO(&roadVAO, GENERATE);
+	setVAO(&roadVAO, BIND);
+	allNPModels.push_back(new Object(
+		"PLANE",
+		"3D/plane.obj",
+		vec3(0.0f, -1.0f, 0.0f),
+		vec3(0.5f, 0.5f, 10000.f),
+		vec3(90.0, 0.0f, 0.0f),
+		"Shaders/ObjectShader.vert",
+		"Shaders/ObjectShader.frag",
+		//vec3(0.2f, 0.2f, 0.2f)
+		vec3(0.15f, 0.15f, 0.15f)
+	));
+	setVAO(&roadVAO, UNBIND);
 
 	////LIGHT BALL
 	//setVAO(&light_ballVAO, GENERATE);	// Generates the light ball VAO
@@ -378,15 +394,7 @@ void Game::runLoop() {
 			
 			dirLight.loadDir(player.getKartPart(part)->getShader().getShaderProg(), "dir");
 
-			// Sets the VAO to the corresponding kart
-			switch (part) {
-			case PLYR_IDX_KL: setVAO(&kartVAOs[PLYR_IDX_KL], BIND);
-				break;
-			case PLYR_IDX_WL: setVAO(&kartVAOs[PLYR_IDX_WL], BIND);
-				break;
-			case PLYR_IDX_WC: setVAO(&kartVAOs[PLYR_IDX_WC], BIND);
-				break;
-			}
+			setVAO(&kartVAOs[part], BIND);
 
 			glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
 			glBlendEquation(GL_FUNC_ADD);
@@ -409,6 +417,8 @@ void Game::runLoop() {
 				setVAO(&kartVAOs[GST1_IDX_WL], BIND);
 			else if (i == GST1_IDX_WC || i == GST2_IDX_WC)
 				setVAO(&kartVAOs[GST1_IDX_WC], BIND);
+			else if (i == ROAD_PLANE)
+				setVAO(&roadVAO, BIND);
 
 			if(stopCars){
 				//FASTER KART
@@ -423,7 +433,11 @@ void Game::runLoop() {
 				}
 			}
 			
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			if(i <= GST2_IDX_WC)
+				glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
+			else 
+				glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
+
 			glBlendEquation(GL_FUNC_ADD);
 			model->draw();
 		}

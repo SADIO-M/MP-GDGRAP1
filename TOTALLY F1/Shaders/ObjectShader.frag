@@ -1,12 +1,6 @@
 #version 330 core
 
-//This is the fragment shader for the Kart Object
-
-/////////// TEXTURES ///////////
-uniform sampler2D texLivery;
-uniform sampler2D texWheel;
-uniform sampler2D texCover;
-uniform int selectTex;
+uniform vec3 color;
 
 /////////// DIRECTIONAL LIGHT ///////////
 uniform vec3 dirPos;
@@ -23,15 +17,11 @@ uniform float dirBright;
 
 uniform vec3 cameraPosition;
 
-in vec2 texCoord;
 in vec3 normCoord;
 in vec3 fragPos;
 
 out vec4 FragColor;
 
-//This is the function for creating a directional light
-//It is similar to the point light except its direction is fixed to point at the center, 
-//and its intensity does not decrease based on distance
 vec4 createDirectionLight(){
 	vec3 normal = normalize(normCoord);
 	vec3 lightDir = normalize(direction);
@@ -46,18 +36,11 @@ vec4 createDirectionLight(){
 	float dirSpec = pow(max(dot(reflectDir, viewDir), 0.1), dirSpecPhong);
 	vec3 D_Specular = dirSpec * dirSpecStr * dirColor;
 
-	return vec4(D_Diffuse + D_Ambient + D_Specular, 0.25f) * dirBright;
+	return vec4(D_Diffuse + D_Ambient + D_Specular, 1.0f) * dirBright;
 }
 
 void main(){
 	vec4 directionLight = createDirectionLight();
 
-	if (selectTex == 2) 
-		FragColor = directionLight * texture(texLivery, texCoord); 
-	
-	else if (selectTex == 3) 
-		FragColor = directionLight * texture(texWheel, texCoord); 
-	
-	else if (selectTex == 4) 
-		FragColor = directionLight * texture(texCover, texCoord); 
+	FragColor = directionLight * vec4(color.x, color.y, color.z, 1.0f);
 }

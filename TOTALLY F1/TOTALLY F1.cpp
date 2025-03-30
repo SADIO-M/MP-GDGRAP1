@@ -15,6 +15,9 @@
         xuzi. (2022). ball1 sphere Free low-poly 3D model. [3D digital model].
             https://www.cgtrader.com/free-3d-models/industrial/other/ball1
 
+        Plane:
+        Plane Model was used from class.
+
     ////////// SKYBOX CREDITS //////////
         Morning Skybox:
         JasperCarmack. (2021, September 6). 
@@ -65,7 +68,7 @@
 #include "Classes/Player/PlayerKart.h"
 
 #include "Classes/Models/Model3D.h"
-#include "Classes/Models/LightBall.h"
+#include "Classes/Models/Object.h"
 #include "Classes/Models/Kart.h"
 
 #include "Classes/Cameras/Camera.h"
