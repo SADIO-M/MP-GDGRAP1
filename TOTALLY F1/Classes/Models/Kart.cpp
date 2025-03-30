@@ -19,6 +19,8 @@ Kart::Kart(string name, string pathName,
     else if (modelName == "KART3") texIndex = COVER;
 	textureMaker.makeTex2D(&texture, texPath, texIndex);
 
+    deceleration = -accelMod * 0.85f;
+
     loadKart();
 }
 
@@ -90,8 +92,11 @@ void Kart::assignTexture() {
 
 // Handles model transformations 
 void Kart::update() {
+
     if(speed < maxSpeed)
-        speed += acceleration;
+        speed += acceleration; //Either +- 0.0002f
+    if (speed >= maxSpeed)
+        speed = maxSpeed; //Sets speed to max speed
    
     position += direction * speed;
 
@@ -100,20 +105,28 @@ void Kart::update() {
 
     transformation_matrix = scale(transformation_matrix, scaling);
 
-    transformation_matrix = rotate(transformation_matrix, radians(theta.x), normalize(vec3(1, 0, 0)));
     transformation_matrix = rotate(transformation_matrix, radians(theta.z), normalize(vec3(0, 0, 1)));
     transformation_matrix = rotate(transformation_matrix, radians(theta.y), normalize(vec3(0, 1, 0)));
+    transformation_matrix = rotate(transformation_matrix, radians(theta.x), normalize(vec3(1, 0, 0)));
 
     unsigned int transformLocation = glGetUniformLocation(shaderMaker.getShaderProg(), "transform");
     glUniformMatrix4fv(transformLocation, 1, GL_FALSE, value_ptr(transformation_matrix));
 
+    //DECELERATION WHEN NOT MOVING
+    if (speed > 0.0f)
+        speed -= accelMod * 0.1f;
+
+    // There is a max acceleration for reversing as well
+    // Half of max speed since we don't really want to reverse too far
+    if (speed <= -maxSpeed * 0.5f && isReversing)
+        speed = -maxSpeed * 0.5f;
+  
+    //ACCELERATE IT WHEN IT REVERSES (basically decelerate it but the other way since
+    //i was moving backwards)
+    if (speed <= 0.0f && !isReversing)
+        speed += accelMod * 0.1f;
+
     acceleration = 0;
-
-    if(speed > 0)
-        speed -= accelMod * 0.05f;
-
-    if (speed <= 0)
-        speed = 0;
 }
 
 // Handles model drawing
@@ -128,4 +141,12 @@ GLuint Kart::getTexture() { return texture; }
 
 void Kart::setAcceleration(float newAcceleration) {
     acceleration = newAcceleration;
+}
+
+void Kart::turn(float rotateY) {
+    theta.y = rotateY;
+}
+
+void Kart::setReverse(bool reverse) {
+    isReversing = reverse;
 }

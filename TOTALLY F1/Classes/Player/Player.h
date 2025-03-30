@@ -33,4 +33,6 @@ public:
 
 	Perspective* getActiveCam();
 	vector<Perspective*> getAllCameras();
+
+	void reverseKart(bool reverse);
 };

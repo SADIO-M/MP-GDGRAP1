@@ -21,11 +21,13 @@ void PlayerKart::move(DRIVING move) {
     switch (move) {
         case ACCELERATE: acceleration = accelMod;
             break;
-        case REVERSE: acceleration = -accelMod * 0.5f;
+        case REVERSE: acceleration = -accelMod;
             break;
-        case STEER_L: thetaTurn += thetaMod;
+        case STEER_L: 
+            thetaTurn += thetaMod * 0.05f;
             break;
-        case STEER_R: thetaTurn -= thetaMod;
+        case STEER_R: 
+            thetaTurn -= thetaMod * 0.05f;
             break;
     }
 }
@@ -38,11 +40,10 @@ void PlayerKart::updatePlayer() {
     );
 
     Kart::update();
+    Kart::turn(90+thetaTurn);
 
-    //DEBBUGGING
-    //if (position.z >= 10000) cout << "WIN!!" << endl;
-    //else cout << "POS Z: " << position.z << endl;
+    cout << "POZ: " << position.z;
+    cout << "     SPD: " << speed << endl;
 
-    //cout << "Speed: " << speed;
-    //cout << "        Accel: " << acceleration << endl;
+    isReversing = false;
 }

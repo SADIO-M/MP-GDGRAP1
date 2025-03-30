@@ -21,8 +21,11 @@ protected:
 	float maxSpeed;
 	float accelMod;
 	float acceleration = 0.0f;
+	float deceleration;
 
 	vec3 direction = vec3(0.0f, 0.0f, 1.0f);
+
+	bool isReversing = false;
 
 	GLuint texture;
 	TextureMaker textureMaker;
@@ -46,4 +49,7 @@ public:
 	//GETTER
 	GLuint getTexture();
 	void setAcceleration(float newAcceleration);
+
+	virtual void turn(float rotateY);
+	virtual void setReverse(bool reverse);
 };

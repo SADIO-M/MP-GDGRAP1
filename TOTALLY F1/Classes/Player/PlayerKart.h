@@ -9,10 +9,6 @@ class PlayerKart : public Kart{
 private:
 	float thetaTurn;
 	float thetaMod;
-
-	float deceleration = -acceleration * 0.85f;
-
-	bool isStopped = false;
 public:
 	//CONSTRUCTORS
 	PlayerKart();

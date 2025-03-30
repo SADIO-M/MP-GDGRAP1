@@ -42,3 +42,8 @@ vector<PlayerKart*> Player::getWholeKart() { return playerKart; }
 Perspective* Player::getActiveCam() { return activeCamera; }
 
 vector<Perspective*> Player::getAllCameras() { return playerCameras; }
+
+void Player::reverseKart(bool reverse) {
+	for (PlayerKart* kartPart : playerKart)
+		kartPart->setReverse(reverse);
+}

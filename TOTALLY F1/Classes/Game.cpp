@@ -59,7 +59,7 @@ void Game::initializePlayer() {
 		1.0f,						// Max Speed
 		0.0002f,					// Acceleration Modifier
 		0.0f,						// Theta Turn
-		0.01f						// Theta Turning Modifier
+		0.5f						// Theta Turning Modifier
 	));
 	setVAO(&kartVAOs[0], UNBIND);
 
@@ -78,7 +78,7 @@ void Game::initializePlayer() {
 		1.0f,
 		0.0002f,				
 		0.0f,
-		0.01f
+		0.5f
 	));
 	setVAO(&kartVAOs[1], UNBIND);
 
@@ -97,7 +97,7 @@ void Game::initializePlayer() {
 		1.0f,
 		0.0002f,
 		0.0f,
-		0.01f
+		0.5f
 	));
 	setVAO(&kartVAOs[2], UNBIND);
 
@@ -183,7 +183,7 @@ void Game::initializeModels() {
 		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/Livery.png",
 		2.0f,
-		0.0005f
+		0.0004f
 	));
 
 	//KART WHEELS
@@ -197,7 +197,7 @@ void Game::initializeModels() {
 		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/TyreSoft.png",
 		2.0f,
-		0.0005f
+		0.0004f
 	));
 
 	//KART WHEEL COVERS
@@ -211,7 +211,7 @@ void Game::initializeModels() {
 		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/WheelCovers.png",
 		2.0f,
-		0.0005f
+		0.0004f
 	));
 
 	///////////////////////////////// GHOST KART 2 - SLOW /////////////////////////////////
@@ -226,7 +226,7 @@ void Game::initializeModels() {
 		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/Livery.png",
 		0.8f,
-		0.0001f
+		0.00015f
 	));
 
 	//KART WHEELS
@@ -240,7 +240,7 @@ void Game::initializeModels() {
 		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/TyreSoft.png",
 		0.8f,
-		0.0001f
+		0.00015f
 	));
 
 	//KART WHEEL COVERS
@@ -254,7 +254,7 @@ void Game::initializeModels() {
 		"Shaders/GhostShader.frag",
 		"Textures/f1_2026/WheelCovers.png",
 		0.8f,
-		0.0001f
+		0.00015f
 	));
 
 	///////////////////////////////// PLANE /////////////////////////////////
@@ -318,11 +318,15 @@ void Game::initializeModels() {
 */
 void Game::checkInput() {
 	if(GO){
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) 
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
 			player.moveInput(ACCELERATE);
+			player.reverseKart(false);
+		}
 
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) 
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
 			player.moveInput(REVERSE);
+			player.reverseKart(true);
+		}
 
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
 			player.moveInput(STEER_L);
@@ -407,7 +411,6 @@ void Game::runLoop() {
 		//Updates input timers
 		updateInputTimer();
 		updateSignalLights();
-		cout << signalLights << endl;
 		//Handles input checking
 		checkInput(); 
 
@@ -470,12 +473,12 @@ void Game::runLoop() {
 			if(!stopCars && GO){
 				//FASTER KART
 				if (i >= GST1_IDX_KL && i <= GST1_IDX_WC) {
-					dynamic_cast<Kart*>(model)->setAcceleration(0.0006f);
+					dynamic_cast<Kart*>(model)->setAcceleration(0.0004f);
 					dynamic_cast<Kart*>(model)->update();
 				}
 				//SLOWER KART
 				else if (i >= GST2_IDX_KL && i <= GST2_IDX_WC) {
-					dynamic_cast<Kart*>(model)->setAcceleration(0.0002f);
+					dynamic_cast<Kart*>(model)->setAcceleration(0.00015f);
 					dynamic_cast<Kart*>(model)->update();
 				}
 			}
