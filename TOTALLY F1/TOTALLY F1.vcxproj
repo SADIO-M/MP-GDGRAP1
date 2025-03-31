@@ -141,7 +141,6 @@
   <ItemGroup>
     <ClCompile Include="Classes\Cameras\Camera.cpp" />
     <ClCompile Include="Classes\Cameras\Perspective.cpp" />
-    <ClCompile Include="Classes\Cameras\MyCamera.cpp" />
     <ClCompile Include="Classes\CShaders\Shader.cpp" />
     <ClCompile Include="Classes\Player\Player.cpp" />
     <ClCompile Include="Classes\Player\PlayerKart.cpp" />
@@ -160,7 +159,6 @@
   <ItemGroup>
     <ClInclude Include="Classes\Cameras\Camera.h" />
     <ClInclude Include="Classes\Cameras\Perspective.h" />
-    <ClInclude Include="Classes\Cameras\MyCamera.h" />
     <ClInclude Include="Classes\CShaders\Shader.h" />
     <ClInclude Include="Classes\Player\Player.h" />
     <ClInclude Include="Classes\Player\PlayerKart.h" />
