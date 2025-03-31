@@ -52,6 +52,9 @@ void Camera::updateRotation() {
 	forward = vec3(camRotationMatrix * vec4(forward, 0.0f));
 	right = vec3(camRotationMatrix * vec4(right, 0.0f));
 	up = vec3(camRotationMatrix * vec4(up, 0.0f));
+
+	//Close enough but not good enough...
+	//camPosition += vec3(vec4(camRotationMatrix * vec4(initialPosition, 1.0f)));
 }
 
 void Camera::updateCenter() {

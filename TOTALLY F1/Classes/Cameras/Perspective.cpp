@@ -65,6 +65,7 @@ void Perspective::checkCameraRotation() {
 */
 void Perspective::draw(GLuint shaderProg) {
 	// View matrix to always look at the center
+	//viewMatrix = lookAt(camPosition, camPositionMod, worldUp);
 	viewMatrix = lookAt(camPosition, camCenter, worldUp);
 
 	// Projection matrix is perspective
