@@ -1,6 +1,6 @@
 #pragma once
 
-#define FINISH_LINE 10000
+#define FINISH_LINE 5000
 
 /* LEGEND:
     - PLYR : Player

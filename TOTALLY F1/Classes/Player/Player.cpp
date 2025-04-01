@@ -12,10 +12,11 @@ void Player::switchCam(ACTIVE_CAM camIndex) {
 }
 
 void Player::updateCameras() {
-	for (Perspective* camera : playerCameras){
-		camera->setPosMod(playerKart[PLYR_IDX_KL]->getPosition());
-		camera->update();
-	}
+	playerCameras[THIRD_PERSON]->updateThirdPers(playerKart[PLYR_IDX_KL]->getPosition());
+	
+	playerCameras[FIRST_PERSON]->updateFirstPers(
+		playerKart[PLYR_IDX_KL]->getPosition(),
+		playerKart[PLYR_IDX_KL]->getDirection());
 }
 
 void Player::rotateThirdPersKeys(MOVE move) {
@@ -24,7 +25,7 @@ void Player::rotateThirdPersKeys(MOVE move) {
 
 void Player::rotateThirdPersMouse(dvec2* prevMousePos, dvec2* currMousePos) {
 	playerCameras[THIRD_PERSON]->rotateWithMouse(prevMousePos, currMousePos);
-	playerCameras[THIRD_PERSON]->checkCameraRotation();
+	playerCameras[THIRD_PERSON]->checkRotation();
 }
 
 void Player::addPlayerKart(PlayerKart* kartPart) {

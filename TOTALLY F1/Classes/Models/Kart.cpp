@@ -19,8 +19,6 @@ Kart::Kart(string name, string pathName,
     else if (modelName == "KART3") texIndex = COVER;
 	textureMaker.makeTex2D(&texture, texPath, texIndex);
 
-    deceleration = -accelMod * 0.85f;
-
     loadKart();
 }
 
@@ -92,13 +90,30 @@ void Kart::assignTexture() {
 
 // Handles model transformations 
 void Kart::update() {
+    if(GO){
+        if(speed < maxSpeed)
+            speed += acceleration; //Either +- 0.0002f
+        if (speed >= maxSpeed)
+            speed = maxSpeed; //Sets speed to max speed
+  
+        //DECELERATION WHEN NOT MOVING
+        if (speed > 0.0f)
+            speed -= accelMod * 0.1f;
 
-    if(speed < maxSpeed)
-        speed += acceleration; //Either +- 0.0002f
-    if (speed >= maxSpeed)
-        speed = maxSpeed; //Sets speed to max speed
+        // There is a max acceleration for reversing as well
+        // Half of max speed since we don't really want to reverse too far
+        if (speed <= -maxSpeed * 0.5f && isReversing)
+            speed = -maxSpeed * 0.5f;
+
+        //ACCELERATE IT WHEN IT REVERSES (basically decelerate it but the other way since
+        //i was moving backwards)
+        if (speed <= 0.0f && !isReversing)
+            speed += accelMod * 0.1f;
+
+        acceleration = 0;
    
-    position += direction * speed;
+        position += direction * speed;
+    }
 
     //Transformation
     transformation_matrix = translate(identity_matrix, position);
@@ -111,22 +126,6 @@ void Kart::update() {
 
     unsigned int transformLocation = glGetUniformLocation(shaderMaker.getShaderProg(), "transform");
     glUniformMatrix4fv(transformLocation, 1, GL_FALSE, value_ptr(transformation_matrix));
-
-    //DECELERATION WHEN NOT MOVING
-    if (speed > 0.0f)
-        speed -= accelMod * 0.1f;
-
-    // There is a max acceleration for reversing as well
-    // Half of max speed since we don't really want to reverse too far
-    if (speed <= -maxSpeed * 0.5f && isReversing)
-        speed = -maxSpeed * 0.5f;
-  
-    //ACCELERATE IT WHEN IT REVERSES (basically decelerate it but the other way since
-    //i was moving backwards)
-    if (speed <= 0.0f && !isReversing)
-        speed += accelMod * 0.1f;
-
-    acceleration = 0;
 }
 
 // Handles model drawing
@@ -139,6 +138,8 @@ void Kart::draw() {
 //GETTER
 GLuint Kart::getTexture() { return texture; }
 
+vec3 Kart::getDirection() { return direction; }
+
 void Kart::setAcceleration(float newAcceleration) {
     acceleration = newAcceleration;
 }
@@ -149,4 +150,8 @@ void Kart::turn(float rotateY) {
 
 void Kart::setReverse(bool reverse) {
     isReversing = reverse;
+}
+
+void Kart::setGO(bool go) {
+    GO = go;
 }

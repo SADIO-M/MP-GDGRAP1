@@ -1,72 +1,67 @@
 #include "Perspective.h"
 
-//CONSTRUCTORS
 Perspective::Perspective(){}
 
 Perspective::Perspective(float width, float height,
-						float near, float far,
-						vec3 position, vec3 center,
-						vec3 positionMod, vec3 rotationMod,
-						float fov) :
-
-	Camera(width, height, near, far, position, center, positionMod, rotationMod) {
-
-	initialPosition = camPosition;
-	fieldOfView = fov;
+	float near, float far,
+	vec3 position, vec3 center,
+	vec3 rotation, float FOV,
+	float rotSpeed, float radius) : 
+	Camera(width, height, near, far, position, center, rotation) {
+	
+	fieldOfView = FOV;
+	rotateSpeed = rotSpeed;
+	cameraRadius = radius;
 }
 
-//FUNCTIONS
-/*
-	This rotateWithMouse handles the rotation using the mouse and calculates the rotation
-		- Updates the camRotationMod, the modifier responsible for the camera's rotation
-		- Gets the rotation from the previous mouse position and updates the current x and y accordingly
-		- Rotate speed is for camera rotation sensitivity
-*/
 void Perspective::rotateWithMouse(dvec2* prevMousePos, dvec2* currMousePos) {
-	camRotationMod.x += (currMousePos->y - prevMousePos->y) * rotateSpeed;
-	camRotationMod.y += (prevMousePos->x - currMousePos->x) * rotateSpeed;
-
+	cameraRotation.x += (prevMousePos->x - currMousePos->x) * rotateSpeed;
+	cameraRotation.y += (currMousePos->y - prevMousePos->y) * rotateSpeed;
 	prevMousePos->x = currMousePos->x;
 	prevMousePos->y = currMousePos->y;
+
+	cout << "CamRotation.x" << cameraRotation.x << endl;
+	cout << "CamRotation.y" << cameraRotation.y << endl;
 }
 
-/*
-	This function allows camera rotation with the keys (I, J, K, L)
-*/
 void Perspective::rotateWithKeys(MOVE move) {
 	switch (move) {
-		case UP: camRotationMod.x -= rotateSpeed * 5;
-			break;									
-		case DOWN: camRotationMod.x += rotateSpeed * 5;
-			break;									
-		case LEFT: camRotationMod.y += rotateSpeed * 5;
-			break;									
-		case RIGHT: camRotationMod.y -= rotateSpeed * 5;
-			break;
+	case UP:    cameraRotation.y -= rotateSpeed * 5;
+		break;				   
+	case DOWN:  cameraRotation.y += rotateSpeed * 5;
+		break; 
+	case LEFT:  cameraRotation.x += rotateSpeed * 5;
+		break;
+	case RIGHT: cameraRotation.x -= rotateSpeed * 5;
+		break;
 	}
 }
 
-/*
-	This function checks the camera's rotation on the x-axis 
-		- This is because when the x rotation goes over a certain threshold, the camera flips
-		- This is to avoid that camera flipping for a cleaner experience
-*/
-void Perspective::checkCameraRotation() {
-	//Limits the rotation of the mouse, can be edited to allow more range of mouse movement
-	if (camRotationMod.x > 45.0f) camRotationMod.x = 45.0f;
-	if (camRotationMod.x < -45.0f) camRotationMod.x = -45.0f;
-	//if (camRotationMod.y > 45.0f) camRotationMod.y = 45.0f;
-	//if (camRotationMod.y < -45.0f) camRotationMod.y = -45.0f;
+void Perspective::checkRotation() {
+	if (cameraRotation.y >  -2.0f) cameraRotation.y =  -2.0f;
+	if (cameraRotation.y < -70.0f) cameraRotation.y = -70.0f;
 }
 
-/*
-	This function draws the perspective camera, it is similar to the Orthographic's draw function, 
-		except the projectionMatrix = perspective()
-*/
-void Perspective::draw(GLuint shaderProg) {
-	// View matrix to always look at the center
-	//viewMatrix = lookAt(camPosition, camPositionMod, worldUp);
-	viewMatrix = lookAt(camPosition, camCenter, worldUp);
+void Perspective::updateThirdPers(vec3 position){
+	float rotXRadians = radians(cameraRotation.x);
+	float rotYRadians = radians(cameraRotation.y);
+	float fromGround  = cos(rotYRadians) * cameraRadius;
+
+	float newPosX = fromGround    * sin(rotXRadians) + cameraCenter.x;
+	float newPosY = -cameraRadius * sin(rotYRadians) + cameraCenter.y;
+	float newPosZ = fromGround    * cos(rotXRadians) + cameraCenter.z;
+
+	cameraPosition = vec3(newPosX, newPosY, newPosZ);
+	cameraCenter = position;
+}
+
+void Perspective::updateFirstPers(vec3 position, vec3 direction) {
+	cameraPosition = position + vec3(0.0f, 1.5f, 0.5f);
+	cameraCenter = cameraPosition + direction;
+}
+
+void Perspective::draw(GLuint shaderProg){
+	viewMatrix = lookAt(cameraPosition, cameraCenter, worldUp);
 
 	// Projection matrix is perspective
 	projectionMatrix = perspective(
@@ -77,7 +72,7 @@ void Perspective::draw(GLuint shaderProg) {
 
 	// Passes values to shader program
 	GLuint cameraPositionAddress = glGetUniformLocation(shaderProg, "cameraPosition");
-	glUniform3fv(cameraPositionAddress, 1, value_ptr(camPosition));
+	glUniform3fv(cameraPositionAddress, 1, value_ptr(cameraPosition));
 
 	GLuint viewCamAddress = glGetUniformLocation(shaderProg, "camera_view");
 	glUniformMatrix4fv(viewCamAddress, 1, GL_FALSE, value_ptr(viewMatrix));

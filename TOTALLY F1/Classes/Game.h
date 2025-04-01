@@ -49,7 +49,7 @@ private:
     //bools
     bool isThirdPerson;
     bool stopCars;
-    bool GO;
+    bool gameStart;
 
     // Variable for cooldown on control object toggle
     int switchCamTimer = 0;

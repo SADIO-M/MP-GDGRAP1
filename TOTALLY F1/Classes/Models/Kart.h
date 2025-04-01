@@ -26,6 +26,7 @@ protected:
 	vec3 direction = vec3(0.0f, 0.0f, 1.0f);
 
 	bool isReversing = false;
+	bool GO = false;
 
 	GLuint texture;
 	TextureMaker textureMaker;
@@ -43,13 +44,14 @@ public:
 	void loadKart();
 	void assignTexture();
 
+	virtual void turn(float rotateY);
 	virtual void update();
 	virtual void draw();
 
 	//GETTER
-	GLuint getTexture();
-	void setAcceleration(float newAcceleration);
-
-	virtual void turn(float rotateY);
+	virtual GLuint getTexture();
+	virtual vec3 getDirection();
+	virtual void setAcceleration(float newAcceleration);
 	virtual void setReverse(bool reverse);
+	virtual void setGO(bool go);
 };
