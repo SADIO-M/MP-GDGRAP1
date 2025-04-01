@@ -56,7 +56,7 @@ void Game::initializePlayer() {
 		"Shaders/KartShader.vert",	// File path of the vertex shader
 		"Shaders/KartShader.frag",	// File path of the fragment shader
 		"Textures/f1_2026/Livery.png", // File path of the corresponding texture
-		0.1f,					// Max Speed
+		0.1f,						// Max Speed
 		0.00003f,					// Acceleration Modifier
 		0.0f,						// Theta Turn
 		0.75f						// Theta Turning Modifier
@@ -107,9 +107,9 @@ void Game::initializePlayer() {
 		800.0f,                   // Window height
 		0.1f,                     // zNear
 		500.0f,                   // zFar
-		vec3(0.0f, 3.0f, 0.0f),  // Camera Position
+		vec3(0.0f, 3.0f, 0.0f),   // Camera Position
 		vec3(0.0f),               // Camera Center
-		vec3(180.f, -30.0f, 0.0f), // Camera Rotation Modifier
+		vec3(180.f, -30.0f, 0.0f),// Camera Rotation Modifier
 		90.0f,                    // Field of view (FOV)
 		0.008f,					  // Rotation Speed
 		5.0f					  // Radius of camera rotation
