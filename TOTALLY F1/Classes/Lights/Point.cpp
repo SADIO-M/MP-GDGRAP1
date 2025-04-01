@@ -23,38 +23,29 @@ Point::Point(vec3 position, vec3 color,
 void Point::loadPoint(GLuint shaderProg, string lightType) {
 	Light::loadLight(shaderProg, lightType);
 
-	GLuint quadAddress = glGetUniformLocation(shaderProg, "quadMod");
+	GLuint quadAddress = glGetUniformLocation(shaderProg, (lightType + "quadMod").c_str());
 	glUniform1f(quadAddress, quadMod);
 
-	GLuint linearAddress = glGetUniformLocation(shaderProg, "linearMod");
+	GLuint linearAddress = glGetUniformLocation(shaderProg, (lightType + "linearMod").c_str());
 	glUniform1f(linearAddress, linearMod);
 
-	GLuint constAddress = glGetUniformLocation(shaderProg, "constantMod");
+	GLuint constAddress = glGetUniformLocation(shaderProg, (lightType + "constantMod").c_str());
 	glUniform1f(constAddress, constantMod);
-}
-
-/*
-	updateColor updates the color of the light depending if its being controlled or not
-		- Updates the light and ambient color
-*/
-void Point::updateColor(vec3 newColor) {
-	lightColor = newColor;
-	ambientColor = lightColor;
 }
 
 /*
 	This rotateLight function rotates the light based on the key pressed
 		- This function is similar to the one found in Model3D, specifically updateRotation(char keyPressed)
 */
-void Point::rotateLight(char keyPressed) {
-	switch (keyPressed) {
-		case 'w': theta.x += rotateSpeed;
+void Point::rotateLight(MOVE move) {
+	switch (move) {
+		case UP: lightPosition.x += rotateSpeed;
 			break;
-		case 's': theta.x -= rotateSpeed;
+		case DOWN: lightPosition.x -= rotateSpeed;
 			break;
-		case 'a': theta.y -= rotateSpeed;
+		case RIGHT: lightPosition.y -= rotateSpeed;
 			break;
-		case 'd': theta.y += rotateSpeed;
+		case LEFT: lightPosition.y += rotateSpeed;
 			break;
 	}
 
@@ -73,4 +64,49 @@ void Point::updatePosition() {
 	lightRotation = rotate(lightRotation, radians(theta.z), vec3(0, 0, 1));
 
 	lightPosition = vec3(vec4(lightRotation * vec4(initialPosition, 1.0f)));
+}
+
+void Point::updatePointLight(POINT_LIGHT_COLOR light) {
+	vec3 newColor;
+	float newAmbStr, newSpecStr, newSpecPhong, newBrightness;
+
+	switch (light) {
+	case NONE:
+		newColor = vec3(0.0f, 0.0f, 0.0f);
+		newAmbStr = 0.0f;
+		newSpecStr = 0.0f;
+		newSpecPhong = 0.0f;
+		newBrightness = 0.0f;
+		break;
+	case RED:
+		newColor = vec3(1.0f, 0.0f, 0.0f);
+		newAmbStr = 2.0f;
+		newSpecStr = 8.0f;
+		newSpecPhong = 12.0f;
+		newBrightness = 50.0f;
+		break;
+	case YELLOW:
+		newColor = vec3(1.0f, 1.0f, 0.0f);
+		newAmbStr = 2.0f;
+		newSpecStr = 8.0f;
+		newSpecPhong = 12.0f;
+		newBrightness = 75.0f;
+		break;
+	case GREEN:
+		newColor = vec3(0.0f, 1.0f, 0.0f);
+		newAmbStr = 2.0f;
+		newSpecStr = 8.0f;
+		newSpecPhong = 12.0f;
+		newBrightness = 100.0f;
+		break;
+	case WHITE:
+		newColor = vec3(1.0f, 1.0f, 1.0f);
+		newAmbStr = 5.0f;
+		newSpecStr = 8.0f;
+		newSpecPhong = 18.0f;
+		newBrightness = 75.0f;
+		break;
+	}
+
+	Light::updateLight(lightPosition, newColor, newAmbStr, newSpecStr, newSpecPhong, newBrightness);
 }

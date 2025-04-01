@@ -51,6 +51,7 @@ public:
 	//GETTER
 	virtual GLuint getTexture();
 	virtual vec3 getDirection();
+	virtual void setSpeed(float newSpeed);
 	virtual void setAcceleration(float newAcceleration);
 	virtual void setReverse(bool reverse);
 	virtual void setGO(bool go);

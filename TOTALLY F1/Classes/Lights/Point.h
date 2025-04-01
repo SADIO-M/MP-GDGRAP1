@@ -2,6 +2,7 @@
 
 #include "Light.h"
 #include "../../Config/namespace.h"
+#include "../../Config/enumerations.h"
 
 /*
 	This is the Point class
@@ -41,8 +42,8 @@ public:
 	//FUNCTIONS
 	void loadPoint(GLuint shaderProg, string lightType);
 
-	void updateColor(vec3 newColor);
-
-	void rotateLight(char keyPressed);
+	void rotateLight(MOVE move);
 	void updatePosition();
+
+	void updatePointLight(POINT_LIGHT_COLOR light);
 };

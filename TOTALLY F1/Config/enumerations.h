@@ -60,6 +60,14 @@ enum SELECT_TEXTURE {
     COVER
 };
 
+enum POINT_LIGHT_COLOR {
+    NONE = 0,
+    RED,
+    YELLOW,
+    GREEN,
+    WHITE
+};
+
 enum MOVE {
     UP = 0,
     DOWN,

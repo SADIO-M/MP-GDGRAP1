@@ -140,6 +140,10 @@ GLuint Kart::getTexture() { return texture; }
 
 vec3 Kart::getDirection() { return direction; }
 
+void Kart::setSpeed(float newSpeed) {
+    speed = newSpeed;
+}
+
 void Kart::setAcceleration(float newAcceleration) {
     acceleration = newAcceleration;
 }

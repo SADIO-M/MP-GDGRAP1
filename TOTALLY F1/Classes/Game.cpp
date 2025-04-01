@@ -387,17 +387,26 @@ void Game::updateInputTimer() {
 
 void Game::updateSignalLights() {
 	if(!gameStart){
-		if (signalLights == 1000)
+		if (signalLights < 1200){
+			signalLight.updatePointLight(NONE);
+		}
+		else if (signalLights == 1200){
 			dynamic_cast<Object*>(allNPModels[LIGHT_BALL1])->setColor(vec3(1.0f, 0.0f, 0.0f));
-		if (signalLights == 2250)
+			signalLight.updatePointLight(RED);
+		}
+		else if (signalLights == 2250) {
 			dynamic_cast<Object*>(allNPModels[LIGHT_BALL2])->setColor(vec3(1.0f, 1.0f, 0.0f));
-		if (signalLights == 3500){
+			signalLight.updatePointLight(YELLOW);
+		}
+		else if (signalLights == 3300){
 			dynamic_cast<Object*>(allNPModels[LIGHT_BALL1])->setColor(vec3(0.0f, 1.0f, 0.0f));
 			dynamic_cast<Object*>(allNPModels[LIGHT_BALL2])->setColor(vec3(0.0f, 1.0f, 0.0f));
 			dynamic_cast<Object*>(allNPModels[LIGHT_BALL3])->setColor(vec3(0.0f, 1.0f, 0.0f));
+
+			signalLight.updatePointLight(GREEN);
 		}
 		//Just so its like they have a reaction lol
-		if (signalLights == 3750) {
+		else if (signalLights == 3400) {
 			for (PlayerKart* playerKart : player.getWholeKart())
 				playerKart->setGO(true);
 			for (int i = GST1_IDX_KL; i <= GST2_IDX_WC; i++)
@@ -447,6 +456,7 @@ void Game::runLoop() {
 			glUseProgram(player.getKartPart(part)->getShader().getShaderProg());
 			player.getActiveCam()->draw(player.getKartPart(part)->getShader().getShaderProg());
 			
+			signalLight.loadPoint(player.getKartPart(part)->getShader().getShaderProg(), "signal");
 			dirLight.loadDir(player.getKartPart(part)->getShader().getShaderProg(), "dir");
 
 			setVAO(&kartVAOs[part], BIND);
@@ -463,6 +473,8 @@ void Game::runLoop() {
 
 			glUseProgram(model->getShader().getShaderProg());
 			player.getActiveCam()->draw(model->getShader().getShaderProg());
+
+			signalLight.loadPoint(model->getShader().getShaderProg(), "signal");
 			dirLight.loadDir(model->getShader().getShaderProg(), "dir");
 
 			// Sets the VAO to the corresponding kart
@@ -490,8 +502,10 @@ void Game::runLoop() {
 				}
 			}
 			else {
-				if (i <= GST2_IDX_WC)
+				if (i <= GST2_IDX_WC){
+					dynamic_cast<Kart*>(model)->setSpeed(0);
 					dynamic_cast<Kart*>(model)->setAcceleration(0);
+				}
 			}
 			
 			if(i <= GST2_IDX_WC)
