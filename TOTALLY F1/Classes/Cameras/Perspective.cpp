@@ -19,9 +19,6 @@ void Perspective::rotateWithMouse(dvec2* prevMousePos, dvec2* currMousePos) {
 	cameraRotation.y += (currMousePos->y - prevMousePos->y) * rotateSpeed;
 	prevMousePos->x = currMousePos->x;
 	prevMousePos->y = currMousePos->y;
-
-	cout << "CamRotation.x" << cameraRotation.x << endl;
-	cout << "CamRotation.y" << cameraRotation.y << endl;
 }
 
 void Perspective::rotateWithKeys(MOVE move) {
