@@ -370,7 +370,6 @@ void Game::checkInput() {
 			stopCarsTimer = 0;
 		}
 	
-
 	// Press escape to end the program (since cursor is disabled)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, 1);
 }
