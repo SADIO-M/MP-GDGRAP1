@@ -87,7 +87,7 @@ out vec4 FragColor;
 
 //This function creates the point light from the passed uniform vectors
 //This is a point light because it calculates the distance between the light and adjusts the brightness accordingly
-vec4 createSignalLights(){
+vec3 createSignalLights(){
 	vec3 normal = normalize(normCoord);
 	vec3 viewDir = normalize(cameraPosition - fragPos);
 
@@ -109,13 +109,13 @@ vec4 createSignalLights(){
 	float pointSpec = pow(max(dot(reflectDir, viewDir), 0.1), signalSpecPhong);
 	vec3 P_Specular = pointSpec * signalSpecStr * signalColor;
 
-	return vec4(P_Diffuse + P_Ambient + P_Specular, transparency) * adjustBrightness;
+	return (P_Diffuse + P_Ambient + P_Specular) * adjustBrightness;
 }
 
 //This is the function for creating a directional light
 //It is similar to the point light except its direction is fixed to point at the center, 
 //and its intensity does not decrease based on distance
-vec4 createDirectionLight(){
+vec3 createDirectionLight(){
 	vec3 normal = normalize(normCoord);
 	vec3 lightDir = normalize(direction);
 
@@ -129,10 +129,10 @@ vec4 createDirectionLight(){
 	float dirSpec = pow(max(dot(reflectDir, viewDir), 0.1), dirSpecPhong);
 	vec3 D_Specular = dirSpec * dirSpecStr * dirColor;
 
-	return vec4(D_Diffuse + D_Ambient + D_Specular, transparency) * dirBright;
+	return (D_Diffuse + D_Ambient + D_Specular) * dirBright;
 }
 
-vec4 createSpotLightL(){
+vec3 createSpotLightL(){
 	vec3 normal = normalize(normCoord);
 	vec3 viewDir = normalize(cameraPosition - fragPos);
 
@@ -158,12 +158,12 @@ vec4 createSpotLightL(){
 	float inten = clamp((angle - spotLOuterCone) / (spotLInnerCone - spotLOuterCone), 0.0f, 1.0f);
 
 	if(angle > spotLOuterCone)
-		return vec4(SP_Diffuse * inten + SP_Ambient + SP_Specular * inten, transparency) * adjustBrightness;
+		return (SP_Diffuse * inten + SP_Ambient + SP_Specular * inten) * adjustBrightness;
 	else 
-		return vec4(SP_Ambient, transparency) * adjustBrightness;
+		return (SP_Ambient) * adjustBrightness;
 }
 
-vec4 createSpotLightR(){
+vec3 createSpotLightR(){
 	vec3 normal = normalize(normCoord);
 	vec3 viewDir = normalize(cameraPosition - fragPos);
 
@@ -189,21 +189,21 @@ vec4 createSpotLightR(){
 	float inten = clamp((angle - spotROuterCone) / (spotRInnerCone - spotROuterCone), 0.0f, 1.0f);
 
 	if(angle > spotROuterCone)
-		return vec4(SP_Diffuse * inten + SP_Ambient + SP_Specular * inten, transparency) * adjustBrightness;
+		return (SP_Diffuse * inten + SP_Ambient + SP_Specular * inten) * adjustBrightness;
 	else 
-		return vec4(SP_Ambient, transparency) * adjustBrightness;
+		return (SP_Ambient) * adjustBrightness;
 }
 
 //In the main function, the lights are added together
 //Then, depending on selectTex, it assigns the corresponding texture
 void main(){
-	vec4 signalLights = createSignalLights();
-	vec4 directionLight = createDirectionLight();
-	vec4 spotLightL = createSpotLightL();
-	vec4 spotLightR = createSpotLightR();
-	vec4 allLights = signalLights + 
+	vec3 signalLights = createSignalLights();
+	vec3 directionLight = createDirectionLight();
+	vec3 spotLightL = createSpotLightL();
+	vec3 spotLightR = createSpotLightR();
+	vec4 allLights = vec4(signalLights + 
 				     directionLight + 
-					 spotLightL + spotLightR;
+					 spotLightL + spotLightR, transparency);
 
 	if (selectTex == 2) 
 		FragColor = allLights * texture(texLivery, texCoord); 
