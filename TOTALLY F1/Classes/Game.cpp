@@ -277,10 +277,9 @@ void Game::initializeModels() {
 		vec3(0.0f, 0.0f, 0.0f),
 		vec3(2000.f, 2000.f, 2000.f),
 		vec3(90.0, 0.0f, 0.0f),
-		"Shaders/ObjectShader.vert",
-		"Shaders/ObjectShader.frag",
-		//vec3(0.2f, 0.2f, 0.2f)
-		vec3(0.15f, 0.15f, 0.15f)
+		"Shaders/PlaneShader.vert",
+		"Shaders/PlaneShader.frag",
+		vec3(0.15f)
 	));
 	setVAO(&roadVAO, UNBIND);
 
@@ -339,11 +338,15 @@ void Game::checkInput() {
 			player.reverseKart(true);
 		}
 
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) 
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
 			player.moveInput(STEER_L);
+			headLightL.spotSpin(LEFT);
+		}
 
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) 
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
 			player.moveInput(STEER_R);
+			headLightL.spotSpin(RIGHT);
+		}
 	}
 	
 	//Switch to third or first person perspective view
@@ -359,10 +362,12 @@ void Game::checkInput() {
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
 		skyboxTex = MORNING;
 		dirLight.updateDirLight(MORNING);
+		headLightL.updatePointLight(NONE);
 	}
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) { 
 		skyboxTex = NIGHT; 
 		dirLight.updateDirLight(NIGHT);
+		headLightL.updatePointLight(WHITE);
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
@@ -467,6 +472,9 @@ void Game::runLoop() {
 			
 			signalLight.loadPoint(player.getKartPart(part)->getShader().getShaderProg(), "signal");
 			dirLight.loadDir(player.getKartPart(part)->getShader().getShaderProg(), "dir");
+			headLightL.loadSpot(player.getKartPart(part)->getShader().getShaderProg(), "spot");
+			headLightL.updateSpotPosDir(player.getKartPart(part)->getPosition(), 
+										player.getKartPart(part)->getDirection());
 
 			setVAO(&kartVAOs[part], BIND);
 
@@ -485,6 +493,7 @@ void Game::runLoop() {
 
 			signalLight.loadPoint(model->getShader().getShaderProg(), "signal");
 			dirLight.loadDir(model->getShader().getShaderProg(), "dir");
+			headLightL.loadSpot(model->getShader().getShaderProg(), "spot");
 
 			// Sets the VAO to the corresponding kart
 				 if (i == GST1_IDX_KL || i == GST2_IDX_KL)

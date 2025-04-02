@@ -1,15 +1,6 @@
 #version 330 core
 
-//This is the fragment shader for the Kart Object
-
-/////////// TEXTURES ///////////
-uniform sampler2D texLivery;
-uniform sampler2D texWheel;
-uniform sampler2D texCover;
-uniform int selectTex;
-
-/////////// LIGHTS ON ///////////
-uniform int lightsOn;
+uniform vec3 color;
 
 /////////// SIGNAL LIGHT ///////////
 uniform vec3  signalPos;
@@ -59,7 +50,6 @@ uniform vec3  spotDir;
 
 /////////// OTHER VARIABLES ///////////
 uniform vec3 cameraPosition;
-uniform float transparency; 
 
 in vec2 texCoord;
 in vec3 normCoord;
@@ -91,7 +81,7 @@ vec4 createSignalLights(){
 	float pointSpec = pow(max(dot(reflectDir, viewDir), 0.1), signalSpecPhong);
 	vec3 P_Specular = pointSpec * signalSpecStr * signalColor;
 
-	return vec4(P_Diffuse + P_Ambient + P_Specular, transparency) * adjustBrightness;
+	return vec4(P_Diffuse + P_Ambient + P_Specular, 1.0f) * adjustBrightness;
 }
 
 //This is the function for creating a directional light
@@ -111,7 +101,7 @@ vec4 createDirectionLight(){
 	float dirSpec = pow(max(dot(reflectDir, viewDir), 0.1), dirSpecPhong);
 	vec3 D_Specular = dirSpec * dirSpecStr * dirColor;
 
-	return vec4(D_Diffuse + D_Ambient + D_Specular, transparency) * dirBright;
+	return vec4(D_Diffuse + D_Ambient + D_Specular, 1.0f) * dirBright;
 }
 
 vec4 createSpotLight1(){
@@ -140,13 +130,11 @@ vec4 createSpotLight1(){
 	float inten = clamp((angle - spotOuterCone) / (spotInnerCone - spotOuterCone), 0.0f, 1.0f);
 
 	if(angle > spotOuterCone)
-		return vec4(SP_Diffuse * inten + SP_Ambient + SP_Specular * inten, transparency) * adjustBrightness;
+		return vec4(SP_Diffuse * inten + SP_Ambient + SP_Specular * inten, 1.0f) * adjustBrightness;
 	else 
-		return vec4(SP_Ambient, transparency) * adjustBrightness;
+		return vec4(SP_Ambient, 1.0f) * adjustBrightness;
 }
 
-//In the main function, the lights are added together
-//Then, depending on selectTex, it assigns the corresponding texture
 void main(){
 	vec4 signalLights = createSignalLights();
 	vec4 directionLight = createDirectionLight();
@@ -155,12 +143,5 @@ void main(){
 				     directionLight + 
 					 spotLight1;
 
-	if (selectTex == 2) 
-		FragColor = allLights * texture(texLivery, texCoord); 
-	
-	else if (selectTex == 3) 
-		FragColor = allLights * texture(texWheel, texCoord); 
-	
-	else if (selectTex == 4) 
-		FragColor = allLights * texture(texCover, texCoord); 
+	FragColor = allLights * vec4(color.x, color.y, color.z, 1.0f); 
 }

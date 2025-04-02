@@ -16,6 +16,7 @@
 
 #include "Lights/Direction.h"
 #include "Lights/Point.h"
+#include "Lights/Spot.h"
 
 #include "Cameras/Perspective.h"
 
@@ -87,6 +88,22 @@ private:
         1.0f,                   // Brightness
         vec3(5.0f, 15.0f, 20.0f) // Direction of the light
     );
+
+    Spot headLightL = Spot(
+        vec3(0.75f, 1.0f, 3.0f), // Light Position
+        vec3(0.0f),             // Light Color
+        0.5f,                   // Ambient Strength
+        0.8f,                   // Specular Strength
+        15.0f,                  // Specular Phong
+        50.0f,                  // Brightness
+        2.0f,                   // Quadratic term
+        2.0f,                   // Linear term
+        2.0f,                   // Constant term
+        0.90f,                  // Outer Cone
+        0.95f,                  // Inner Cone
+        vec3(0.0f, 0.1f, 1.0f)
+    );
+
 
 public:
     //CONSTRUCTORS

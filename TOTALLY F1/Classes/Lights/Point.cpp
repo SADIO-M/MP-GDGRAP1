@@ -101,9 +101,9 @@ void Point::updatePointLight(POINT_LIGHT_COLOR light) {
 		break;
 	case WHITE:
 		newColor = vec3(1.0f, 1.0f, 1.0f);
-		newAmbStr = 5.0f;
-		newSpecStr = 8.0f;
-		newSpecPhong = 18.0f;
+		newAmbStr = 0.3f;
+		newSpecStr = 0.8f;
+		newSpecPhong = 20.0f;
 		newBrightness = 75.0f;
 		break;
 	}

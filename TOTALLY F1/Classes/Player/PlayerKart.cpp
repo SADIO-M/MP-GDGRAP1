@@ -44,8 +44,9 @@ void PlayerKart::updatePlayer() {
     Kart::update();
     Kart::turn(90+thetaTurn);
 
-    cout << "POZ: " << position.z;
-    cout << "     SPD: " << speed << endl;
+    //cout << "POX: " << position.x << endl;
+    //cout << "POZ: " << position.z << endl;
+    //cout << "     SPD: " << speed << endl;
 
     isReversing = false;
 }

@@ -16,7 +16,7 @@
 	[Created by: Megan Sadio]
 */
 class Point : public Light {
-private:
+protected:
 	vec3 initialPosition;
 
 	// Modifiers for attenuation, determines the light fall-off
@@ -40,10 +40,10 @@ public:
 		float quadratic, float linear, float constant);
 
 	//FUNCTIONS
-	void loadPoint(GLuint shaderProg, string lightType);
+	virtual void loadPoint(GLuint shaderProg, string lightType);
 
 	void rotateLight(MOVE move);
 	void updatePosition();
 
-	void updatePointLight(POINT_LIGHT_COLOR light);
+	virtual void updatePointLight(POINT_LIGHT_COLOR light);
 };
