@@ -6,11 +6,13 @@ PlayerKart::PlayerKart(string name, string pathName,
     vec3 pos, vec3 scale, vec3 rotate,
     string vertPath, string fragPath,
     string texPath, float maxSPD, float accelMod,
+    float transparency,
     float thetaTurn, float thetaMod) :
     Kart(name, pathName,
          pos, scale, rotate,
          vertPath, fragPath,
-         texPath, maxSPD, accelMod) {
+         texPath, maxSPD, accelMod,
+         transparency) {
 
     this->thetaTurn = thetaTurn;
     this->thetaMod = thetaMod;

@@ -6,12 +6,13 @@ Kart::Kart(string name, string pathName,
 	vec3 pos, vec3 scale, vec3 rotate,
 	string vertPath, string fragPath,
 	string texPath, float maxSPD, 
-    float accelMod) :
+    float accelMod, float transparency) :
         // calls Model3D's constructor
 	Model3D(name, pathName, pos, scale, rotate, vertPath, fragPath){
 
     maxSpeed = maxSPD;
     this->accelMod = accelMod;
+    this->transparency = transparency;
 
     SELECT_TEXTURE texIndex;
     if      (modelName == "KART1") texIndex = LIVERY;
@@ -88,6 +89,11 @@ void Kart::assignTexture() {
     glBindTexture(GL_TEXTURE_2D, texture);
 }
 
+void Kart::assignTransparency() {
+    GLuint transparencyAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "transparency");
+    glUniform1f(transparencyAddress, transparency);
+}
+
 // Handles model transformations 
 void Kart::update() {
     if(GO){
@@ -132,6 +138,7 @@ void Kart::update() {
 void Kart::draw() {
     update();
     assignTexture();
+    assignTransparency();
     glDrawArrays(GL_TRIANGLES, 0, fullVertexData.size() / 8);
 }
 

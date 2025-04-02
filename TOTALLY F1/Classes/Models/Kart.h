@@ -23,6 +23,8 @@ protected:
 	float acceleration = 0.0f;
 	float deceleration;
 
+	float transparency;
+
 	vec3 direction = vec3(0.0f, 0.0f, 1.0f);
 
 	bool isReversing = false;
@@ -38,11 +40,13 @@ public:
 		vec3 pos, vec3 scale, vec3 rotate,
 		string vertPath, string fragPath,
 		string texPath,
-		float maxSPD, float accelMod);
+		float maxSPD, float accelMod,
+		float transparency);
 
 	//FUNCTIONS
 	void loadKart();
 	void assignTexture();
+	void assignTransparency();
 
 	virtual void turn(float rotateY);
 	virtual void update();

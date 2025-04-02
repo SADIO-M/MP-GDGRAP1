@@ -16,6 +16,7 @@ public:
 		vec3 pos, vec3 scale, vec3 rotate,
 		string vertPath, string fragPath,
 		string texPath, float maxSPD, float accelMod,
+		float transparency,
 		float thetaTurn, float thetaMod);
 
 	//FUNCTIONS

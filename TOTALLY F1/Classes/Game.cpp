@@ -58,6 +58,7 @@ void Game::initializePlayer() {
 		"Textures/f1_2026/Livery.png", // File path of the corresponding texture
 		0.1f,						// Max Speed
 		0.00003f,					// Acceleration Modifier
+		1.0f,
 		0.0f,						// Theta Turn
 		0.75f						// Theta Turning Modifier
 	));
@@ -77,6 +78,7 @@ void Game::initializePlayer() {
 		"Textures/f1_2026/TyreSoft.png",
 		0.1f,
 		0.00003f,
+		1.0f,
 		0.0f,
 		0.75f
 	));
@@ -96,6 +98,7 @@ void Game::initializePlayer() {
 		"Textures/f1_2026/WheelCovers.png",
 		0.1f,
 		0.00003f,
+		1.0f,
 		0.0f,
 		0.75f
 	));
@@ -181,11 +184,12 @@ void Game::initializeModels() {
 		vec3(5.0, 0.0, 0.0),					
 		vec3(0.6, 0.6, 0.6),		
 		vec3(0.0, 90.0, 0.0),		
-		"Shaders/GhostShader.vert",
-		"Shaders/GhostShader.frag",
+		"Shaders/KartShader.vert",
+		"Shaders/KartShader.frag",
 		"Textures/f1_2026/Livery.png",
 		0.25f,
-		0.000025f
+		0.000025f,
+		0.3f
 	));
 
 	//KART WHEELS
@@ -195,11 +199,12 @@ void Game::initializeModels() {
 		vec3(5.0, 0.0, 0.0),
 		vec3(0.6, 0.6, 0.6),
 		vec3(0.0, 90.0, 0.0),
-		"Shaders/GhostShader.vert",
-		"Shaders/GhostShader.frag",
+		"Shaders/KartShader.vert",
+		"Shaders/KartShader.frag",
 		"Textures/f1_2026/TyreSoft.png",
 		0.25f,
-		0.000025f
+		0.000025f,
+		0.3f
 	));
 
 	//KART WHEEL COVERS
@@ -209,11 +214,12 @@ void Game::initializeModels() {
 		vec3(5.0, 0.0, 0.0),
 		vec3(0.6, 0.6, 0.6),
 		vec3(0.0, 90.0, 0.0),
-		"Shaders/GhostShader.vert",
-		"Shaders/GhostShader.frag",
+		"Shaders/KartShader.vert",
+		"Shaders/KartShader.frag",
 		"Textures/f1_2026/WheelCovers.png",
 		0.25f,
-		0.000025f
+		0.000025f,
+		0.3f
 	));
 
 	///////////////////////////////// GHOST KART 2 - SLOW /////////////////////////////////
@@ -224,11 +230,12 @@ void Game::initializeModels() {
 		vec3(-5.0, 0.0, 0.0),
 		vec3(0.6, 0.6, 0.6),
 		vec3(0.0, 90.0, 0.0),
-		"Shaders/GhostShader.vert",
-		"Shaders/GhostShader.frag",
+		"Shaders/KartShader.vert",
+		"Shaders/KartShader.frag",
 		"Textures/f1_2026/Livery.png",
 		0.075f,
-		0.000075f
+		0.000075f,
+		0.3f
 	));
 
 	//KART WHEELS
@@ -238,11 +245,12 @@ void Game::initializeModels() {
 		vec3(-5.0, 0.0, 0.0),
 		vec3(0.6, 0.6, 0.6),
 		vec3(0.0, 90.0, 0.0),
-		"Shaders/GhostShader.vert",
-		"Shaders/GhostShader.frag",
+		"Shaders/KartShader.vert",
+		"Shaders/KartShader.frag",
 		"Textures/f1_2026/TyreSoft.png",
 		0.075f,
-		0.000075f
+		0.000075f,
+		0.3f
 	));
 
 	//KART WHEEL COVERS
@@ -252,11 +260,12 @@ void Game::initializeModels() {
 		vec3(-5.0, 0.0, 0.0),
 		vec3(0.6, 0.6, 0.6),
 		vec3(0.0, 90.0, 0.0),
-		"Shaders/GhostShader.vert",
-		"Shaders/GhostShader.frag",
+		"Shaders/KartShader.vert",
+		"Shaders/KartShader.frag",
 		"Textures/f1_2026/WheelCovers.png",
 		0.075f,
-		0.000075f
+		0.000075f,
+		0.3f
 	));
 
 	///////////////////////////////// PLANE /////////////////////////////////

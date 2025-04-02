@@ -41,6 +41,8 @@ uniform float dirBright;
 
 uniform vec3 cameraPosition;
 
+uniform float transparency; 
+
 in vec2 texCoord;
 in vec3 normCoord;
 in vec3 fragPos;
@@ -71,7 +73,7 @@ vec4 createSignalLights(){
 	float pointSpec = pow(max(dot(reflectDir, viewDir), 0.1), signalSpecPhong);
 	vec3 P_Specular = pointSpec * signalSpecStr * signalColor;
 
-	return vec4(P_Diffuse + P_Ambient + P_Specular, 1.0f) * adjustBrightness;
+	return vec4(P_Diffuse + P_Ambient + P_Specular, transparency) * adjustBrightness;
 }
 
 //This is the function for creating a directional light
@@ -91,7 +93,7 @@ vec4 createDirectionLight(){
 	float dirSpec = pow(max(dot(reflectDir, viewDir), 0.1), dirSpecPhong);
 	vec3 D_Specular = dirSpec * dirSpecStr * dirColor;
 
-	return vec4(D_Diffuse + D_Ambient + D_Specular, 1.0f) * dirBright;
+	return vec4(D_Diffuse + D_Ambient + D_Specular, transparency) * dirBright;
 }
 
 //In the main function, the lights are added together
