@@ -89,8 +89,8 @@ private:
         vec3(5.0f, 15.0f, 20.0f) // Direction of the light
     );
 
-    Spot headLightL = Spot(
-        vec3(0.75f, 1.0f, 3.0f), // Light Position
+    Spot spotLightL = Spot(
+        vec3(0.5f, 1.0f, 3.0f), // Light Position
         vec3(0.0f),             // Light Color
         0.5f,                   // Ambient Strength
         0.8f,                   // Specular Strength
