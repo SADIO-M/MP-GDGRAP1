@@ -30,7 +30,7 @@ uniform float dirSpecPhong;
 
 uniform float dirBright;
 
-/////////// SPOT HEADLIGHT ///////////
+/////////// SPOT HEADLIGHT LEFT ///////////
 uniform vec3  spotLPos;
 uniform vec3  spotLColor;
 				
@@ -47,6 +47,24 @@ uniform float spotLconstantMod;
 uniform float spotLOuterCone;
 uniform float spotLInnerCone;
 uniform vec3  spotLDir;
+
+/////////// SPOT HEADLIGHT RIGHT ///////////
+uniform vec3  spotRPos;
+uniform vec3  spotRColor;
+				  
+uniform float spotRAmbStr;
+uniform vec3  spotRAmbColor;
+			  	  
+uniform float spotRSpecStr;
+uniform float spotRSpecPhong;
+			  	  
+uniform float spotRBright;
+uniform float spotRquadMod;
+uniform float spotRlinearMod;
+uniform float spotRconstantMod;
+uniform float spotROuterCone;
+uniform float spotRInnerCone;
+uniform vec3  spotRDir;
 
 /////////// OTHER VARIABLES ///////////
 uniform vec3 cameraPosition;
