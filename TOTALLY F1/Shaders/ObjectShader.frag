@@ -2,7 +2,7 @@
 
 uniform vec3 color;
 
-/////////// 1ST SIGNAL LIGHT ///////////
+/////////// SIGNAL LIGHT ///////////
 uniform vec3  signalPos;
 uniform vec3  signalColor;
 				   
