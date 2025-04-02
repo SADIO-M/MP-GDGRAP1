@@ -39,7 +39,7 @@ uniform float dirSpecPhong;
 
 uniform float dirBright;
 
-/////////// SPOT HEADLIGHT ///////////
+/////////// SPOT HEADLIGHT LEFT ///////////
 uniform vec3  spotLPos;
 uniform vec3  spotLColor;
 				
@@ -56,6 +56,24 @@ uniform float spotLconstantMod;
 uniform float spotLOuterCone;
 uniform float spotLInnerCone;
 uniform vec3  spotLDir;
+
+/////////// SPOT HEADLIGHT RIGHT ///////////
+uniform vec3  spotRPos;
+uniform vec3  spotRColor;
+				  
+uniform float spotRAmbStr;
+uniform vec3  spotRAmbColor;
+			  	  
+uniform float spotRSpecStr;
+uniform float spotRSpecPhong;
+			  	  
+uniform float spotRBright;
+uniform float spotRquadMod;
+uniform float spotRlinearMod;
+uniform float spotRconstantMod;
+uniform float spotROuterCone;
+uniform float spotRInnerCone;
+uniform vec3  spotRDir;
 
 /////////// OTHER VARIABLES ///////////
 uniform vec3 cameraPosition;
@@ -145,15 +163,47 @@ vec4 createSpotLightL(){
 		return vec4(SP_Ambient, transparency) * adjustBrightness;
 }
 
+vec4 createSpotLightR(){
+	vec3 normal = normalize(normCoord);
+	vec3 viewDir = normalize(cameraPosition - fragPos);
+
+	vec3 lightDir = normalize(spotRPos - fragPos);
+	vec3 reflectDir = reflect(-lightDir, normal);
+
+	float lightDistance = length(spotRPos - fragPos);
+	float adjustBrightness = 1.0f / (spotRconstantMod + 
+								spotRlinearMod * lightDistance + 
+								spotRquadMod * (lightDistance * lightDistance));
+
+	adjustBrightness *= spotRBright;
+
+	float spotRDiff = max(dot(normal, lightDir), 0.0f);
+	vec3 SP_Diffuse = spotRDiff * spotRColor;
+
+	vec3 SP_Ambient = spotRAmbColor * spotRAmbStr;
+
+	float spotRSpec = pow(max(dot(reflectDir, viewDir), 0.1), spotRSpecPhong);
+	vec3 SP_Specular = spotRSpec * spotRSpecStr * spotRColor;
+
+	float angle = dot(spotRDir, -lightDir);
+	float inten = clamp((angle - spotROuterCone) / (spotRInnerCone - spotROuterCone), 0.0f, 1.0f);
+
+	if(angle > spotROuterCone)
+		return vec4(SP_Diffuse * inten + SP_Ambient + SP_Specular * inten, transparency) * adjustBrightness;
+	else 
+		return vec4(SP_Ambient, transparency) * adjustBrightness;
+}
+
 //In the main function, the lights are added together
 //Then, depending on selectTex, it assigns the corresponding texture
 void main(){
 	vec4 signalLights = createSignalLights();
 	vec4 directionLight = createDirectionLight();
 	vec4 spotLightL = createSpotLightL();
+	vec4 spotLightR = createSpotLightR();
 	vec4 allLights = signalLights + 
 				     directionLight + 
-					 spotLightL;
+					 spotLightL + spotLightR;
 
 	if (selectTex == 2) 
 		FragColor = allLights * texture(texLivery, texCoord); 

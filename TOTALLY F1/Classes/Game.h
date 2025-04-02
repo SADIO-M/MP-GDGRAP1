@@ -90,7 +90,7 @@ private:
     );
 
     Spot spotLightL = Spot(
-        vec3(0.5f, 1.0f, 3.0f), // Light Position
+        vec3(1.0f, 1.0f, 3.0f), // Light Position
         vec3(0.0f),             // Light Color
         0.5f,                   // Ambient Strength
         0.8f,                   // Specular Strength
@@ -104,6 +104,20 @@ private:
         vec3(0.0f, 0.1f, 1.0f)
     );
 
+    Spot spotLightR = Spot(
+        vec3(-1.0f, 1.0f, 3.0f), // Light Position
+        vec3(0.0f),             // Light Color
+        0.5f,                   // Ambient Strength
+        0.8f,                   // Specular Strength
+        15.0f,                  // Specular Phong
+        50.0f,                  // Brightness
+        2.0f,                   // Quadratic term
+        2.0f,                   // Linear term
+        2.0f,                   // Constant term
+        0.90f,                  // Outer Cone
+        0.95f,                  // Inner Cone
+        vec3(0.0f, 0.1f, 1.0f)
+    );
 
 public:
     //CONSTRUCTORS

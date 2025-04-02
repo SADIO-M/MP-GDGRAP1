@@ -341,11 +341,13 @@ void Game::checkInput() {
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
 			player.moveInput(STEER_L);
 			spotLightL.spotSpin(LEFT);
+			spotLightR.spotSpin(LEFT);
 		}
 
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
 			player.moveInput(STEER_R);
 			spotLightL.spotSpin(RIGHT);
+			spotLightR.spotSpin(RIGHT);
 		}
 	}
 	
@@ -363,11 +365,13 @@ void Game::checkInput() {
 		skyboxTex = MORNING;
 		dirLight.updateDirLight(MORNING);
 		spotLightL.updatePointLight(NONE);
+		spotLightR.updatePointLight(NONE);
 	}
 	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) { 
 		skyboxTex = NIGHT; 
 		dirLight.updateDirLight(NIGHT);
 		spotLightL.updatePointLight(WHITE);
+		spotLightR.updatePointLight(WHITE);
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
@@ -472,9 +476,14 @@ void Game::runLoop() {
 			
 			signalLight.loadPoint(player.getKartPart(part)->getShader().getShaderProg(), "signal");
 			dirLight.loadDir(player.getKartPart(part)->getShader().getShaderProg(), "dir");
+
 			spotLightL.loadSpot(player.getKartPart(part)->getShader().getShaderProg(), "spotL");
 			spotLightL.updateSpotPosDir(player.getKartPart(part)->getPosition(),
 										player.getKartPart(part)->getDirection());
+
+			spotLightR.loadSpot(player.getKartPart(part)->getShader().getShaderProg(), "spotR");
+			spotLightR.updateSpotPosDir(player.getKartPart(part)->getPosition(),
+				player.getKartPart(part)->getDirection());
 
 			setVAO(&kartVAOs[part], BIND);
 
@@ -493,7 +502,9 @@ void Game::runLoop() {
 
 			signalLight.loadPoint(model->getShader().getShaderProg(), "signal");
 			dirLight.loadDir(model->getShader().getShaderProg(), "dir");
+
 			spotLightL.loadSpot(model->getShader().getShaderProg(), "spotL");
+			spotLightR.loadSpot(model->getShader().getShaderProg(), "spotR");
 
 			// Sets the VAO to the corresponding kart
 				 if (i == GST1_IDX_KL || i == GST2_IDX_KL)
