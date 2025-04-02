@@ -153,13 +153,45 @@ vec4 createSpotLightL(){
 		return vec4(SP_Ambient, 1.0f) * adjustBrightness;
 }
 
+vec4 createSpotLightR(){
+	vec3 normal = normalize(normCoord);
+	vec3 viewDir = normalize(cameraPosition - fragPos);
+
+	vec3 lightDir = normalize(spotRPos - fragPos);
+	vec3 reflectDir = reflect(-lightDir, normal);
+
+	float lightDistance = length(spotRPos - fragPos);
+	float adjustBrightness = 1.0f / (spotRconstantMod + 
+								spotRlinearMod * lightDistance + 
+								spotRquadMod * (lightDistance * lightDistance));
+
+	adjustBrightness *= spotRBright;
+
+	float spotRDiff = max(dot(normal, lightDir), 0.0f);
+	vec3 SP_Diffuse = spotRDiff * spotRColor;
+
+	vec3 SP_Ambient = spotRAmbColor * spotRAmbStr;
+
+	float spotRSpec = pow(max(dot(reflectDir, viewDir), 0.1), spotRSpecPhong);
+	vec3 SP_Specular = spotRSpec * spotRSpecStr * spotRColor;
+
+	float angle = dot(spotRDir, -lightDir);
+	float inten = clamp((angle - spotROuterCone) / (spotRInnerCone - spotROuterCone), 0.0f, 1.0f);
+
+	if(angle > spotROuterCone)
+		return vec4(SP_Diffuse * inten + SP_Ambient + SP_Specular * inten, 1.0f) * adjustBrightness;
+	else 
+		return vec4(SP_Ambient, 1.0f) * adjustBrightness;
+}
+
 void main(){
 	vec4 signalLights = createSignalLights();
 	vec4 directionLight = createDirectionLight();
 	vec4 spotLightL = createSpotLightL();
+	vec4 spotLightR = createSpotLightR();
 	vec4 allLights = signalLights + 
 				     directionLight + 
-					 spotLightL;
+					 spotLightL + spotLightR;
 
 	FragColor = allLights * vec4(color.x, color.y, color.z, 1.0f); 
 }
