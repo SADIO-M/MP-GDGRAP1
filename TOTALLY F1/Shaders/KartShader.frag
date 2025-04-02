@@ -201,9 +201,8 @@ void main(){
 	vec3 directionLight = createDirectionLight();
 	vec3 spotLightL = createSpotLightL();
 	vec3 spotLightR = createSpotLightR();
-	vec4 allLights = vec4(signalLights + 
-				     directionLight + 
-					 spotLightL + spotLightR, transparency);
+	vec4 allLights = vec4(signalLights + directionLight + 
+					      spotLightL + spotLightR, transparency);
 
 	if (selectTex == 2) 
 		FragColor = allLights * texture(texLivery, texCoord); 
