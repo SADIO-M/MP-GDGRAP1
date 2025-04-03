@@ -21,16 +21,16 @@ PlayerKart::PlayerKart(string name, string pathName,
 
 void PlayerKart::move(DRIVING move) {
     switch (move) {
-        case ACCELERATE: acceleration = accelMod;
-            break;
-        case REVERSE: acceleration = -accelMod;
-            break;
-        case STEER_L: 
-            thetaTurn += thetaMod * 0.05f;
-            break;
-        case STEER_R: 
-            thetaTurn -= thetaMod * 0.05f;
-            break;
+    case ACCELERATE: acceleration = accelMod;
+        break;
+    case REVERSE: acceleration = -accelMod;
+        break;
+    case STEER_L:
+        thetaTurn += thetaMod * 0.05f;
+        break;
+    case STEER_R:
+        thetaTurn -= thetaMod * 0.05f;
+        break;
     }
 }
 
@@ -43,10 +43,6 @@ void PlayerKart::updatePlayer() {
 
     Kart::update();
     Kart::turn(90+thetaTurn);
-
-    //cout << "POX: " << position.x << endl;
-    //cout << "POZ: " << position.z << endl;
-    //cout << "     SPD: " << speed << endl;
 
     isReversing = false;
 }

@@ -15,6 +15,7 @@ Game::Game(GLFWwindow* window, float windowWidth, float windowHeight) {
 	isThirdPerson = true;
 	stopCars = false;
 	gameStart = false;
+	isPrinted = false;
 }
 
 //FUNCTIONS
@@ -48,7 +49,7 @@ void Game::initializePlayer() {
 	setVAO(&kartVAOs[0], BIND);
 	player.addPlayerKart(
 		new PlayerKart(
-		"KART1",					// Name of the object
+		"PLYR_KART1",					// Name of the object
 		"3D/f1_2026.obj",			// File location of the 3D Object
 		vec3(0.0),					// Object position
 		vec3(0.6, 0.6, 0.6),		// Object scale
@@ -68,7 +69,7 @@ void Game::initializePlayer() {
 	setVAO(&kartVAOs[1], GENERATE);
 	setVAO(&kartVAOs[1], BIND);
 	player.addPlayerKart(new PlayerKart(
-		"KART2",
+		"PLYR_KART2",
 		"3D/f1_2026.obj",
 		vec3(0.0),
 		vec3(0.6, 0.6, 0.6),
@@ -88,7 +89,7 @@ void Game::initializePlayer() {
 	setVAO(&kartVAOs[2], GENERATE);
 	setVAO(&kartVAOs[2], BIND);
 	player.addPlayerKart(new PlayerKart(
-		"KART3",
+		"PLYR_KART3",
 		"3D/f1_2026.obj",
 		vec3(0.0),
 		vec3(0.6, 0.6, 0.6),
@@ -188,7 +189,7 @@ void Game::initializeModels() {
 		"Shaders/KartShader.frag",
 		"Textures/f1_2026/Livery.png",
 		0.25f,
-		0.000025f,
+		0.00025f,
 		0.3f
 	));
 
@@ -203,7 +204,7 @@ void Game::initializeModels() {
 		"Shaders/KartShader.frag",
 		"Textures/f1_2026/TyreSoft.png",
 		0.25f,
-		0.000025f,
+		0.00025f,
 		0.3f
 	));
 
@@ -218,7 +219,7 @@ void Game::initializeModels() {
 		"Shaders/KartShader.frag",
 		"Textures/f1_2026/WheelCovers.png",
 		0.25f,
-		0.000025f,
+		0.00025f,
 		0.3f
 	));
 
@@ -234,7 +235,7 @@ void Game::initializeModels() {
 		"Shaders/KartShader.frag",
 		"Textures/f1_2026/Livery.png",
 		0.075f,
-		0.000075f,
+		0.000008f,
 		0.3f
 	));
 
@@ -249,7 +250,7 @@ void Game::initializeModels() {
 		"Shaders/KartShader.frag",
 		"Textures/f1_2026/TyreSoft.png",
 		0.075f,
-		0.000075f,
+		0.000008f,
 		0.3f
 	));
 
@@ -264,7 +265,7 @@ void Game::initializeModels() {
 		"Shaders/KartShader.frag",
 		"Textures/f1_2026/WheelCovers.png",
 		0.075f,
-		0.000075f,
+		0.000008f,
 		0.3f
 	));
 
@@ -275,7 +276,7 @@ void Game::initializeModels() {
 		"PLANE",
 		"3D/plane.obj",
 		vec3(0.0f, 0.0f, 0.0f),
-		vec3(2000.f, 2000.f, 2000.f),
+		vec3(3000.f, 3000.f, 3000.f),
 		vec3(90.0, 0.0f, 0.0f),
 		"Shaders/PlaneShader.vert",
 		"Shaders/PlaneShader.frag",
@@ -320,6 +321,18 @@ void Game::initializeModels() {
 		"Shaders/ObjectShader.vert",
 		"Shaders/ObjectShader.frag",
 		vec3(0.0f)
+	));
+
+	///////////////////////////////// FINISH LINE /////////////////////////////////
+	allNPModels.push_back(new Object(
+		"PLANE",
+		"3D/plane.obj",
+		vec3(0.0f, 1.0f, FINISH_LINE),
+		vec3(1000.0f, 1.0f, 5.0f),
+		vec3(0.0, 0.0f, 0.0f),
+		"Shaders/PlaneShader.vert",
+		"Shaders/PlaneShader.frag",
+		vec3(9.0f, 0.1f, 0.1f)
 	));
 }
 
@@ -383,10 +396,10 @@ void Game::checkInput() {
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 		player.rotateThirdPersKeys(RIGHT);
 
-		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && stopCarsTimer >= 300) {
-			stopCars = !stopCars;
-			stopCarsTimer = 0;
-		}
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && stopCarsTimer >= 300) {
+		stopCars = !stopCars;
+		stopCarsTimer = 0;
+	}
 	
 	// Press escape to end the program (since cursor is disabled)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, 1);
@@ -422,18 +435,47 @@ void Game::updateSignalLights() {
 			dynamic_cast<Object*>(allNPModels[LIGHT_BALL3])->setColor(vec3(0.0f, 1.0f, 0.0f));
 
 			signalLight.updatePointLight(GREEN);
-		}
-		//Just so its like they have a reaction lol
-		else if (signalLights == 3400) {
+
 			for (PlayerKart* playerKart : player.getWholeKart())
 				playerKart->setGO(true);
 			for (int i = GST1_IDX_KL; i <= GST2_IDX_WC; i++)
 				dynamic_cast<Kart*>(allNPModels[i])->setGO(true);
 
 			gameStart = true;
+			startTimer = glfwGetTime();
 		}
 	}
 }
+
+void Game::checkKarts() {
+	//All three karts have to be false
+	if (gameStart) {
+
+		if (!(dynamic_cast<Kart*>(allNPModels[GST1_IDX_KL])->getGO()) && !(kartFastTime))
+			kartFastTime = glfwGetTime();
+		if (!(dynamic_cast<Kart*>(allNPModels[GST2_IDX_KL])->getGO()) && !(kartSlowTime))
+			kartSlowTime = glfwGetTime();
+		if (!(player.getKartPart(PLYR_IDX_KL)->getGO()) && !(playerKartTime))
+			playerKartTime = glfwGetTime();
+
+		if (!(dynamic_cast<Kart*>(allNPModels[GST1_IDX_KL])->getGO() ||
+			dynamic_cast<Kart*>(allNPModels[GST2_IDX_KL])->getGO() ||
+			player.getKartPart(PLYR_IDX_KL)->getGO()) && !isPrinted) {
+			
+			for (PlayerKart* kartPart : player.getWholeKart())
+				kartPart->setSpeed(0);
+
+			cout << "||--------------------- TIME ---------------------||" << endl;
+			cout << "Fast Kart: " << kartFastTime - startTimer << endl;
+			cout << "Player: " << playerKartTime - startTimer << endl;
+			cout << "Slow Kart: " << kartSlowTime - startTimer << endl;
+
+			isPrinted = true;
+			gameStart = false;
+		}
+	}
+}
+
 
 /*
 	The main game loop.
@@ -446,6 +488,7 @@ void Game::runLoop() {
 		//Updates input timers
 		updateInputTimer();
 		updateSignalLights();
+		checkKarts();
 
 		//Handles input checking for keys
 		checkInput();
@@ -513,7 +556,7 @@ void Game::runLoop() {
 				setVAO(&kartVAOs[GST1_IDX_WL], BIND);
 			else if (i == GST1_IDX_WC || i == GST2_IDX_WC)
 				setVAO(&kartVAOs[GST1_IDX_WC], BIND);
-			else if (i == ROAD_PLANE)
+			else if (i == ROAD_PLANE || i == FINISH_PLANE)
 				setVAO(&roadVAO, BIND);
 			else if (i >= LIGHT_BALL1 && i <= LIGHT_BALL3)
 				setVAO(&lightBallVAO, BIND);
@@ -521,19 +564,19 @@ void Game::runLoop() {
 			if(!stopCars && gameStart){
 				//FASTER KART
 				if (i >= GST1_IDX_KL && i <= GST1_IDX_WC) {
-					dynamic_cast<Kart*>(model)->setAcceleration(0.0004f);
+					dynamic_cast<Kart*>(model)->setAcceleration(0.00025f);
 					dynamic_cast<Kart*>(model)->update();
 				}
 				//SLOWER KART
 				else if (i >= GST2_IDX_KL && i <= GST2_IDX_WC) {
-					dynamic_cast<Kart*>(model)->setAcceleration(0.00015f);
+					dynamic_cast<Kart*>(model)->setAcceleration(0.000008f);
 					dynamic_cast<Kart*>(model)->update();
 				}
 			}
-			else {
+			else if (stopCars){
 				if (i <= GST2_IDX_WC){
-					dynamic_cast<Kart*>(model)->setSpeed(0);
 					dynamic_cast<Kart*>(model)->setAcceleration(0);
+					dynamic_cast<Kart*>(model)->setSpeed(0);
 				}
 			}
 			

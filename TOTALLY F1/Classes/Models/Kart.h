@@ -47,6 +47,7 @@ public:
 	void loadKart();
 	void assignTexture();
 	void assignTransparency();
+	virtual void checkAtEnd();
 
 	virtual void turn(float rotateY);
 	virtual void update();
@@ -59,4 +60,5 @@ public:
 	virtual void setAcceleration(float newAcceleration);
 	virtual void setReverse(bool reverse);
 	virtual void setGO(bool go);
+	virtual bool getGO();
 };

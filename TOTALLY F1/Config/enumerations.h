@@ -1,6 +1,6 @@
 #pragma once
 
-#define FINISH_LINE 5000
+#define FINISH_LINE 2000
 
 /* LEGEND:
     - PLYR : Player
@@ -29,7 +29,9 @@ enum ALL_NP_OBJ_IDX {
 
     LIGHT_BALL1,
     LIGHT_BALL2,
-    LIGHT_BALL3
+    LIGHT_BALL3,
+
+    FINISH_PLANE
 };
 
 enum ACTIVE_CAM {

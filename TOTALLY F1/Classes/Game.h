@@ -51,6 +51,12 @@ private:
     bool isThirdPerson;
     bool stopCars;
     bool gameStart;
+    bool isPrinted;
+
+    //Timer for Karts
+    double startTimer;
+    double elapsedTime;
+    double kartFastTime = 0, playerKartTime = 0, kartSlowTime = 0;
 
     // Variable for cooldown on control object toggle
     int switchCamTimer = 0;
@@ -138,6 +144,7 @@ public:
 
     void updateInputTimer();
     void updateSignalLights();
+    void checkKarts();
 
     //DECONSTRUCTOR
     ~Game();

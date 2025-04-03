@@ -15,9 +15,9 @@ Kart::Kart(string name, string pathName,
     this->transparency = transparency;
 
     SELECT_TEXTURE texIndex;
-    if      (modelName == "KART1") texIndex = LIVERY;
-    else if (modelName == "KART2") texIndex = WHEEL;
-    else if (modelName == "KART3") texIndex = COVER;
+    if      (modelName == "KART1" || modelName == "PLYR_KART1") texIndex = LIVERY;
+    else if (modelName == "KART2" || modelName == "PLYR_KART2") texIndex = WHEEL;
+    else if (modelName == "KART3" || modelName == "PLYR_KART3") texIndex = COVER;
 	textureMaker.makeTex2D(&texture, texPath, texIndex);
 
     loadKart();
@@ -34,8 +34,8 @@ void Kart::loadKart() {
     // Changes index depending on Kart part
     // 0 -> Livery, 1 -> Wheel, 2 -> Wheel Covers
     int shapeNo = 0;
-    if (modelName == "KART2") shapeNo = 1;
-    else if (modelName == "KART3") shapeNo = 2;
+    if (modelName == "KART2" || modelName == "PLYR_KART2") shapeNo = 1;
+    else if (modelName == "KART3" || modelName == "PLYR_KART3") shapeNo = 2;
 
     // shapes is a <shape_T> vector included in the Model3D class
     for (int i = 0; i < shapes[shapeNo].mesh.indices.size(); i++) {
@@ -67,19 +67,19 @@ void Kart::loadKart() {
 void Kart::assignTexture() {
     GLuint chooseTexAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "selectTex");
 
-    if (modelName == "KART1") {
+    if (modelName == "KART1" || modelName == "PLYR_KART1") {
         GLuint texAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texLivery");
         textureMaker.setActiveTex(LIVERY);
         glUniform1i(texAddress, LIVERY);
         glUniform1i(chooseTexAddress, LIVERY);
     }
-    else if (modelName == "KART2") {
+    else if (modelName == "KART2" || modelName == "PLYR_KART2") {
         GLuint texAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texWheel");
         textureMaker.setActiveTex(WHEEL);
         glUniform1i(texAddress, WHEEL);
         glUniform1i(chooseTexAddress, WHEEL);
     }
-    else if (modelName == "KART3") {
+    else if (modelName == "KART3" || modelName == "PLYR_KART3") {
         GLuint texAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texCover");
         textureMaker.setActiveTex(COVER);
         glUniform1i(texAddress, COVER);
@@ -94,9 +94,24 @@ void Kart::assignTransparency() {
     glUniform1f(transparencyAddress, transparency);
 }
 
+void Kart::checkAtEnd() {
+    if (position.z >= FINISH_LINE) {
+        GO = false;
+
+        //Ghost Karts will stop immediately at the end, the player is allowed to move freely until all 3 karts reach the end
+        if (modelName != "PLYR_KART1" && modelName != "PLYR_KART2" && modelName != "PLYR_KART3")
+            speed = 0;
+    }
+}
+
 // Handles model transformations 
 void Kart::update() {
-    if(GO){
+    checkAtEnd();
+    if(GO || 
+        //This allows for the player to move still even if its crossed the finish line
+        modelName == "PLYR_KART1" || 
+        modelName == "PLYR_KART2" || 
+        modelName == "PLYR_KART3"){
         if(speed < maxSpeed)
             speed += acceleration; //Either +- 0.0002f
         if (speed >= maxSpeed)
@@ -117,9 +132,9 @@ void Kart::update() {
             speed += accelMod * 0.1f;
 
         acceleration = 0;
-   
-        position += direction * speed;
     }
+       
+    position += direction * speed;
 
     //Transformation
     transformation_matrix = translate(identity_matrix, position);
@@ -166,3 +181,5 @@ void Kart::setReverse(bool reverse) {
 void Kart::setGO(bool go) {
     GO = go;
 }
+
+bool Kart::getGO() { return GO; }
