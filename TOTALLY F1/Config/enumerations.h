@@ -1,6 +1,6 @@
 #pragma once
 
-#define FINISH_LINE 2000
+#define FINISH_LINE 1500
 
 /* LEGEND:
     - PLYR : Player
@@ -34,7 +34,15 @@ enum ALL_NP_OBJ_IDX {
     FINISH_PLANE,
 
     TOWNHOUSE1,
-    STONE_HOUSE1
+    TOWNHOUSE2,
+    TOWNHOUSE3,
+    TOWNHOUSE4,
+    TOWNHOUSE5,
+    STONE_HOUSE1,
+    STONE_HOUSE2,
+    STONE_HOUSE3,
+    STONE_HOUSE4,
+    STONE_HOUSE5
 };
 
 enum ACTIVE_CAM {

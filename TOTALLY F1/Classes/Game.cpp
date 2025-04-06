@@ -110,7 +110,7 @@ void Game::initializePlayer() {
 		800.0f,                   // Window width
 		800.0f,                   // Window height
 		0.1f,                     // zNear
-		500.0f,                   // zFar
+		300.0f,                   // zFar
 		vec3(0.0f, 3.0f, 0.0f),   // Camera Position
 		vec3(0.0f),               // Camera Center
 		vec3(180.f, -30.0f, 0.0f),// Camera Rotation Modifier
@@ -124,7 +124,7 @@ void Game::initializePlayer() {
 		800.0f,
 		800.0f,
 		0.1f,
-		500.0f,
+		300.0f,
 		vec3(0.0f, 1.5f, 0.5f),
 		vec3(0.0f),
 		vec3(40.0f, 180.0f, 0.0f),
@@ -335,7 +335,7 @@ void Game::initializeModels() {
 		vec3(9.0f, 0.1f, 0.1f)
 	));
 
-	///////////////////////////////// TOWNHOUSE /////////////////////////////////
+	///////////////////////////////// TOWNHOUSE 1 /////////////////////////////////
 	setVAO(&townhouseVAO, GENERATE);
 	setVAO(&townhouseVAO, BIND);
 	allNPModels.push_back(new Building(
@@ -351,14 +351,66 @@ void Game::initializeModels() {
 	));
 	setVAO(&townhouseVAO, UNBIND);
 
-	///////////////////////////////// STONE HOUSE /////////////////////////////////
+	///////////////////////////////// TOWNHOUSE 2 /////////////////////////////////
+	allNPModels.push_back(new Building(
+		"TOWNHOUSE",
+		"3D/townhouse.obj",
+		vec3(-30.0f, 0.0f, 420.0f),
+		vec3(3.2f),
+		vec3(0.0),
+		"Shaders/BuildingShader.vert",
+		"Shaders/TownhouseShader.frag",
+		"Textures/townhouse/townhouse_color.png",
+		"Textures/townhouse/townhouse_normal.png"
+	));
+
+	///////////////////////////////// TOWNHOUSE 3 /////////////////////////////////
+	allNPModels.push_back(new Building(
+		"TOWNHOUSE",
+		"3D/townhouse.obj",
+		vec3(26.0f, 0.0f, 540.0f),
+		vec3(3.0f),
+		vec3(0.0f, 180.0f, 0.0f),
+		"Shaders/BuildingShader.vert",
+		"Shaders/TownhouseShader.frag",
+		"Textures/townhouse/townhouse_color.png",
+		"Textures/townhouse/townhouse_normal.png"
+	));
+
+	///////////////////////////////// TOWNHOUSE 4 /////////////////////////////////
+	allNPModels.push_back(new Building(
+		"TOWNHOUSE",
+		"3D/townhouse.obj",
+		vec3(-25.0f, 0.0f, 1250.0f),
+		vec3(3.5f),
+		vec3(0.0f),
+		"Shaders/BuildingShader.vert",
+		"Shaders/TownhouseShader.frag",
+		"Textures/townhouse/townhouse_color.png",
+		"Textures/townhouse/townhouse_normal.png"
+	));
+
+	///////////////////////////////// TOWNHOUSE 5 /////////////////////////////////
+	allNPModels.push_back(new Building(
+		"TOWNHOUSE",
+		"3D/townhouse.obj",
+		vec3(-32.0f, 0.0f, 1375.0f),
+		vec3(4.5f),
+		vec3(0.0f),
+		"Shaders/BuildingShader.vert",
+		"Shaders/TownhouseShader.frag",
+		"Textures/townhouse/townhouse_color.png",
+		"Textures/townhouse/townhouse_normal.png"
+	));
+
+	///////////////////////////////// STONE HOUSE 1 /////////////////////////////////
 	setVAO(&stonehouseVAO, GENERATE);
 	setVAO(&stonehouseVAO, BIND);
 	allNPModels.push_back(new Building(
 		"STONE_HOUSE",
 		"3D/stone_house.obj",
 		vec3(25.0f, 0.0f, 200.0f),
-		vec3(1.5f),
+		vec3(1.8f),
 		vec3(0.0f, -90.0f, 0.0f),
 		"Shaders/BuildingShader.vert",
 		"Shaders/StoneHouseShader.frag",
@@ -366,6 +418,58 @@ void Game::initializeModels() {
 		"Textures/stone_house/stone_house_normal.png"
 	));
 	setVAO(&stonehouseVAO, UNBIND);
+
+	///////////////////////////////// STONE HOUSE 2 /////////////////////////////////
+	allNPModels.push_back(new Building(
+		"STONE_HOUSE",
+		"3D/stone_house.obj",
+		vec3(-35.0f, 0.0f, 690.0f),
+		vec3(1.5f),
+		vec3(0.0f, 90.0, 0.0f),
+		"Shaders/BuildingShader.vert",
+		"Shaders/StoneHouseShader.frag",
+		"Textures/stone_house/stone_house_color.png",
+		"Textures/stone_house/stone_house_normal.png"
+	));
+
+	///////////////////////////////// STONE HOUSE 3 /////////////////////////////////
+	allNPModels.push_back(new Building(
+		"STONE_HOUSE",
+		"3D/stone_house.obj",
+		vec3(-32.0f, 0.0f, 880.0f),
+		vec3(2.0f),
+		vec3(0.0f, 90.0, 0.0f),
+		"Shaders/BuildingShader.vert",
+		"Shaders/StoneHouseShader.frag",
+		"Textures/stone_house/stone_house_color.png",
+		"Textures/stone_house/stone_house_normal.png"
+	));
+
+	///////////////////////////////// STONE HOUSE 3 /////////////////////////////////
+	allNPModels.push_back(new Building(
+		"STONE_HOUSE",
+		"3D/stone_house.obj",
+		vec3(28.0f, 0.0f, 1035.0f),
+		vec3(2.2f),
+		vec3(0.0f, -90.0f, 0.0f),
+		"Shaders/BuildingShader.vert",
+		"Shaders/StoneHouseShader.frag",
+		"Textures/stone_house/stone_house_color.png",
+		"Textures/stone_house/stone_house_normal.png"
+	));
+
+	///////////////////////////////// STONE HOUSE 5 /////////////////////////////////
+	allNPModels.push_back(new Building(
+		"STONE_HOUSE",
+		"3D/stone_house.obj",
+		vec3(32.0f, 0.0f, 1450.0f),
+		vec3(2.5f),
+		vec3(0.0f, -90.0f, 0.0f),
+		"Shaders/BuildingShader.vert",
+		"Shaders/StoneHouseShader.frag",
+		"Textures/stone_house/stone_house_color.png",
+		"Textures/stone_house/stone_house_normal.png"
+	));
 }
 
 /*
@@ -497,11 +601,14 @@ void Game::checkKarts() {
 			for (PlayerKart* kartPart : player.getWholeKart())
 				kartPart->setSpeed(0);
 
-			cout << "||-------- TIME --------||" << endl;
-			cout << "Fast Kart: " << kartFastTime - startTimer << endl;
-			cout << "   Player: " << playerKartTime - startTimer << endl;
-			cout << "Slow Kart: " << kartSlowTime - startTimer << endl;
-			cout << "||----------------------||" << endl;
+			cout << "||---------- TIME ----------||" << endl;
+			cout << "|> Fast Kart: " << kartFastTime - startTimer << endl;
+			cout << "|> Player Kart: " << playerKartTime - startTimer << endl;
+			cout << "|> Slow Kart: " << kartSlowTime - startTimer << endl;
+			cout << "||--------------------------||" << endl << endl;
+
+			cout << "    Thank you for playing!" << endl;
+			cout << "   Press [Esc] to exit game" << endl;
 
 			isPrinted = true;
 			gameStart = false;
@@ -582,7 +689,7 @@ void Game::runLoop() {
 			spotLightL.loadSpot(model->getShader().getShaderProg(), "spotL");
 			spotLightR.loadSpot(model->getShader().getShaderProg(), "spotR");
 
-			// Sets the VAO to the corresponding kart
+			// Sets the VAO to the corresponding non-player object
 			if (i == GST1_IDX_KL || i == GST2_IDX_KL)
 				setVAO(&kartVAOs[GST1_IDX_KL], BIND);
 			else if (i == GST1_IDX_WL || i == GST2_IDX_WL)
@@ -593,9 +700,9 @@ void Game::runLoop() {
 				setVAO(&roadVAO, BIND);
 			else if (i >= LIGHT_BALL1 && i <= LIGHT_BALL3)
 				setVAO(&lightBallVAO, BIND);
-			else if (i == TOWNHOUSE1)
+			else if (i >= TOWNHOUSE1 && i <= TOWNHOUSE5)
 				setVAO(&townhouseVAO, BIND);
-			else if (i == STONE_HOUSE1)
+			else if (i >= STONE_HOUSE1 && i <= STONE_HOUSE5)
 				setVAO(&stonehouseVAO, BIND);
 
 			if(!stopCars && gameStart){
