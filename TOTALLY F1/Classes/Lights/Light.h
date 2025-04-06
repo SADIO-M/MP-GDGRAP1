@@ -4,9 +4,10 @@
 #include "../../Config/enumerations.h"
 
 /*
-	This is the Light class, the parent class of Point and Direction
-		- Contains the information needed by both light sources
-		- It handles loading the lights (via passing it to the shader program) and adjusting its brightness
+	This is the Light class, the parent class of Point, Direction, and Spot
+		- Contains the information needed by all three light sources
+		- It handles loading the lights (via passing it to the shader program)
+		- It can also update the light information
 
 	[Created by: Megan Sadio]
 */

@@ -1,6 +1,8 @@
 #version 330 core
 
 //This is the fragment shader for the Kart Object
+//This shader considers the four types of lights, signal lights, spot lights and the direction light
+//Sorry if this code is messy, couldn't figure out how to get the arrays to work :)
 
 /////////// TEXTURES ///////////
 uniform sampler2D texLivery;
@@ -82,8 +84,8 @@ in vec3 fragPos;
 
 out vec4 FragColor;
 
-//This function creates the point light from the passed uniform vectors
-//This is a point light because it calculates the distance between the light and adjusts the brightness accordingly
+//This function calculates the lighting emitted by the signal lights at the start of the game
+//These signal lights uses a point light
 vec3 createSignalLights(){
 	vec3 normal = normalize(normCoord);
 	vec3 viewDir = normalize(cameraPosition - fragPos);
@@ -112,6 +114,7 @@ vec3 createSignalLights(){
 //This is the function for creating a directional light
 //It is similar to the point light except its direction is fixed to point at the center, 
 //and its intensity does not decrease based on distance
+//It is responsible for the morning/night feel of the lighting
 vec3 createDirectionLight(){
 	vec3 normal = normalize(normCoord);
 	vec3 lightDir = normalize(direction);
@@ -129,6 +132,8 @@ vec3 createDirectionLight(){
 	return (D_Diffuse + D_Ambient + D_Specular) * dirBright;
 }
 
+//The two following functions are both spotlights
+//They are the headlights of the car, one for the left and one for the right
 vec3 createSpotLightL(){
 	vec3 normal = normalize(normCoord);
 	vec3 viewDir = normalize(cameraPosition - fragPos);
@@ -193,6 +198,7 @@ vec3 createSpotLightR(){
 
 //In the main function, the lights are added together
 //Then, depending on selectTex, it assigns the corresponding texture
+//There is also a transparency considered especially because of the ghost karts
 void main(){
 	vec3 signalLights = createSignalLights();
 	vec3 directionLight = createDirectionLight();

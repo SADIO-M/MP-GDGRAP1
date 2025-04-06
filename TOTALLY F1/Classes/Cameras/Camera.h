@@ -3,11 +3,8 @@
 #include "../../Config/namespace.h"
 
 /*
-	This is the Camera class, the parent of Orthographic and Perspective
-		- Contains all the variables and functions needed by both cameras
-		- Handles its update and draw functions
-			- The update function is for transformations
-		- The draw function is required to be defined by its child classes
+	This is the Camera class, the parent of the Perspective camera
+		- Contains all general camera variables, setters, and getters
 
 	[Created by: Megan Sadio]
 */
@@ -15,7 +12,7 @@ class Camera {
 protected:
 	float windowWidth;
 	float windowHeight;
-	
+
 	mat4 viewMatrix;
 	mat4 projectionMatrix;
 	
@@ -33,15 +30,15 @@ protected:
 	mat4 cameraRotMatrix;
 
 public:
+	//CONSTRUCTOR
 	Camera();
 	Camera(float width, float height,
 		   float near,  float far,
 		   vec3 position, vec3 center, 
 		   vec3 rotation);
 
-	virtual void update();
+	//GETTERS & SETTERS
 	virtual mat4 getView();
 	virtual mat4 getProjection();
-
 	virtual void setPosMat(mat4 newPosMat);
 };

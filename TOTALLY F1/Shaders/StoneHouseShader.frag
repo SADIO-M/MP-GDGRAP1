@@ -1,5 +1,8 @@
 #version 330 core
 
+//This is the shader for the stone house
+//It is very similar to the townhouse fragment shader, the only difference is the normals are scaled differently
+
 /////////// TEXTURES ///////////
 uniform sampler2D texStoneHouseColor;
 uniform sampler2D texStoneHouseNormal;
@@ -64,9 +67,6 @@ out vec4 FragColor;
 
 in mat3 TBN;
 
-//This is the function for creating a directional light
-//It is similar to the point light except its direction is fixed to point at the center, 
-//and its intensity does not decrease based on distance
 vec3 createDirectionLight(vec3 normal){
 	vec3 lightDir = normalize(direction);
 
@@ -143,11 +143,11 @@ vec3 createSpotLightR(vec3 normal){
 		return (SP_Ambient) * adjustBrightness;
 }
 
-//In the main function, the lights are added together
-//Then, depending on selectTex, it assigns the corresponding texture
+//Gets the normal from the normal image, then it passes it to all the shaders,
+//Then the fragColor gets the lights with the normal mapped textures
 void main(){
 	vec3 normal = texture(texStoneHouseNormal, texCoord).rgb;
-	normal = normalize(normal * 10.0f - 1.0f);
+	normal = normalize(normal * 8.0f - 1.0f);
 	normal = normalize(TBN * normal);
 
 	vec3 directionLight = createDirectionLight(normal);

@@ -1,8 +1,8 @@
 #pragma once
 
-/*  This is a configurations file including all of the headers, namespaces and enumerations
+/*  
+	This is a configurations header file including all of the headers and namespaces
        - Main purpose is ease of use especially for the namespaces
-       - It also provides clarity via the enumerations for certain functions
 */
 
 #include <iostream>

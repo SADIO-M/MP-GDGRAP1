@@ -4,9 +4,11 @@
     Submitted by:
         SADIO, Megan Florence Sophia C.
         MONTUERTO, Yzabelle Anne A.
-    Submitted on: April 2, 2025
+    Submitted on: April 7, 2025
 
     ////////// MODEL CREDITS //////////
+        *For the models that have textures, they also come from the same link
+        
         F1 2026 Car:
         Nimaxo3D. (2024). F1 2026 Release Car Free 3D model. [3D digital model].
             https://www.cgtrader.com/free-3d-models/car/racing-car/f1-2026-release-car
@@ -59,22 +61,25 @@
 #include <glm/gtc/type_ptr.hpp>
 
 ////////// CLASSES //////////
+/* GAME CLASS */
 #include "Classes/Game.h"
+/* SHADER AND TEXTURE CLASSES */
 #include "Classes/CShaders/Shader.h"
 #include "Classes/TextureMaker/TextureMaker.h"
-
+/* SKYBOX */
 #include "Classes/Skybox/Skybox.h"
-
+/* PLAYER-RELATED CLASSES */
+#include "Classes/Player/Player.h"
 #include "Classes/Player/PlayerKart.h"
-
+/* MODEL-RELATED CLASSES */
 #include "Classes/Models/Model3D.h"
 #include "Classes/Models/Object.h"
 #include "Classes/Models/Kart.h"
 #include "Classes/Models/Building.h"
-
+/* CAMERA CLASSES */
 #include "Classes/Cameras/Camera.h"
 #include "Classes/Cameras/Perspective.h"
-
+/* LIGHT CLASSES */
 #include "Classes/Lights/Light.h"
 #include "Classes/Lights/Direction.h"
 #include "Classes/Lights/Point.h"
@@ -101,6 +106,8 @@ int main(void)
         return -1;
     }
 
+    //This set window position allows the window to always be spawned at the center of the screen
+    //This is more of quality of life, since the cursor is disabled, it would be annoying to have to move the screen around
     glfwSetWindowPos(window, 960 - (windowWidth/2), 540 - (windowHeight / 2));
     //Create a game variable
     Game game(window, windowWidth, windowHeight);

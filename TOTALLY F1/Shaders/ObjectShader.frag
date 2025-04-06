@@ -1,5 +1,9 @@
 #version 330 core
 
+//This ObjectShader.frag is a general shader for objects that are not textured
+//These objects are the signal light balls
+
+/////////// COLOR OF OBJECT ///////////
 uniform vec3 color;
 
 /////////// SIGNAL LIGHT ///////////

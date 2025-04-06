@@ -8,7 +8,8 @@
 		- Contains all of the necessary information for a direction light
 		- Its only difference to the point light is that its direction is fixed no matter what
 		- loadDir is a function that sends the light direction to the shader program
-		- child of Light
+		- It can also change its color and other light variables based to give a morning or night feel
+		- Child of Light
 
 	[Created by: Megan Sadio]
 */

@@ -1,5 +1,10 @@
 #version 330 core
 
+//This PlaneShader.frag is a shader for the road plane
+//It differs from the ObjectShader.frag because the road is affected by all types of lighting
+//Functions are similar to the KartShader.frag
+
+/////////// COLOR OF OBJECT ///////////
 uniform vec3 color;
 
 /////////// SIGNAL LIGHT ///////////
@@ -75,8 +80,6 @@ in vec3 fragPos;
 
 out vec4 FragColor;
 
-//This function creates the point light from the passed uniform vectors
-//This is a point light because it calculates the distance between the light and adjusts the brightness accordingly
 vec4 createSignalLights(){
 	vec3 normal = normalize(normCoord);
 	vec3 viewDir = normalize(cameraPosition - fragPos);
@@ -102,9 +105,6 @@ vec4 createSignalLights(){
 	return vec4(P_Diffuse + P_Ambient + P_Specular, 1.0f) * adjustBrightness;
 }
 
-//This is the function for creating a directional light
-//It is similar to the point light except its direction is fixed to point at the center, 
-//and its intensity does not decrease based on distance
 vec4 createDirectionLight(){
 	vec3 normal = normalize(normCoord);
 	vec3 lightDir = normalize(direction);

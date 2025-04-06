@@ -1,8 +1,11 @@
 #version 330 core
 
+//This BuildingShader.vert is for the buildings that have normal mapping
+
 layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec3 vertexNormal;
 layout(location = 2) in vec2 aTex;
+//Same as other vertex shaders, but has a tan and biTan for normal mapping
 layout(location = 3) in vec3 tan;
 layout(location = 4) in vec3 biTan;
 

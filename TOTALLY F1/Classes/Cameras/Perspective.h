@@ -7,20 +7,20 @@
 /*
 	This is the Perspective class for the perspective camera
 		- Contains all the variables needed for a perspective camera
-		- Its main difference from the Orthographic camera is that it moves (rotates)
-		- In the draw function, it makes its projection matrix = perspective(...)
-		- Holds the field of view and rotation speed (since this camera rotates)
-		- child of Camera
+		- It can also move around the player (if it is third person), and follows the player accordingly
+		- Child of Camera
 
 	[Created by: Megan Sadio]
 */
 class Perspective : public Camera {
 private:
 	float fieldOfView;
+	//Rotation speed and camera radius for the third person camera, since it can move
 	float rotateSpeed;
 	float cameraRadius;
 
 public:
+	//CONSTRUCTORS
 	Perspective();
 	Perspective(float width, float height,
 		float near, float far,
@@ -28,6 +28,7 @@ public:
 		vec3 rotation, float FOV,
 		float rotSpeed, float radius);
 
+	//FUNCTIONS
 	void rotateWithMouse(dvec2* prevMousePos, dvec2* currMousePos);
 	void rotateWithKeys(MOVE move);
 	void checkRotation();

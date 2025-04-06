@@ -2,7 +2,6 @@
 
 //CONSTRUCTORS
 Light::Light(){}
-
 Light::Light(vec3 position, vec3 color,
 			 float ambStr, float specStr, float specPhong,
 		     float brightness) {
@@ -22,7 +21,7 @@ Light::Light(vec3 position, vec3 color,
 /*
     This loadLight function is responsible for passing the light's information to the corresponding shader program
         - For simplification, both point light and direction light have the same end variable names, and either 
-            "point" or "dir" is added to the start to differentiate the two
+            "signal", "dir", "spotL" or "spotR" is added to the start to differentiate all the lights from each other
 */
 void Light::loadLight(GLuint shaderProg, string lightType) {
     GLuint lightPosAddress = glGetUniformLocation(shaderProg, (lightType+"Pos").c_str());
@@ -47,6 +46,9 @@ void Light::loadLight(GLuint shaderProg, string lightType) {
     glUniform1f(brightAddress, brightness);
 }
 
+/*
+    This update light function is used to update the light, in case its needed to switch colors, intensity, etc.
+*/
 void Light::updateLight(vec3 newPos, vec3 newColor, 
                         float newAmbStr, 
                         float newSpecStr, float newSpecPhong, 

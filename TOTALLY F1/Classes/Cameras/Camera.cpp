@@ -18,12 +18,9 @@ Camera::Camera(float width, float height,
 	cameraRotation = rotation;
 }
 
-void Camera::update() {
-	cameraCenter = vec3(0.0f);
-	viewMatrix = lookAt(cameraPosition, cameraCenter, worldUp);
-}
-
+//GETTERS AND SETTERS
 mat4 Camera::getView() { return viewMatrix; }
+
 mat4 Camera::getProjection() { return projectionMatrix; }
 
 void Camera::setPosMat(mat4 newPosMat) {
