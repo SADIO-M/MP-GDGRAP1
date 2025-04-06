@@ -338,14 +338,14 @@ void Game::initializeModels() {
 	///////////////////////////////// TOWNHOUSE /////////////////////////////////
 	setVAO(&townhouseVAO, GENERATE);
 	setVAO(&townhouseVAO, BIND);
-	allNPModels.push_back(new Townhouse(
+	allNPModels.push_back(new Building(
 		"TOWNHOUSE",
 		"3D/townhouse.obj",
 		vec3(-20.0f, 0.0f, 100.0f),
 		vec3(3.0f),
 		vec3(0.0),
-		"Shaders/TownhouseShader.vert",
-		"Shaders/TownhouseShader.frag",
+		"Shaders/BuildingShader.vert",
+		"Shaders/BuildingShader.frag",
 		"Textures/townhouse/townhouse_color.png",
 		"Textures/townhouse/townhouse_normal.png"
 	));

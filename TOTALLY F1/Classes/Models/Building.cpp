@@ -1,7 +1,7 @@
-#include "Townhouse.h"
+#include "Building.h"
 
-Townhouse::Townhouse(){}
-Townhouse::Townhouse(string name, string pathName,
+Building::Building(){}
+Building::Building(string name, string pathName,
 	vec3 pos, vec3 scale, vec3 rotate,
 	string vertPath, string fragPath,
 	string texColorPath, string texNormPath) : 
@@ -11,10 +11,10 @@ Townhouse::Townhouse(string name, string pathName,
 	//Texture here
     textureMaker.makeTex2D(&textureColor, texColorPath, TOWNHOUSE_COLOR);
 
-	loadTownhouse();
+	loadBuilding();
 }
 
-void Townhouse::loadTownhouse(){
+void Building::loadBuilding(){
 	Model3D::loadObj();
 
     for (int i = 0; i < shapes[0].mesh.indices.size(); i++) {
@@ -40,7 +40,7 @@ void Townhouse::loadTownhouse(){
     Model3D::setUpVBO();
 }
 
-void Townhouse::update(){
+void Building::update(){
     transformation_matrix = translate(identity_matrix, position);
     transformation_matrix = scale(transformation_matrix, scaling);
     transformation_matrix = rotate(transformation_matrix, radians(rotation.x), vec3(1, 0, 0));
@@ -51,7 +51,7 @@ void Townhouse::update(){
     glUniformMatrix4fv(transformLocation, 1, GL_FALSE, value_ptr(transformation_matrix));
 }
 
-void Townhouse::assignTexture(){
+void Building::assignTexture(){
     GLuint texAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texTownhouseColor");
     textureMaker.setActiveTex(TOWNHOUSE_COLOR);
     glUniform1i(texAddress, TOWNHOUSE_COLOR);
@@ -59,7 +59,7 @@ void Townhouse::assignTexture(){
     glBindTexture(GL_TEXTURE_2D, textureColor);
 }
 
-void Townhouse::draw(){
+void Building::draw(){
     update();
     assignTexture();
     glDrawArrays(GL_TRIANGLES, 0, fullVertexData.size() / 8);

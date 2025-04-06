@@ -70,7 +70,7 @@
 #include "Classes/Models/Model3D.h"
 #include "Classes/Models/Object.h"
 #include "Classes/Models/Kart.h"
-#include "Classes/Models/Townhouse.h"
+#include "Classes/Models/Building.h"
 
 #include "Classes/Cameras/Camera.h"
 #include "Classes/Cameras/Perspective.h"
