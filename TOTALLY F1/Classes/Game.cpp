@@ -344,7 +344,7 @@ void Game::initializeModels() {
 		vec3(-20.0f, 0.0f, 100.0f),
 		vec3(3.0f),
 		vec3(0.0),
-		"Shaders/TownhouseShader.vert",
+		"Shaders/BuildingShader.vert",
 		"Shaders/TownhouseShader.frag",
 		"Textures/townhouse/townhouse_color.png",
 		"Textures/townhouse/townhouse_normal.png"
@@ -360,7 +360,7 @@ void Game::initializeModels() {
 		vec3(25.0f, 0.0f, 200.0f),
 		vec3(1.5f),
 		vec3(0.0f, -90.0f, 0.0f),
-		"Shaders/StoneHouseShader.vert",
+		"Shaders/BuildingShader.vert",
 		"Shaders/StoneHouseShader.frag",
 		"Textures/stone_house/stone_house_color.png",
 		"Textures/stone_house/stone_house_normal.png"

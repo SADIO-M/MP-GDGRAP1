@@ -104,7 +104,7 @@ void Point::updatePointLight(POINT_LIGHT_COLOR light) {
 		newAmbStr = 0.3f;
 		newSpecStr = 0.8f;
 		newSpecPhong = 20.0f;
-		newBrightness = 75.0f;
+		newBrightness = 50.0f;
 		break;
 	}
 

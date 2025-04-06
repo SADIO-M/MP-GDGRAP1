@@ -77,6 +77,8 @@ in vec3 fragPos;
 
 out vec4 FragColor;
 
+in mat3 TBN;
+
 //This function creates the point light from the passed uniform vectors
 //This is a point light because it calculates the distance between the light and adjusts the brightness accordingly
 vec3 createSignalLights(vec3 normal){
@@ -187,6 +189,7 @@ vec3 createSpotLightR(vec3 normal){
 void main(){
 	vec3 normal = texture(texTownhouseNormal, texCoord).rgb;
 	normal = normalize(normal * 5.0f - 1.0f);
+	normal = normalize(TBN * normal);
 
 	vec3 signalLights = createSignalLights(normal);
 	vec3 directionLight = createDirectionLight(normal);

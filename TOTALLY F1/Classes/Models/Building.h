@@ -8,6 +8,9 @@
 
 class Building : public Model3D {
 private:
+	vector<vec3> vec_Tangents;
+	vector<vec3> vec_BiTangents;
+
 	GLuint textureColor;
 	GLuint textureNormal;
 
@@ -20,6 +23,7 @@ public:
 		string texColorPath, string texNormPath);
 
 	void loadBuilding();
+	void setUpBuildingVBO();
 	
 	void update();
 	void assignTexture();
