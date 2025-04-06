@@ -1,7 +1,8 @@
 #version 330 core
 
-/////////// TEXTURE ///////////
+/////////// TEXTURES ///////////
 uniform sampler2D texTownhouseColor;
+uniform sampler2D texTownhouseNormal;
 
 /////////// SIGNAL LIGHT ///////////
 uniform vec3  signalPos;
@@ -78,8 +79,7 @@ out vec4 FragColor;
 
 //This function creates the point light from the passed uniform vectors
 //This is a point light because it calculates the distance between the light and adjusts the brightness accordingly
-vec3 createSignalLights(){
-	vec3 normal = normalize(normCoord);
+vec3 createSignalLights(vec3 normal){
 	vec3 viewDir = normalize(cameraPosition - fragPos);
 
 	vec3 lightDir = normalize(signalPos - fragPos);
@@ -106,8 +106,7 @@ vec3 createSignalLights(){
 //This is the function for creating a directional light
 //It is similar to the point light except its direction is fixed to point at the center, 
 //and its intensity does not decrease based on distance
-vec3 createDirectionLight(){
-	vec3 normal = normalize(normCoord);
+vec3 createDirectionLight(vec3 normal){
 	vec3 lightDir = normalize(direction);
 
 	float dirDiff = max(dot(normal, lightDir), 0.0f);
@@ -123,8 +122,7 @@ vec3 createDirectionLight(){
 	return (D_Diffuse + D_Ambient + D_Specular) * dirBright;
 }
 
-vec3 createSpotLightL(){
-	vec3 normal = normalize(normCoord);
+vec3 createSpotLightL(vec3 normal){
 	vec3 viewDir = normalize(cameraPosition - fragPos);
 
 	vec3 lightDir = normalize(spotLPos - fragPos);
@@ -154,8 +152,7 @@ vec3 createSpotLightL(){
 		return (SP_Ambient) * adjustBrightness;
 }
 
-vec3 createSpotLightR(){
-	vec3 normal = normalize(normCoord);
+vec3 createSpotLightR(vec3 normal){
 	vec3 viewDir = normalize(cameraPosition - fragPos);
 
 	vec3 lightDir = normalize(spotRPos - fragPos);
@@ -188,10 +185,13 @@ vec3 createSpotLightR(){
 //In the main function, the lights are added together
 //Then, depending on selectTex, it assigns the corresponding texture
 void main(){
-	vec3 signalLights = createSignalLights();
-	vec3 directionLight = createDirectionLight();
-	vec3 spotLightL = createSpotLightL();
-	vec3 spotLightR = createSpotLightR();
+	vec3 normal = texture(texTownhouseNormal, texCoord).rgb;
+	normal = normalize(normal * 5.0f - 1.0f);
+
+	vec3 signalLights = createSignalLights(normal);
+	vec3 directionLight = createDirectionLight(normal);
+	vec3 spotLightL = createSpotLightL(normal);
+	vec3 spotLightR = createSpotLightR(normal);
 	vec4 allLights = vec4(signalLights + directionLight + 
 					      spotLightL + spotLightR, 1.0f);
 

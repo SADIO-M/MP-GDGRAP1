@@ -11,9 +11,11 @@ Building::Building(string name, string pathName,
 	//Texture here
     if (modelName == "TOWNHOUSE") {
         textureMaker.makeTex2D(&textureColor, texColorPath, TOWNHOUSE_COLOR);
+        textureMaker.makeTex2D(&textureNormal, texNormPath, TOWNHOUSE_NORM);
     }
     else if (modelName == "STONE_HOUSE") {
         textureMaker.makeTex2D(&textureColor, texColorPath, STONE_HOUSE_COLOR);
+        textureMaker.makeTex2D(&textureNormal, texNormPath, STONE_HOUSE_NORM);
     }
 
 	loadBuilding();
@@ -57,20 +59,33 @@ void Building::update(){
 }
 
 void Building::assignTexture(){
-    GLuint texAddress;
+    GLuint texColorAddress;
+    GLuint texNormalAddress;
 
     if(modelName == "TOWNHOUSE"){
-        texAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texTownhouseColor");
+        texColorAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texTownhouseColor");
         textureMaker.setActiveTex(TOWNHOUSE_COLOR);
-        glUniform1i(texAddress, TOWNHOUSE_COLOR);
+        glUniform1i(texColorAddress, TOWNHOUSE_COLOR);
     }
     else if (modelName == "STONE_HOUSE") {
-        texAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texStoneHouseColor");
+        texColorAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texStoneHouseColor");
         textureMaker.setActiveTex(STONE_HOUSE_COLOR);
-        glUniform1i(texAddress, STONE_HOUSE_COLOR);
+        glUniform1i(texColorAddress, STONE_HOUSE_COLOR);
     }
- 
     glBindTexture(GL_TEXTURE_2D, textureColor);
+
+    if (modelName == "TOWNHOUSE") {
+        texNormalAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texTownhouseNormal");
+        textureMaker.setActiveTex(TOWNHOUSE_NORM);
+        glUniform1i(texNormalAddress, TOWNHOUSE_NORM);
+    }
+    else if (modelName == "STONE_HOUSE") {
+        texNormalAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texStoneHouseNormal");
+        textureMaker.setActiveTex(STONE_HOUSE_NORM);
+        glUniform1i(texNormalAddress, STONE_HOUSE_NORM);
+    }
+    glBindTexture(GL_TEXTURE_2D, textureNormal);
+ 
 }
 
 void Building::draw(){

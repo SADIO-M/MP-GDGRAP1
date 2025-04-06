@@ -60,6 +60,9 @@ void TextureMaker::makeTex2D(GLuint* texture, string texPath, SELECT_TEXTURE tex
 	setActiveTex(texIndex);
 	glBindTexture(GL_TEXTURE_2D, *texture);
 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
 	// If the color channels = 3 (RGB), then load with only RGB
 	if (colorChannels == 3) {
 		glTexImage2D(
