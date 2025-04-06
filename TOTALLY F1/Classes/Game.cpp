@@ -593,9 +593,9 @@ void Game::runLoop() {
 				setVAO(&roadVAO, BIND);
 			else if (i >= LIGHT_BALL1 && i <= LIGHT_BALL3)
 				setVAO(&lightBallVAO, BIND);
-			else if (i == TOWNHOUSE)
+			else if (i == TOWNHOUSE1)
 				setVAO(&townhouseVAO, BIND);
-			else if (i == STONE_HOUSE)
+			else if (i == STONE_HOUSE1)
 				setVAO(&stonehouseVAO, BIND);
 
 			if(!stopCars && gameStart){

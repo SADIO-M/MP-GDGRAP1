@@ -33,8 +33,8 @@ enum ALL_NP_OBJ_IDX {
 
     FINISH_PLANE,
 
-    TOWNHOUSE,
-    STONE_HOUSE
+    TOWNHOUSE1,
+    STONE_HOUSE1
 };
 
 enum ACTIVE_CAM {
