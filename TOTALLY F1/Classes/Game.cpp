@@ -3,9 +3,11 @@
 //CONSTRUCTORS
 Game::Game() {}
 /*
-	Recieves window information and sets up controlKart and controlPersCam bools.
-		- controlKart = true | Upon run, the user will be able to move the Kart by default
-		- controlPersCam = true | By default the user will view the Kart through the perspective camera
+	Recieves window information, sets up all the bools.
+		- isThirdPerson = true  | the camera starts as third person
+		- stopCars = false	    | the ghost karts are go as default
+		- gameStart = false	    | because there is a signal light, all Karts cannot move until that signal light goes green
+		- isPrinted = false	    | allows just one instance of the printing of the kart times' at the end
 */
 Game::Game(GLFWwindow* window, float windowWidth, float windowHeight) {
 	this->window = window;
@@ -42,6 +44,12 @@ void Game::start() {
 	glfwTerminate();
 }
 
+/*
+	This function initializes all the player-related variables
+		- Initializes the player kart and pushes them to the player's kart vector
+		- Initializes the player's cameras and pushes them to the player's cameras
+		- Also sets the third person camera as the active camera
+*/
 void Game::initializePlayer() {
 	///////////////////////////////// PLAYER KART /////////////////////////////////
 		//KART LIVERY (Main body)
@@ -49,7 +57,7 @@ void Game::initializePlayer() {
 	setVAO(&kartVAOs[0], BIND);
 	player.addPlayerKart(
 		new PlayerKart(
-		"PLYR_KART1",					// Name of the object
+		"PLYR_KART1",			    // Name of the object
 		"3D/f1_2026.obj",			// File location of the 3D Object
 		vec3(0.0),					// Object position
 		vec3(0.6, 0.6, 0.6),		// Object scale
@@ -59,7 +67,7 @@ void Game::initializePlayer() {
 		"Textures/f1_2026/Livery.png", // File path of the corresponding texture
 		0.1f,						// Max Speed
 		0.00003f,					// Acceleration Modifier
-		1.0f,
+		1.0f,						// Transparency
 		0.0f,						// Theta Turn
 		0.75f						// Theta Turning Modifier
 	));
@@ -133,9 +141,13 @@ void Game::initializePlayer() {
 		0.0f
 	));
 
+	//Sets the active camera to the third person camera
 	player.switchCam(THIRD_PERSON);
 }
 
+/*
+	This function initializes the skybox cube and the cube map textures
+*/
 void Game::initializeSkybox() {
 	//NIGHT SKYBOX
 	string skyboxNight[] = {
@@ -157,6 +169,7 @@ void Game::initializeSkybox() {
 		"Textures/skybox/morning/morning_bk.png"
 	};
 
+	//Create a skybox cube
 	setVAO(&skyboxVAO, GENERATE);
 	setVAO(&skyboxVAO, BIND);
 	skybox = new Skybox(
@@ -169,11 +182,10 @@ void Game::initializeSkybox() {
 }
 
 /*
-	Reponsible for creating the objects present in the program.
-		- allModels is a vector containing all of the models in the game
-		- LightBall is a class for the ball of light which is a child of the Model3D class
-		- Kart is also a child of Model3D which is for all of the parts of the car model
-		- Calls each class's constructor and pushes the object into the allModels vector
+	Reponsible for creating ALL the objects present in the program.
+		- allNPmodels contains all the non-player objects
+		- All models are a child of Model3D, so it can all be pushed into this vector
+		- Calls each class's constructor and pushes the object into the allNPmodels vector
 		- When calling the class's constructor, it also generates and binds the corresponding VAO, and when it is finished it unbinds for clean up
 */
 void Game::initializeModels() {
@@ -224,7 +236,7 @@ void Game::initializeModels() {
 	));
 
 	///////////////////////////////// GHOST KART 2 - SLOW /////////////////////////////////
-	//KART LIVERY (Main body)
+		//KART LIVERY (Main body)
 	allNPModels.push_back(new Kart(
 		"KART1",
 		"3D/f1_2026.obj",
@@ -239,7 +251,7 @@ void Game::initializeModels() {
 		0.3f
 	));
 
-	//KART WHEELS
+		//KART WHEELS
 	allNPModels.push_back(new Kart(
 		"KART2",
 		"3D/f1_2026.obj",
@@ -254,7 +266,7 @@ void Game::initializeModels() {
 		0.3f
 	));
 
-	//KART WHEEL COVERS
+		//KART WHEEL COVERS
 	allNPModels.push_back(new Kart(
 		"KART3",
 		"3D/f1_2026.obj",
@@ -474,25 +486,25 @@ void Game::initializeModels() {
 
 /*
 	Listens for player input and carries out the appropriate response
+		- For the player inputs related to movement, it can only move when the game has started
+		  (or in short, when the signal lights are go)
 */
 void Game::checkInput() {
 	if(gameStart){
+		//MOVEMENT
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
 			player.moveInput(ACCELERATE);
 			player.reverseKart(false);
 		}
-
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
 			player.moveInput(REVERSE);
 			player.reverseKart(true);
 		}
-
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
 			player.moveInput(STEER_L);
 			spotLightL.spotSpin(LEFT);
 			spotLightR.spotSpin(LEFT);
 		}
-
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
 			player.moveInput(STEER_R);
 			spotLightL.spotSpin(RIGHT);
@@ -509,7 +521,7 @@ void Game::checkInput() {
 		else player.switchCam(FIRST_PERSON);
 	}
 
-	//Morning and Night
+	//Morning and Night skybox
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
 		skyboxTex = MORNING;
 		dirLight.updateDirLight(MORNING);
@@ -523,6 +535,7 @@ void Game::checkInput() {
 		spotLightR.updatePointLight(WHITE);
 	}
 
+	//Rotate the third person camera with arrow keys
 	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 		player.rotateThirdPersKeys(DOWN);
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
@@ -532,6 +545,7 @@ void Game::checkInput() {
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 		player.rotateThirdPersKeys(RIGHT);
 
+	//Stop the ghost karts
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && stopCarsTimer >= 300) {
 		stopCars = !stopCars;
 		stopCarsTimer = 0;
@@ -541,52 +555,74 @@ void Game::checkInput() {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) glfwSetWindowShouldClose(window, 1);
 }
 
-// Handles mouse rotation
+// Handles mouse rotation for the third person camera
 void Game::mouseInput() {
 	player.rotateThirdPersMouse(&prevMousePos, &currMousePos);
 }
 
-void Game::updateInputTimer() {
+//Updates the timers in the game
+void Game::updateTimers() {
+	//The two timers below are to avoid input spam
 	switchCamTimer++;
 	stopCarsTimer++;
+	//Signal lights only increment if the game hasn't started
 	if(!gameStart) signalLights++;
 }
 
+/*
+	This animates the signal lights
+		- It goes red->yellow->then all of them turn green
+		- The signalLights timer is responsible for this animation
+		- Sort of simulates the stop lights in races
+*/
 void Game::updateSignalLights() {
+	//If the game hasn't started, so this only executes then so it ensures it doesn't need to check this all the time
 	if(!gameStart){
 		if (signalLights < 1200){
+			//Set the light to none (emits no light)
 			signalLight.updatePointLight(NONE);
 		}
 		else if (signalLights == 1200){
+			//Sets the first light ball to red, and change the light to color red
 			dynamic_cast<Object*>(allNPModels[LIGHT_BALL1])->setColor(vec3(1.0f, 0.0f, 0.0f));
 			signalLight.updatePointLight(RED);
 		}
 		else if (signalLights == 2250) {
+			//Sets to yellow
 			dynamic_cast<Object*>(allNPModels[LIGHT_BALL2])->setColor(vec3(1.0f, 1.0f, 0.0f));
 			signalLight.updatePointLight(YELLOW);
 		}
 		else if (signalLights == 3300){
+			//Sets the light to green, and all light balls change to green
 			dynamic_cast<Object*>(allNPModels[LIGHT_BALL1])->setColor(vec3(0.0f, 1.0f, 0.0f));
 			dynamic_cast<Object*>(allNPModels[LIGHT_BALL2])->setColor(vec3(0.0f, 1.0f, 0.0f));
 			dynamic_cast<Object*>(allNPModels[LIGHT_BALL3])->setColor(vec3(0.0f, 1.0f, 0.0f));
 
 			signalLight.updatePointLight(GREEN);
 
+			//When the light turns green, allow all the karts to move
 			for (PlayerKart* playerKart : player.getWholeKart())
 				playerKart->setGO(true);
 			for (int i = GST1_IDX_KL; i <= GST2_IDX_WC; i++)
 				dynamic_cast<Kart*>(allNPModels[i])->setGO(true);
 
+			//Start the game and start the timer
 			gameStart = true;
 			startTimer = glfwGetTime();
 		}
 	}
 }
 
+/*
+	This check if all the three karts have crossed the finish line
+		- If all three karts have crossed the finish line, then the game ends (the player can no longer move)
+*/
 void Game::checkKarts() {
-	//All three karts have to be false
+	//Only executes when the game has started
 	if (gameStart) {
-
+		//Checks if each kart GO bool (keeps track of if it has reached the end)
+		//Only needs to check one part since all three parts are controlled in the same manner
+		//If the kart has reached the end, get the time (but it only does this when the time is 0, so it ensures it doesn't constantly reset)
 		if (!(dynamic_cast<Kart*>(allNPModels[GST1_IDX_KL])->getGO()) && !(kartFastTime))
 			kartFastTime = glfwGetTime();
 		if (!(dynamic_cast<Kart*>(allNPModels[GST2_IDX_KL])->getGO()) && !(kartSlowTime))
@@ -594,13 +630,16 @@ void Game::checkKarts() {
 		if (!(player.getKartPart(PLYR_IDX_KL)->getGO()) && !(playerKartTime))
 			playerKartTime = glfwGetTime();
 
+		//If all the three karts have reached the finish line, then
 		if (!(dynamic_cast<Kart*>(allNPModels[GST1_IDX_KL])->getGO() ||
 			dynamic_cast<Kart*>(allNPModels[GST2_IDX_KL])->getGO() ||
 			player.getKartPart(PLYR_IDX_KL)->getGO()) && !isPrinted) {
 			
+			//Stop the player kart
 			for (PlayerKart* kartPart : player.getWholeKart())
 				kartPart->setSpeed(0);
 
+			//Print out the time it took for all the karts to reach the end
 			cout << "||---------- TIME ----------||" << endl;
 			cout << "|> Fast Kart: " << kartFastTime - startTimer << endl;
 			cout << "|> Player Kart: " << playerKartTime - startTimer << endl;
@@ -610,7 +649,9 @@ void Game::checkKarts() {
 			cout << "    Thank you for playing!" << endl;
 			cout << "   Press [Esc] to exit game" << endl;
 
+			//This bool only lets it print once
 			isPrinted = true;
+			//Make the game start false (means game has ended now)
 			gameStart = false;
 		}
 	}
@@ -619,14 +660,16 @@ void Game::checkKarts() {
 
 /*
 	The main game loop.
+		- Responsible for all the drawing, updating of all the objects, lighting, camera, etc.
+		- Responsible for also checking timers, the karts' positions, inputs, etc.
 */
 void Game::runLoop() {
 	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//Updates input timers
-		updateInputTimer();
+		//Updates timers
+		updateTimers();
 		updateSignalLights();
 		checkKarts();
 
@@ -635,15 +678,19 @@ void Game::runLoop() {
 		glfwGetCursorPos(window, &currMousePos.x, &currMousePos.y);
 		mouseInput(); // input checking for mouse
 
+		//Binds the skyboxVAO and draws it
 		setVAO(&skyboxVAO, BIND);
 		skybox->draw(
 			player.getActiveCam()->getView(), 
 			player.getActiveCam()->getProjection(),
 			skyboxTex);
 
+		//Updates the player's cameras
 		player.updateCameras();
-			
+		
+		//Draw and update the player's kart
 		for (int i = 0; i < player.getWholeKart().size(); i++) {
+			//Enum for ease of use
 			PLYR_KART_PARTS part;
 			switch (i) {
 			case 0: part = PLYR_IDX_KL;
@@ -653,10 +700,11 @@ void Game::runLoop() {
 			case 2: part = PLYR_IDX_WC;
 				break;
 			}
-
+			//Assign the corresponding shader program
 			glUseProgram(player.getKartPart(part)->getShader().getShaderProg());
+			//Get the active camera and draw it
 			player.getActiveCam()->draw(player.getKartPart(part)->getShader().getShaderProg());
-			
+			//Pass all the relevant lighting to the fragment shader
 			signalLight.loadPoint(player.getKartPart(part)->getShader().getShaderProg(), "signal");
 			dirLight.loadDir(player.getKartPart(part)->getShader().getShaderProg(), "dir");
 
@@ -668,21 +716,29 @@ void Game::runLoop() {
 			spotLightR.updateSpotPosDir(player.getKartPart(part)->getPosition(),
 				player.getKartPart(part)->getDirection());
 
+			//Bind the corresponding VAO based on the kart part
 			setVAO(&kartVAOs[part], BIND);
 
+			//Blend using GL_ZERO to make sure that the player's kart stays opaque
 			glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
 			glBlendEquation(GL_FUNC_ADD);
 
+			//Update player and draw
 			player.getKartPart(part)->updatePlayer();
 			player.getKartPart(part)->draw();
 		}
 		
+		//For all the non-player models
+		//Similar to how the player's kart gets drawn
 		for (int i = 0; i < allNPModels.size(); i++) {
+			//Current model being accessed
 			Model3D* model = allNPModels[i];
-
+			//Use corresponding shader program
 			glUseProgram(model->getShader().getShaderProg());
+			//Get the active camera and draw it
 			player.getActiveCam()->draw(model->getShader().getShaderProg());
 
+			//Handle all the lighting
 			signalLight.loadPoint(model->getShader().getShaderProg(), "signal");
 			dirLight.loadDir(model->getShader().getShaderProg(), "dir");
 
@@ -690,21 +746,30 @@ void Game::runLoop() {
 			spotLightR.loadSpot(model->getShader().getShaderProg(), "spotR");
 
 			// Sets the VAO to the corresponding non-player object
+				// Kart livery
 			if (i == GST1_IDX_KL || i == GST2_IDX_KL)
 				setVAO(&kartVAOs[GST1_IDX_KL], BIND);
+				// Kart wheels
 			else if (i == GST1_IDX_WL || i == GST2_IDX_WL)
 				setVAO(&kartVAOs[GST1_IDX_WL], BIND);
+				// Kart wheel covers
 			else if (i == GST1_IDX_WC || i == GST2_IDX_WC)
 				setVAO(&kartVAOs[GST1_IDX_WC], BIND);
+				// Plane objects (the road and finish line)
 			else if (i == ROAD_PLANE || i == FINISH_PLANE)
 				setVAO(&roadVAO, BIND);
+				// Light ball for the signal lights
 			else if (i >= LIGHT_BALL1 && i <= LIGHT_BALL3)
 				setVAO(&lightBallVAO, BIND);
+				// Townhouse
 			else if (i >= TOWNHOUSE1 && i <= TOWNHOUSE5)
 				setVAO(&townhouseVAO, BIND);
+				// Stone house
 			else if (i >= STONE_HOUSE1 && i <= STONE_HOUSE5)
 				setVAO(&stonehouseVAO, BIND);
 
+			//If stopCars is false (means the cars can go) and the game has started,
+			//Allow the ghost karts to move
 			if(!stopCars && gameStart){
 				//FASTER KART
 				if (i >= GST1_IDX_KL && i <= GST1_IDX_WC) {
@@ -717,19 +782,25 @@ void Game::runLoop() {
 					dynamic_cast<Kart*>(model)->update();
 				}
 			}
+			//Else if the player has stopped the ghost karts
 			else if (stopCars){
 				if (i <= GST2_IDX_WC){
+					//Set acceleration and speed to 0
 					dynamic_cast<Kart*>(model)->setAcceleration(0);
 					dynamic_cast<Kart*>(model)->setSpeed(0);
 				}
 			}
 			
+			//If the index is less than the ghost kart's wheel covers (since everything after this are non-kart objects)
+			//Blend it to allow transparency
 			if(i <= GST2_IDX_WC)
 				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			else 
+			else //Meaning the remaining objects are non-kart, blend it normally to keep them opaque
 				glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
 
 			glBlendEquation(GL_FUNC_ADD);
+			
+			//Finally, after all of that, draw the model
 			model->draw();
 		}
 
@@ -758,11 +829,13 @@ void Game::setVAO(GLuint* VAO, int type) {
 
 //DECONSTRUCTOR
 Game::~Game() {
+	//Call the deconstructors of the models
+	//Clean up
 	for (Model3D* model : allNPModels) {
 		model->~Model3D();
 		delete model;
 	}
-
+	//Clean-up all the generated VAOs
 	glDeleteVertexArrays(1, &skyboxVAO);
 	glDeleteVertexArrays(1, &kartVAOs[0]);
 	glDeleteVertexArrays(1, &kartVAOs[1]);
