@@ -66,8 +66,8 @@ void Building::assignTexture(){
     }
     else if (modelName == "STONE_HOUSE") {
         texAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texStoneHouseColor");
-        textureMaker.setActiveTex(TOWNHOUSE_COLOR);
-        glUniform1i(texAddress, TOWNHOUSE_COLOR);
+        textureMaker.setActiveTex(STONE_HOUSE_COLOR);
+        glUniform1i(texAddress, STONE_HOUSE_COLOR);
     }
  
     glBindTexture(GL_TEXTURE_2D, textureColor);
