@@ -6,9 +6,7 @@
         MONTUERTO, Yzabelle Anne A.
     Submitted on: April 7, 2025
 
-    ////////// MODEL CREDITS //////////
-        *For the models that have textures, they also come from the same link
-        
+    ////////// ALL 3D MODEL CREDITS //////////
         F1 2026 Car:
         Nimaxo3D. (2024). F1 2026 Release Car Free 3D model. [3D digital model].
             https://www.cgtrader.com/free-3d-models/car/racing-car/f1-2026-release-car
@@ -21,8 +19,12 @@
         Plane Model was used from class.
 
         Townhouse:
+        IINickE. (October 3, 2021). Townhouse brick house [3D digital model]. CGTrader. 
+            https://www.cgtrader.com/free-3d-models/architectural/architectural-street/townhouse-7ea1baf2-c095-4959-a878-7f2ffcab1bbc
 
         Stone House:
+        AndreiCG. (August 18, 2018). Medieval house [3D digital model].  CGTrader.
+            https://www.cgtrader.com/free-3d-models/exterior/historic-exterior/medieval-house-1b58f394-4070-4856-b6a1-41a76b7ec119
 
     ////////// SKYBOX CREDITS //////////
         Morning Skybox:
