@@ -8,9 +8,6 @@ uniform sampler2D texWheel;
 uniform sampler2D texCover;
 uniform int selectTex;
 
-/////////// LIGHTS ON ///////////
-uniform int lightsOn;
-
 /////////// SIGNAL LIGHT ///////////
 uniform vec3  signalPos;
 uniform vec3  signalColor;

@@ -13,6 +13,7 @@
 #include "Models/Model3D.h"
 #include "Models/Object.h"
 #include "Models/Kart.h"
+#include "Models/Townhouse.h"
 
 #include "Lights/Direction.h"
 #include "Lights/Point.h"
@@ -46,6 +47,7 @@ private:
     GLuint kartVAOs[3];
     GLuint roadVAO;
     GLuint lightBallVAO;
+    GLuint townhouseVAO;
 
     //bools
     bool isThirdPerson;

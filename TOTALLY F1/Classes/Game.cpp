@@ -334,6 +334,22 @@ void Game::initializeModels() {
 		"Shaders/PlaneShader.frag",
 		vec3(9.0f, 0.1f, 0.1f)
 	));
+
+	///////////////////////////////// TOWNHOUSE /////////////////////////////////
+	setVAO(&townhouseVAO, GENERATE);
+	setVAO(&townhouseVAO, BIND);
+	allNPModels.push_back(new Townhouse(
+		"TOWNHOUSE",
+		"3D/townhouse.obj",
+		vec3(-20.0f, 0.0f, 100.0f),
+		vec3(3.0f),
+		vec3(0.0),
+		"Shaders/TownhouseShader.vert",
+		"Shaders/TownhouseShader.frag",
+		"Textures/townhouse/townhouse_color.png",
+		"Textures/townhouse/townhouse_normal.png"
+	));
+	setVAO(&townhouseVAO, UNBIND);
 }
 
 /*
@@ -465,10 +481,11 @@ void Game::checkKarts() {
 			for (PlayerKart* kartPart : player.getWholeKart())
 				kartPart->setSpeed(0);
 
-			cout << "||--------------------- TIME ---------------------||" << endl;
+			cout << "||-------- TIME --------||" << endl;
 			cout << "Fast Kart: " << kartFastTime - startTimer << endl;
-			cout << "Player: " << playerKartTime - startTimer << endl;
+			cout << "   Player: " << playerKartTime - startTimer << endl;
 			cout << "Slow Kart: " << kartSlowTime - startTimer << endl;
+			cout << "||----------------------||" << endl;
 
 			isPrinted = true;
 			gameStart = false;
@@ -550,9 +567,9 @@ void Game::runLoop() {
 			spotLightR.loadSpot(model->getShader().getShaderProg(), "spotR");
 
 			// Sets the VAO to the corresponding kart
-				 if (i == GST1_IDX_KL || i == GST2_IDX_KL)
+			if (i == GST1_IDX_KL || i == GST2_IDX_KL)
 				setVAO(&kartVAOs[GST1_IDX_KL], BIND);
-			else if (i == GST1_IDX_WL || i == GST2_IDX_WL) 
+			else if (i == GST1_IDX_WL || i == GST2_IDX_WL)
 				setVAO(&kartVAOs[GST1_IDX_WL], BIND);
 			else if (i == GST1_IDX_WC || i == GST2_IDX_WC)
 				setVAO(&kartVAOs[GST1_IDX_WC], BIND);
@@ -560,6 +577,8 @@ void Game::runLoop() {
 				setVAO(&roadVAO, BIND);
 			else if (i >= LIGHT_BALL1 && i <= LIGHT_BALL3)
 				setVAO(&lightBallVAO, BIND);
+			else if (i == TOWNHOUSE)
+				setVAO(&townhouseVAO, BIND);
 
 			if(!stopCars && gameStart){
 				//FASTER KART
@@ -618,4 +637,11 @@ Game::~Game() {
 		model->~Model3D();
 		delete model;
 	}
+
+	glDeleteVertexArrays(1, &skyboxVAO);
+	glDeleteVertexArrays(1, &kartVAOs[0]);
+	glDeleteVertexArrays(1, &kartVAOs[1]);
+	glDeleteVertexArrays(1, &kartVAOs[2]);
+	glDeleteVertexArrays(1, &roadVAO);
+	glDeleteVertexArrays(1, &lightBallVAO);
 }

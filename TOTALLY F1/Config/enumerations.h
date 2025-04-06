@@ -31,7 +31,9 @@ enum ALL_NP_OBJ_IDX {
     LIGHT_BALL2,
     LIGHT_BALL3,
 
-    FINISH_PLANE
+    FINISH_PLANE,
+
+    TOWNHOUSE
 };
 
 enum ACTIVE_CAM {
@@ -59,7 +61,9 @@ enum SELECT_TEXTURE {
     MORNING,
     LIVERY,
     WHEEL,
-    COVER
+    COVER,
+    TOWNHOUSE_COLOR,
+    TOWNHOUSE_NORM
 };
 
 enum POINT_LIGHT_COLOR {

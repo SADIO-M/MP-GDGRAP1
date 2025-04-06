@@ -143,6 +143,7 @@
     <ClCompile Include="Classes\Cameras\Perspective.cpp" />
     <ClCompile Include="Classes\CShaders\Shader.cpp" />
     <ClCompile Include="Classes\Lights\Spot.cpp" />
+    <ClCompile Include="Classes\Models\Townhouse.cpp" />
     <ClCompile Include="Classes\Player\Player.cpp" />
     <ClCompile Include="Classes\Player\PlayerKart.cpp" />
     <ClCompile Include="Classes\Skybox\Skybox.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Classes\Cameras\Perspective.h" />
     <ClInclude Include="Classes\CShaders\Shader.h" />
     <ClInclude Include="Classes\Lights\Spot.h" />
+    <ClInclude Include="Classes\Models\Townhouse.h" />
     <ClInclude Include="Classes\Player\Player.h" />
     <ClInclude Include="Classes\Player\PlayerKart.h" />
     <ClInclude Include="Classes\Skybox\Skybox.h" />
@@ -188,6 +190,8 @@
     <None Include="Shaders\PlaneShader.vert" />
     <None Include="Shaders\SkyboxShader.frag" />
     <None Include="Shaders\SkyboxShader.vert" />
+    <None Include="Shaders\TownhouseShader.frag" />
+    <None Include="Shaders\TownhouseShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

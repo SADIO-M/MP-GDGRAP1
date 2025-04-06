@@ -21,6 +21,9 @@ void TextureMaker::setActiveTex(SELECT_TEXTURE texIndex) {
 		case COVER:
 			glActiveTexture(GL_TEXTURE4);
 			break;
+		case TOWNHOUSE_COLOR:
+			glActiveTexture(GL_TEXTURE5);
+			break;
 	}
 }
 
