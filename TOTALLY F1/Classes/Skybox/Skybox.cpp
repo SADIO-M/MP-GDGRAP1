@@ -1,19 +1,25 @@
 #include "Skybox.h"
 
-//CONSTRUCTOR
+//CONSTRUCTORS
 Skybox::Skybox(){}
 Skybox::Skybox(string* nightFaces, string* morningFaces,
 	string vertPath, string fragPath) {
 	
+    //Sets up a VBO and EBO
     setUpVBO();
     setUpEBO();
 
     shaderMaker.createShader(vertPath, fragPath);
+
+    //Calls a different texture function, since the texture of the skybox is a cube map
     textureMaker.makeTexCubeMap(&morningTex, morningFaces, MORNING);
     textureMaker.makeTexCubeMap(&nightTex, nightFaces, NIGHT);
 }
 
 //FUNCTIONS
+/*
+    Similar to the VBO setters before, but specifically for the skybox cube
+*/
 void Skybox::setUpVBO() {
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -34,6 +40,9 @@ void Skybox::setUpVBO() {
     );
 }
 
+/*
+    Sets up the EBO for the skybox cube
+*/
 void Skybox::setUpEBO() {
     glGenBuffers(1, &EBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -52,11 +61,15 @@ void Skybox::setUpEBO() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+/*
+    Draws the skybox cube and binds the texture based on the corresponding "time" (if it is morning or night)
+*/
 void Skybox::draw(mat4 viewMatrix, mat4 projMatrix, SELECT_TEXTURE texIndex){
     glDepthMask(GL_FALSE);
     glDepthFunc(GL_LEQUAL);
     glUseProgram(shaderMaker.getShaderProg());
     
+    //Skybox view
     skyView = mat4(1.f);
     skyView = mat4(mat3(viewMatrix));
 
@@ -68,8 +81,10 @@ void Skybox::draw(mat4 viewMatrix, mat4 projMatrix, SELECT_TEXTURE texIndex){
 
     GLuint selectSkyboxAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "selectSkybox");
 
+    //Sets the active texture
     textureMaker.setActiveTex(texIndex);
 
+    //Assigns texture based on the passed tex index (if its morning or not)
     if (texIndex == MORNING) {
         GLuint skyboxAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "mornSkybox");
         glUniform1i(skyboxAddress, MORNING);
@@ -83,6 +98,7 @@ void Skybox::draw(mat4 viewMatrix, mat4 projMatrix, SELECT_TEXTURE texIndex){
         glBindTexture(GL_TEXTURE_CUBE_MAP, nightTex);
     }
 
+    //Draws the skybox
     glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
     glDepthMask(GL_TRUE);
     glDepthFunc(GL_LESS);

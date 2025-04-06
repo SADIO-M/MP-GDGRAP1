@@ -4,16 +4,18 @@
 #include "../../Config/namespace.h"
 
 /*
-    The parent class of Kart and LightBall
-        - Contains all information and functions required by both objects
+    The parent class of all the objects
+        - Contains all information and functions required all objects
         - The type of the allModels vector in Game
-        - Loads the objects, sets up the VBOs and updates the rotation
-        - The transform and draw are required to be defined by its child classes
+        - Loads the objects, sets up the VBOs and deals with general object loading
+        - It holds a model name to help with differentiation
+        - The update and draw functions are required to be defined by its child classes
 
     [Created by: Megan Sadio]
 */
 class Model3D {
 protected:
+    //Helps with differentiation
     string modelName;
 
     // Information required by all models
@@ -39,6 +41,7 @@ protected:
     vec3 scaling;
     vec3 rotation;
 
+    //For rotation if ever
     vec3 theta = vec3(0.0f);
     float rotateSpeed = 0.05;
 

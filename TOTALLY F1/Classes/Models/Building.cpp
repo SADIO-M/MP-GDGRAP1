@@ -1,5 +1,6 @@
 #include "Building.h"
 
+//CONSTRUCTORS
 Building::Building(){}
 Building::Building(string name, string pathName,
 	vec3 pos, vec3 scale, vec3 rotate,
@@ -8,7 +9,9 @@ Building::Building(string name, string pathName,
 
 	Model3D(name, pathName, pos,  scale,  rotate, vertPath,  fragPath){
 
-	//Texture here
+	//Texture loading here
+    //Since the two normally mapped objects have the same number of shapes and texture images,
+    //this just checks which object it is and loads the corresponding textures
     if (modelName == "TOWNHOUSE") {
         textureMaker.makeTex2D(&textureColor, texColorPath, TOWNHOUSE_COLOR);
         textureMaker.makeTex2D(&textureNormal, texNormPath, TOWNHOUSE_NORM);
@@ -21,6 +24,11 @@ Building::Building(string name, string pathName,
 	loadBuilding();
 }
 
+//FUNCTIONS
+/*
+    This loadBuilding function differentiates from the loadModel because its VBO settings are now different
+        - It also loads all the shape data, including the position and uv of the points to allow normal mapping
+*/
 void Building::loadBuilding(){
 	Model3D::loadObj();
 
@@ -112,6 +120,7 @@ void Building::loadBuilding(){
         fullVertexData.push_back(attributes.texcoords[(vData.texcoord_index * 2)]);
         fullVertexData.push_back(attributes.texcoords[(vData.texcoord_index * 2) + 1]);
     
+        //ADDED TANGENTS AND BI-TANGENTS TO THE FULL VERTEX DATA
         fullVertexData.push_back(vec_Tangents[i].x);
         fullVertexData.push_back(vec_Tangents[i].y);
         fullVertexData.push_back(vec_Tangents[i].z);
@@ -121,9 +130,14 @@ void Building::loadBuilding(){
         fullVertexData.push_back(vec_BiTangents[i].z);
     }
 
+    //Different VBO set up because of the added points
     setUpBuildingVBO();
 }
 
+/*
+    This function sets up the VBO for the buildings
+        - Since it has more vertex points, its VBO is set-up differently from the other models
+*/
 void Building::setUpBuildingVBO() {
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -191,6 +205,10 @@ void Building::setUpBuildingVBO() {
     glEnableVertexAttribArray(4); //BiTangent
 }
 
+/*
+    Updates the building, and passes its transformation to the corresponding shader program
+        - The usual implementation of passing the transformation
+*/
 void Building::update(){
     transformation_matrix = translate(identity_matrix, position);
     transformation_matrix = scale(transformation_matrix, scaling);
@@ -202,6 +220,12 @@ void Building::update(){
     glUniformMatrix4fv(transformLocation, 1, GL_FALSE, value_ptr(transformation_matrix));
 }
 
+/*
+    Assigns the texture based on the building
+        - If the building is the townhouse, assign the townhouse color and normal maps
+        - Else, it assigns the stone house color and normal maps
+        - Afterwards, it passes the corresponding textures to the shaders
+*/
 void Building::assignTexture(){
     GLuint texColorAddress;
     GLuint texNormalAddress;
@@ -231,6 +255,9 @@ void Building::assignTexture(){
     glBindTexture(GL_TEXTURE_2D, textureNormal);
 }
 
+/*
+    Updates the building object, assigns its textures, then draws it
+*/
 void Building::draw(){
     update();
     assignTexture();

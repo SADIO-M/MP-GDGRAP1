@@ -6,7 +6,15 @@
 #include "PlayerKart.h"
 #include "../Cameras/Perspective.h"
 
+/*
+	This is the Player class
+		- Handles most of the player-related objects, cameras, and controls
+		- Contains a vector of the PlayerKart (since again, the kart is split into 3 shapes)
+		- Has a vector of the perspective cameras, to hold both the third person and first person cameras
+		- Also contains which camera is active, so the game knows which one to draw 
 
+	[Created by: Megan Sadio & Yza Montuerto]
+*/
 class Player {
 private:
 	vector<PlayerKart*> playerKart;
@@ -19,12 +27,15 @@ public:
 	
 	//FUNCTIONS
 	void moveInput(DRIVING move);
+	void reverseKart(bool reverse);
+
 	void switchCam(ACTIVE_CAM camIndex);
 	void updateCameras();
-	void rotateThirdPersKeys(MOVE move);
 	void rotateThirdPersMouse(dvec2* prevMousePos, dvec2* currMousePos);
+	void rotateThirdPersKeys(MOVE move);
 
-	//GETTERS
+
+	//GETTERS & SETTERS
 	void addPlayerKart(PlayerKart* kartPart);
 	void addPlayerCamera(Perspective* camera);
 
@@ -33,6 +44,4 @@ public:
 
 	Perspective* getActiveCam();
 	vector<Perspective*> getAllCameras();
-
-	void reverseKart(bool reverse);
 };

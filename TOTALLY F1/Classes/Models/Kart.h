@@ -9,9 +9,12 @@
 
 /*
 	Class for the kart (car) object.
-		- Contains all functions necessary for the cart model parts
-		- Slightly different from the LightBall object because it has a texture
-		- child of Model3D
+		- Contains all functions necessary for the kart model parts
+		- All three karts use this class, but the player's kart is a child of this (since it can steer)
+		- Has movement and max speeds to allow for a faster / slower ghost karts
+		- Also has transparency to allow two of the karts to be ghosts
+		- Child of Model3D
+		- Parent of PlayerKart, so it has inheritable variables and functions
 
 	[Created by: Megan Sadio & Yza Montuerto]
 */
@@ -53,7 +56,7 @@ public:
 	virtual void update();
 	virtual void draw();
 
-	//GETTER
+	//GETTERS AND SETTERS
 	virtual GLuint getTexture();
 	virtual vec3 getDirection();
 	virtual void setSpeed(float newSpeed);

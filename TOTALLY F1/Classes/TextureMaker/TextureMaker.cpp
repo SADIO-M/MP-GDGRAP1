@@ -3,7 +3,12 @@
 //CONSTRUCTOR
 TextureMaker::TextureMaker() {}
 
-//FUNCTION
+//FUNCTIONS
+/*
+	This function sets the active texture
+		- Mainly for better tracking and setting active textures
+		- Makes sure the correct texture is being set as active
+*/
 void TextureMaker::setActiveTex(SELECT_TEXTURE texIndex) {
 	switch (texIndex) {
 		case NIGHT:
@@ -60,6 +65,7 @@ void TextureMaker::makeTex2D(GLuint* texture, string texPath, SELECT_TEXTURE tex
 	setActiveTex(texIndex);
 	glBindTexture(GL_TEXTURE_2D, *texture);
 
+	//For normal mapping specifically, but it doesn't affect the other textures regardless
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
@@ -100,17 +106,25 @@ void TextureMaker::makeTex2D(GLuint* texture, string texPath, SELECT_TEXTURE tex
 	stbi_image_free(textureBytes);
 }
 
+/*
+	This function is to load the texture specifically for a skybox
+		- It gets the texture, the array of strings for the faces, and where it will store (texIndex)
+		- Generates the cube map texture for both the night and morning skyboxes
+*/
 void TextureMaker::makeTexCubeMap(GLuint* texture, string* faces, SELECT_TEXTURE texIndex) {
+	//Generate, active and bind texture
 	glGenTextures(1, texture);
 	setActiveTex(texIndex);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, *texture);
 
+	//Ensures smooth-looking sky
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
+	//Loads the skybox faces
 	for (GLuint i = 0; i < 6; i++) {
 		stbi_set_flip_vertically_on_load(false);
 

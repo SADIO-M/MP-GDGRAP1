@@ -6,6 +6,12 @@
 #include "../CShaders/Shader.h"
 #include "../TextureMaker/TextureMaker.h"
 
+/*
+	This is the Skybox class
+		- Handles all skybox-related things like setting up the cube VBO, EBO, and drawing
+
+	[Created by: Yza Montuerto]
+*/
 class Skybox {
 private:
 	//Vertices of the cube

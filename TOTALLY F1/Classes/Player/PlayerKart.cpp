@@ -1,7 +1,7 @@
 #include "PlayerKart.h"
 
+//CONSTRUCTORS
 PlayerKart::PlayerKart(){}
-
 PlayerKart::PlayerKart(string name, string pathName,
     vec3 pos, vec3 scale, vec3 rotate,
     string vertPath, string fragPath,
@@ -19,6 +19,12 @@ PlayerKart::PlayerKart(string name, string pathName,
 
 }
 
+//FUNCTIONS
+/*
+    Moves the kart based on the player's input
+        - Allows acceleration, reversing, and steering left or right
+        - For steering left or right specifically, it just rotates the kart to simulate turning
+*/
 void PlayerKart::move(DRIVING move) {
     switch (move) {
     case ACCELERATE: acceleration = accelMod;
@@ -34,11 +40,19 @@ void PlayerKart::move(DRIVING move) {
     }
 }
 
+/*
+    Updates the player's direction and movement
+        - The direction is based on where the player has turned
+        - The update() it uses is from Kart, since its essentially the same
+        - The +90 in turn is to make the Kart spawn and face the correct direction
+        - After all the movement, it also sets reversing to false
+        - This allows for the player to brake and reverse
+*/
 void PlayerKart::updatePlayer() {
     direction = vec3(
-        1.0 * sin(radians(thetaTurn)),
-        0,
-        1.0 * cos(radians(thetaTurn))
+        1.0f * sin(radians(thetaTurn)),
+        0.0f,
+        1.0f * cos(radians(thetaTurn))
     );
 
     Kart::update();

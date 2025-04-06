@@ -14,6 +14,7 @@ Kart::Kart(string name, string pathName,
     this->accelMod = accelMod;
     this->transparency = transparency;
 
+    //Since the kart consists of three shapes, it assigns the texture depending on the shape
     SELECT_TEXTURE texIndex;
     if      (modelName == "KART1" || modelName == "PLYR_KART1") texIndex = LIVERY;
     else if (modelName == "KART2" || modelName == "PLYR_KART2") texIndex = WHEEL;
@@ -89,11 +90,21 @@ void Kart::assignTexture() {
     glBindTexture(GL_TEXTURE_2D, texture);
 }
 
+/*
+    Assigns the transparency of the kart, since there are ghosts
+        - Then, it sends its transparency value to the shader, which is applied with the lights
+*/
 void Kart::assignTransparency() {
     GLuint transparencyAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "transparency");
     glUniform1f(transparencyAddress, transparency);
 }
 
+/*
+    This function checks if the kart is at the end
+        - The if statement for the player kart makes it so that the
+          player can still move around AS LONG AS the race isnt over 
+          (a.k.a all three karts have crossed the finish line)
+*/
 void Kart::checkAtEnd() {
     if (position.z >= FINISH_LINE) {
         GO = false;
@@ -104,16 +115,28 @@ void Kart::checkAtEnd() {
     }
 }
 
-// Handles model transformations 
+/* 
+    Generally handles model transformations
+        - For the player kart specifically:
+            - It also handles the speed, acceleration, and reversing of the player kart
+            - As long as the player is holding W/S it will accelerate/reverse
+            - However, if the player stops holding W/S, it will start to slow down until it stops
+            - Implements acceleration, instead of a constant speed for movement
+*/
 void Kart::update() {
+    //Checks if the kart first is at the end, before it allows it to move
     checkAtEnd();
+    //If it can still move:
     if(GO || 
         //This allows for the player to move still even if its crossed the finish line
         modelName == "PLYR_KART1" || 
         modelName == "PLYR_KART2" || 
         modelName == "PLYR_KART3"){
+
+        //Checks if the player's speed is less than its max speed, then it allows it to accelerate
         if(speed < maxSpeed)
-            speed += acceleration; //Either +- 0.0002f
+            speed += acceleration; 
+        //If the player is at max speed, hard cap it to its max speed
         if (speed >= maxSpeed)
             speed = maxSpeed; //Sets speed to max speed
   
@@ -133,10 +156,11 @@ void Kart::update() {
 
         acceleration = 0;
     }
-       
+      
+    //Update the position based on the direction of the player and its speed
     position += direction * speed;
 
-    //Transformation
+    //Usual transformation matrix
     transformation_matrix = translate(identity_matrix, position);
 
     transformation_matrix = scale(transformation_matrix, scaling);
@@ -149,7 +173,7 @@ void Kart::update() {
     glUniformMatrix4fv(transformLocation, 1, GL_FALSE, value_ptr(transformation_matrix));
 }
 
-// Handles model drawing
+// Handles model drawing (here it also updates, assigns texture and transparency)
 void Kart::draw() {
     update();
     assignTexture();
@@ -157,7 +181,7 @@ void Kart::draw() {
     glDrawArrays(GL_TRIANGLES, 0, fullVertexData.size() / 8);
 }
 
-//GETTER
+//GETTERS AND SETTERS
 GLuint Kart::getTexture() { return texture; }
 
 vec3 Kart::getDirection() { return direction; }

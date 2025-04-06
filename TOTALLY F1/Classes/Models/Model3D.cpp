@@ -30,6 +30,7 @@ void Model3D::loadObj() {
 }
 
 //Sets up the object's VBO 
+//Only isn't used by the Building class since it has more attribute pointers
 void Model3D::setUpVBO() {
     // Generates the VBO
     glGenBuffers(1, &VBO);

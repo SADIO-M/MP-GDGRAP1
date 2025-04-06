@@ -15,7 +15,10 @@ Object::Object(string name, string pathName,
 }
 
 //FUNCTIONS
-//This loadBall is similar to loadKart, except it only loads one shape since the light ball only has one shape
+/*
+    Loads the object 
+        - Different from loadKart since it only has one shape
+*/
 void Object::loadObject() {
 	Model3D::loadObj();
 
@@ -56,7 +59,7 @@ void Object::update(){
     unsigned int transformLocation = glGetUniformLocation(shaderMaker.getShaderProg(), "transform");
     glUniformMatrix4fv(transformLocation, 1, GL_FALSE, value_ptr(transformation_matrix));
 
-    // Passes the color of the ball to shader program
+    // Passes the color of the signal light ball or plane to the program
     GLuint colorAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "color");
     glUniform3fv(colorAddress, 1, value_ptr(color));
 }
