@@ -9,7 +9,12 @@ Building::Building(string name, string pathName,
 	Model3D(name, pathName, pos,  scale,  rotate, vertPath,  fragPath){
 
 	//Texture here
-    textureMaker.makeTex2D(&textureColor, texColorPath, TOWNHOUSE_COLOR);
+    if (modelName == "TOWNHOUSE") {
+        textureMaker.makeTex2D(&textureColor, texColorPath, TOWNHOUSE_COLOR);
+    }
+    else if (modelName == "STONE_HOUSE") {
+        textureMaker.makeTex2D(&textureColor, texColorPath, STONE_HOUSE_COLOR);
+    }
 
 	loadBuilding();
 }
@@ -52,9 +57,18 @@ void Building::update(){
 }
 
 void Building::assignTexture(){
-    GLuint texAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texTownhouseColor");
-    textureMaker.setActiveTex(TOWNHOUSE_COLOR);
-    glUniform1i(texAddress, TOWNHOUSE_COLOR);
+    GLuint texAddress;
+
+    if(modelName == "TOWNHOUSE"){
+        texAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texTownhouseColor");
+        textureMaker.setActiveTex(TOWNHOUSE_COLOR);
+        glUniform1i(texAddress, TOWNHOUSE_COLOR);
+    }
+    else if (modelName == "STONE_HOUSE") {
+        texAddress = glGetUniformLocation(shaderMaker.getShaderProg(), "texStoneHouseColor");
+        textureMaker.setActiveTex(TOWNHOUSE_COLOR);
+        glUniform1i(texAddress, TOWNHOUSE_COLOR);
+    }
  
     glBindTexture(GL_TEXTURE_2D, textureColor);
 }

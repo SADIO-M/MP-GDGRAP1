@@ -344,12 +344,28 @@ void Game::initializeModels() {
 		vec3(-20.0f, 0.0f, 100.0f),
 		vec3(3.0f),
 		vec3(0.0),
-		"Shaders/BuildingShader.vert",
-		"Shaders/BuildingShader.frag",
+		"Shaders/TownhouseShader.vert",
+		"Shaders/TownhouseShader.frag",
 		"Textures/townhouse/townhouse_color.png",
 		"Textures/townhouse/townhouse_normal.png"
 	));
 	setVAO(&townhouseVAO, UNBIND);
+
+	///////////////////////////////// STONE HOUSE /////////////////////////////////
+	setVAO(&stonehouseVAO, GENERATE);
+	setVAO(&stonehouseVAO, BIND);
+	allNPModels.push_back(new Building(
+		"STONE_HOUSE",
+		"3D/stone_house.obj",
+		vec3(25.0f, 0.0f, 200.0f),
+		vec3(1.5f),
+		vec3(0.0f, -90.0f, 0.0f),
+		"Shaders/StoneHouseShader.vert",
+		"Shaders/StoneHouseShader.frag",
+		"Textures/stone_house/stone_house_color.png",
+		"Textures/stone_house/stone_house_normal.png"
+	));
+	setVAO(&stonehouseVAO, UNBIND);
 }
 
 /*
@@ -579,6 +595,8 @@ void Game::runLoop() {
 				setVAO(&lightBallVAO, BIND);
 			else if (i == TOWNHOUSE)
 				setVAO(&townhouseVAO, BIND);
+			else if (i == STONE_HOUSE)
+				setVAO(&stonehouseVAO, BIND);
 
 			if(!stopCars && gameStart){
 				//FASTER KART

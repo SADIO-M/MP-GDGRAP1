@@ -24,6 +24,15 @@ void TextureMaker::setActiveTex(SELECT_TEXTURE texIndex) {
 		case TOWNHOUSE_COLOR:
 			glActiveTexture(GL_TEXTURE5);
 			break;
+		case TOWNHOUSE_NORM:
+			glActiveTexture(GL_TEXTURE6);
+			break;
+		case STONE_HOUSE_COLOR:
+			glActiveTexture(GL_TEXTURE7);
+			break;
+		case STONE_HOUSE_NORM:
+			glActiveTexture(GL_TEXTURE8);
+			break;
 	}
 }
 

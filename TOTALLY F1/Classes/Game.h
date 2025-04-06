@@ -48,6 +48,7 @@ private:
     GLuint roadVAO;
     GLuint lightBallVAO;
     GLuint townhouseVAO;
+    GLuint stonehouseVAO;
 
     //bools
     bool isThirdPerson;

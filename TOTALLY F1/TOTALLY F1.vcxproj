@@ -190,8 +190,10 @@
     <None Include="Shaders\PlaneShader.vert" />
     <None Include="Shaders\SkyboxShader.frag" />
     <None Include="Shaders\SkyboxShader.vert" />
-    <None Include="Shaders\BuildingShader.frag" />
-    <None Include="Shaders\BuildingShader.vert" />
+    <None Include="Shaders\StoneHouseShader.frag" />
+    <None Include="Shaders\StoneHouseShader.vert" />
+    <None Include="Shaders\TownhouseShader.frag" />
+    <None Include="Shaders\TownhouseShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
