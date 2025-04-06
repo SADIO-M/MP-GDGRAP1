@@ -20,6 +20,10 @@
         Plane:
         Plane Model was used from class.
 
+        Townhouse:
+
+        Stone House:
+
     ////////// SKYBOX CREDITS //////////
         Morning Skybox:
         JasperCarmack. (2021, September 6). 
